@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "cgcem",
+  "version": "${version}",
+  "name": "CrabMTR's Extension of MTR",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.redsxi.mc.crabgc.ModEntry"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "accessWidener" : "cgcem.accesswidener"
+}

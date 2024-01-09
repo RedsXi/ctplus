@@ -1,6 +1,7 @@
 package org.redsxi.mc.ctplus.mixin;
 
 import net.minecraft.network.Connection;
+import net.minecraft.server.commands.GiveCommand;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.redsxi.mc.ctplus.Variables;

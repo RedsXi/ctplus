@@ -99,3 +99,7 @@ publishing {
 loom {
     accessWidenerPath = file("src/main/resources/ctplus.accesswidener")
 }
+
+remapJar {
+    archiveFileName = "crabmtr-railway-plus_${project.minecraft_version}_${project.version}.jar"
+}

@@ -25,7 +25,7 @@ class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState) : Bloc
         super.load(nbt)
     }
 
-    override fun getUpdatePacket(): Packet<ClientGamePacketListener>? {
+    override fun getUpdatePacket(): Packet<ClientGamePacketListener> {
         return ClientboundBlockEntityDataPacket.create(this)
     }
 

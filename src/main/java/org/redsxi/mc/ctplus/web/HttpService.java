@@ -38,7 +38,7 @@ public class HttpService {
     }
 
     public static boolean isEnabled() {
-        return Objects.equals(System.getProperty("cgcem.ticketsvr", "false"), "true");
+        return Objects.equals(System.getProperty("ctplus.transit_plus_svc", "false"), "true");
     }
 
     static {
@@ -46,6 +46,7 @@ public class HttpService {
             server = HttpServer.create();
             server.bind(new InetSocketAddress(2008), 256);
             server.createContext("/user/getOnline", exchange -> {
+                exchange.getRequestHeaders().set("Server", "CrabMTRTransitPlus/2.0");
                 JsonObject object = new JsonObject();
                 JsonArray array = new JsonArray();
                 Map<UUID, String> onlinePlayers = Variables.INSTANCE.getPlayerList();
@@ -63,8 +64,9 @@ public class HttpService {
                 exchange.close();
             });
             server.createContext("/tickets/give", exchange -> {
+                exchange.getRequestHeaders().set("Server", "CrabMTRTransitPlus/2.0");
                 if(!Objects.equals(exchange.getRequestMethod(), "POST")) {
-                    Headers headers = exchange.getRequestHeaders();
+                    exchange.getRequestHeaders().set("Server", "CrabMTRTransitPlus/2.0");
                     exchange.sendResponseHeaders(405, 0);
                     exchange.close();
                 }
@@ -74,7 +76,7 @@ public class HttpService {
             });
 
         } catch (IOException e) {
-
+            LOGGER.error("Cannot start", e);
         }
     }
 }

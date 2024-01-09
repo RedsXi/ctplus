@@ -18,6 +18,7 @@ import org.redsxi.mc.ctplus.web.HttpService;
 
 public class ModEntry implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
     public void onInitialize() {
+        System.setProperty("ctplus.transit_plus_svc", "true");
         registerItemGroup(CollectionsKt.getItemGroupMain());
         registerBlock(CollectionsKt.getBlockTicketBarrierPayDirect(), IDKt.getTicketBarrierPayDirect(), CollectionsKt.getItemGroupMain());
         registerItem(CollectionsKt.getItemCard(), IDKt.getCard(), CollectionsKt.getItemGroupMain());

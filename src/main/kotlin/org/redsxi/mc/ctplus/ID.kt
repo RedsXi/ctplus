@@ -1,9 +1,8 @@
 package org.redsxi.mc.ctplus
 
 import net.minecraft.resources.ResourceLocation
-import java.util.function.Supplier
 
-val modId: String = "ctplus"
+const val modId: String = "ctplus"
 
 fun idOf(name: String): ResourceLocation {
     return ResourceLocation(modId, name)

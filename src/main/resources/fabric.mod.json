@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "cgcem",
+  "id": "ctplus",
   "version": "${version}",
-  "name": "CrabMTR's Extension of MTR",
+  "name": "CrabMTR Transit+",
   "description": "",
   "authors": [],
   "contact": {},
@@ -10,7 +10,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.redsxi.mc.crabgc.ModEntry"
+      "org.redsxi.mc.ctplus.ModEntry"
+    ],
+    "client": [
+      "org.redsxi.mc.ctplus.ModEntry"
+    ],
+    "server": [
+      "org.redsxi.mc.ctplus.ModEntry"
     ]
   },
   "depends": {
@@ -18,5 +24,8 @@
     "fabric": "*",
     "minecraft": "${minecraft_version}"
   },
-  "accessWidener" : "cgcem.accesswidener"
+  "accessWidener" : "ctplus.accesswidener",
+  "mixins": [
+    "ctplus.mixin.json"
+  ]
 }

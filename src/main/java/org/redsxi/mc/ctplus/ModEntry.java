@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc;
+package org.redsxi.mc.ctplus;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.redsxi.mc.crabgc.web.HttpService;
+import org.redsxi.mc.ctplus.web.HttpService;
 
 public class ModEntry implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
     public void onInitialize() {

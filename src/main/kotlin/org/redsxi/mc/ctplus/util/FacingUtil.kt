@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc.util
+package org.redsxi.mc.ctplus.util
 
 import net.minecraft.core.Direction
 import net.minecraft.world.level.block.Block

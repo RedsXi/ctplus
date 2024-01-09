@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc.blockentity
+package org.redsxi.mc.ctplus.blockentity
 
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -7,7 +7,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import org.redsxi.mc.crabgc.blockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.blockEntityTicketBarrierPayDirect
 
 class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState) : BlockEntity(
     blockEntityTicketBarrierPayDirect,

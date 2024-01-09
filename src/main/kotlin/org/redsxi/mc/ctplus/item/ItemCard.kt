@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc.item
+package org.redsxi.mc.ctplus.item
 
 import net.minecraft.world.item.Item
 

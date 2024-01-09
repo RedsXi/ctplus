@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc.util
+package org.redsxi.mc.ctplus.util
 
 import mtr.mappings.Text
 import net.minecraft.core.BlockPos
@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.scores.Score
 import net.minecraft.world.scores.criteria.ObjectiveCriteria
-import org.redsxi.mc.crabgc.blockentity.BlockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 
 object PassManager {
     fun onEntityPass(pos: BlockPos, level: Level, player: Player, passSound: SoundEvent): Boolean {

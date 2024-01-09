@@ -1,4 +1,4 @@
-package org.redsxi.mc.crabgc.web;
+package org.redsxi.mc.ctplus.web;
 
 
 import com.google.gson.Gson;
@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
-import org.redsxi.mc.crabgc.Variables;
+import org.redsxi.mc.ctplus.Variables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

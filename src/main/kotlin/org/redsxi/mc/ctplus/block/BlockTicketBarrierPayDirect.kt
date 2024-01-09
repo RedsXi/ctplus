@@ -1,11 +1,7 @@
-package org.redsxi.mc.crabgc.block
+package org.redsxi.mc.ctplus.block
 
 import mtr.SoundEvents
-import mtr.block.BlockTicketBarrier
-import mtr.block.IBlock
-import mtr.data.TicketSystem.EnumTicketBarrierOpen
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
@@ -27,11 +23,11 @@ import net.minecraft.world.level.material.MaterialColor
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import org.redsxi.mc.crabgc.Properties.HORIZONTAL_FACING
-import org.redsxi.mc.crabgc.Properties.OPEN
-import org.redsxi.mc.crabgc.blockentity.BlockEntityTicketBarrierPayDirect
-import org.redsxi.mc.crabgc.util.FacingUtil
-import org.redsxi.mc.crabgc.util.PassManager
+import org.redsxi.mc.ctplus.Properties.HORIZONTAL_FACING
+import org.redsxi.mc.ctplus.Properties.OPEN
+import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.util.FacingUtil
+import org.redsxi.mc.ctplus.util.PassManager
 
 class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
     Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)

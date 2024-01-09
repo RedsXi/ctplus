@@ -1,18 +1,20 @@
 package org.redsxi.mc.crabgc
 
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
-import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.text.Text
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.state.BlockState
 import org.redsxi.mc.crabgc.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.crabgc.block.BlockTicketBarrierPayDirect
+import org.redsxi.mc.crabgc.item.ItemCard
 
 class BETFactory<T : BlockEntity>(private val beClass: Class<T>) : FabricBlockEntityTypeBuilder.Factory<T> {
     override fun create(blockPos: BlockPos, blockState: BlockState): T {
@@ -27,7 +29,7 @@ val blockTicketBarrierPayDirect = BlockTicketBarrierPayDirect()
 // Block Entities
 val blockEntityTicketBarrierPayDirect: BlockEntityType<BlockEntityTicketBarrierPayDirect> =
     Registry.register(
-        Registries.BLOCK_ENTITY_TYPE,
+        BuiltInRegistries.BLOCK_ENTITY_TYPE,
         ticketBarrierPayDirect,
         FabricBlockEntityTypeBuilder.create(
             BETFactory(BlockEntityTicketBarrierPayDirect::class.java)
@@ -35,13 +37,12 @@ val blockEntityTicketBarrierPayDirect: BlockEntityType<BlockEntityTicketBarrierP
     )
 
 // Items
-val itemBlockTicketBarrier = BlockItem(blockTicketBarrierPayDirect, Item.Settings())
+val itemCard = ItemCard()
 
 
 // Item Groups
-val itemGroupMain = ItemGroup.create(ItemGroup.Row.TOP,0)
-    .displayName(Text.translatable("itemGroup.cgcem.main"))
-    .entries { _,entries ->
-        entries.add(itemBlockTicketBarrier)
-    }
+val itemGroupMain: CreativeModeTab = CreativeModeTab.builder(CreativeModeTab.Row.TOP,0)
+    .title(Component.translatable("itemGroup.cgcem.main"))
+    .icon { ItemStack(itemCard) }
+    .build()
 

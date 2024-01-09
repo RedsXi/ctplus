@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,open=closed,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oc"
+    },
+    "facing=east,open=closed,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oc",
+      "y": 90
+    },
+    "facing=south,open=closed,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oc",
+      "y": 180
+    },
+    "facing=west,open=closed,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oc",
+      "y": 270
+    },
+    "facing=north,open=open,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo"
+    },
+    "facing=east,open=open,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 90
+    },
+    "facing=south,open=open,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 180
+    },
+    "facing=west,open=open,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 270
+    },
+    "facing=north,open=open_concessionary,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo"
+    },
+    "facing=east,open=open_concessionary,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 90
+    },
+    "facing=south,open=open_concessionary,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 180
+    },
+    "facing=west,open=open_concessionary,enabled=true": {
+      "model": "cgcem:block/ticket_barrier_entrance_oo",
+      "y": 270
+    },
+    "facing=north,open=closed,enabled=false": {
+      "model": "cgcem:block/ticket_barrier_entrance_cc"
+    },
+    "facing=east,open=closed,enabled=false": {
+      "model": "cgcem:block/ticket_barrier_entrance_cc",
+      "y": 90
+    },
+    "facing=south,open=closed,enabled=false": {
+      "model": "cgcem:block/ticket_barrier_entrance_cc",
+      "y": 180
+    },
+    "facing=west,open=closed,enabled=false": {
+      "model": "cgcem:block/ticket_barrier_entrance_cc",
+      "y": 270
+    }
+  }
+}

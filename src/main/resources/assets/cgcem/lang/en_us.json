@@ -1,0 +1,19 @@
+{
+  "gui.cgcem.enter_barrier": "%s$ has been deducted",
+  "block.cgcem.ticket_barrier_pay_direct": "Ticket Barrier (Deducts Balance directly)",
+  "block.cgcem.ticket_barrier_pay_direct_redstone": "Ticket Barrier (Deducts Balance directly, Need Redstone)",
+  "block.cgcem.ticket_barrier_entrance_redstone": "Ticket Barrier (Entrance, Need Redstone)",
+  "block.cgcem.ticket_barrier_exit_redstone": "Ticket Barrier (Exit, Need Redstone)",
+  "tooltip.cgcem.ticket_barrier_pay_direct": "\u00A72Deducts your balance directly when you pass the barrier",
+  "command.cgcem.tb.fail": "Target block isn't a ticket barrier",
+  "command.cgcem.tb.success": "Successfully changed ticket barrier's data at %s",
+  "command.cgcem.tb.area.none": "No ticket barrier's cost changed",
+  "command.cgcem.tb.area.success": "Successfully changed %s ticket barriers' data",
+  "command.cgcem.exception": "Unable to execute this command",
+  "gui.cgcem.need_enable_by_redstone": "\u00a7cMust be enabled by redstone for using this.",
+  "gui.cgcem.barrier_not_open": "The barrier is closed",
+  "command.cgcem.kill.client.forbidden": "You can't use this command!",
+  "command.cgcem.kill.client.success": "Killed %s's Client",
+  "command.cgcem.kill.client.fail": "You can't kill %s's Client!",
+  "modmenu.nameTranslation.cgcem": "CrabGC's Extension of MTR"
+}

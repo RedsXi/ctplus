@@ -1,0 +1,7 @@
+{
+    "parent": "cgcem:block/ticket_barrier_base",
+    "textures": {
+        "arrow": "cgcem:sign/barrier_led_opening",
+        "sign": "mtr:block/sign/arrow_up"
+    }
+}

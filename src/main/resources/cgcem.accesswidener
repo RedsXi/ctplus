@@ -1,2 +1,0 @@
-accessWidener   v1  named
-accessible  method  net/minecraft/block/entity/BlockEntityType create (Ljava/lang/String;Lnet/minecraft/block/entity/BlockEntityType$Builder;)Lnet/minecraft/block/entity/BlockEntityType;

@@ -1,0 +1,6 @@
+{
+    "parent": "cgcem:block/ticket_barrier_opening_base",
+    "textures": {
+        "color": "block/green_concrete"
+    }
+}

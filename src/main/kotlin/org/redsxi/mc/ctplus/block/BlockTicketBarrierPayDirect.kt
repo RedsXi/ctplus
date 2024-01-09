@@ -26,8 +26,9 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import org.redsxi.mc.ctplus.Properties.HORIZONTAL_FACING
 import org.redsxi.mc.ctplus.Properties.OPEN
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.util.FacingUtil
-import org.redsxi.mc.ctplus.util.PassManager
+import org.redsxi.mc.ctplus.core.PassManager
 
 class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
     Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)
@@ -65,7 +66,7 @@ class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
         options: TooltipFlag
     ) {
         super.appendHoverText(stack, blockGetter, tooltip, options)
-        tooltip.add(Component.translatable("tooltip.cgcem.ticket_barrier_pay_direct"))
+        tooltip.add(Text.toolTip("ticket_barrier_pay_direct"))
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {

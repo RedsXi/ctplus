@@ -10,3 +10,4 @@ fun idOf(name: String): ResourceLocation {
 
 val ticketBarrierPayDirect = idOf("ticket_barrier_pay_direct")
 val card = idOf("card")
+val whiteCard = idOf("white_card")

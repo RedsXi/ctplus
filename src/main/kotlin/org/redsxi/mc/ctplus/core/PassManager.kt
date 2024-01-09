@@ -1,4 +1,4 @@
-package org.redsxi.mc.ctplus.util
+package org.redsxi.mc.ctplus.core
 
 import mtr.mappings.Text
 import net.minecraft.core.BlockPos

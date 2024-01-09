@@ -1,2 +1,4 @@
 accessWidener   v1  named
 accessible  method  net/minecraft/world/item/CreativeModeTab    builder (Lnet/minecraft/world/item/CreativeModeTab$Row;I)Lnet/minecraft/world/item/CreativeModeTab$Builder;
+accessible  class   net/minecraft/core/registries/BuiltInRegistries$RegistryBootstrap
+accessible  method  net/minecraft/core/registries/BuiltInRegistries registerDefaultedWithIntrusiveHolders   (Lnet/minecraft/resources/ResourceKey;Ljava/lang/String;Lnet/minecraft/core/registries/BuiltInRegistries$RegistryBootstrap;)Lnet/minecraft/core/DefaultedRegistry;

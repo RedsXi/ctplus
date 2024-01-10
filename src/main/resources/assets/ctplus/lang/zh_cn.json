@@ -5,7 +5,7 @@
   "block.ctplus.ticket_barrier_entrance_redstone": "进站闸机 (需要红石)",
   "block.ctplus.ticket_barrier_exit_redstone": "出站闸机 (需要红石)",
   "tooltip.ctplus.ticket_barrier_pay_direct": "\u00A72在您通过闸机时直接扣款",
-  "gui.ctplus.need_enable_by_redstone": "\u00a7c要使用它，首先必须使用红石将它激活。",
+  "tooltip.ctplus.need_enable_by_redstone": "\u00a7c要使用它，首先必须使用红石将它激活。",
   "gui.ctplus.barrier_not_open": "闸机未开启",
   "modmenu.nameTranslation.ctplus": "CrabMTR 的铁路扩展包",
   "command.ctplus.tb.fail": "目标方块不是闸机",

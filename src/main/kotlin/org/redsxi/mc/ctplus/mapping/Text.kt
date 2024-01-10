@@ -25,6 +25,6 @@ object Text {
     }
 
     fun toolTip(id: String): Component {
-        return translatable("toolTip", id)
+        return translatable("tooltip", id)
     }
 }

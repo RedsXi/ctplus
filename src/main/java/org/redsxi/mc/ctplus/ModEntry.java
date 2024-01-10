@@ -39,7 +39,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
             one.getEntrypoint().registerCards();
         }
 
-        LOGGER.info("Registered %d kinds of cards".formatted(Registries.CARD.registeredItemCount()));
+        LOGGER.info("Registered %d kind(s) of cards".formatted(Registries.CARD.registeredItemCount()));
     }
 
     public void onInitializeClient() {
@@ -96,4 +96,6 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     private void registerItemGroup(CreativeModeTab tab) {
         ItemGroupHelper.appendItemGroup(tab);
     }
+
+
 }

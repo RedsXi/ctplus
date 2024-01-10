@@ -10,7 +10,7 @@
   "command.ctplus.tb.area.none": "No ticket barrier's cost changed",
   "command.ctplus.tb.area.success": "Successfully changed %s ticket barriers' data",
   "command.ctplus.exception": "Unable to execute this command",
-  "gui.ctplus.need_enable_by_redstone": "\u00a7cMust be enabled by redstone for using this.",
+  "tooltip.ctplus.need_enable_by_redstone": "\u00a7cMust be enabled by redstone for using this.",
   "gui.ctplus.barrier_not_open": "The barrier is closed",
   "command.ctplus.kill.client.forbidden": "You can't use this command!",
   "command.ctplus.kill.client.success": "Killed %s's Client",

@@ -5,6 +5,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.impl.itemgroup.ItemGroupHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
@@ -12,12 +13,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.redsxi.mc.ctplus.api.CardRegisterApi;
 import org.redsxi.mc.ctplus.card.Card;
+//import org.redsxi.mc.ctplus.resource.CardItemTextureLoadListener;
 import org.redsxi.mc.ctplus.web.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,10 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlock(CollectionsKt.getBlockTicketBarrierPayDirect(), IDKt.getTicketBarrierPayDirect(), CollectionsKt.getItemGroupMain());
         registerItem(CollectionsKt.getItemCard(), IDKt.getCard(), CollectionsKt.getItemGroupMain());
 
+        Registries.CARD.addRegistrationHook(((location, card) -> {
+
+        }));
+
         // TODO: Complete this shit card
         // No cards to register now (will have some)
 
@@ -38,8 +45,9 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         for(EntrypointContainer<CardRegisterApi> one : FabricLoader.getInstance().getEntrypointContainers("card_registration", CardRegisterApi.class)) {
             one.getEntrypoint().registerCards();
         }
-
         LOGGER.info("Registered %d kind(s) of cards".formatted(Registries.CARD.registeredItemCount()));
+
+        //ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new CardItemTextureLoadListener());
     }
 
     public void onInitializeClient() {

@@ -19,5 +19,7 @@
 
   "itemGroup.ctplus.main": "CrabMTR 的铁路扩展包",
 
-  "item.ctplus.card": "卡"
+  "item.ctplus.card": "卡",
+
+  "tooltip.ctplus.transit_plus_part": "\u00a7bTransit\u00a7e+ \u00a7r的一部分"
 }

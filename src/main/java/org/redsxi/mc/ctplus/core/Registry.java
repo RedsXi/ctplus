@@ -43,16 +43,8 @@ public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Cl
         return map.entrySet().iterator();
     }
 
-    private void checkClose() throws IOException {
-        if(close) throw new IOException("Closed");
-    }
-
     public T register(T item, ResourceLocation id) {
-        try {
-            checkClose();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if(close) return item;
         if(map.containsKey(id)) throw new RuntimeException("Duplicate key " + id.toString());
         map.put(id, item);
 
@@ -79,9 +71,10 @@ public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Cl
         return map.containsKey(id);
     }
 
-    public void close() throws IOException {
-        checkClose();
+    public void close() {
+        if(close) return;
         close = true;
+        register(defaultItem, defaultLocation);
     }
 
     public int registeredItemCount() {

@@ -19,5 +19,7 @@
 
   "itemGroup.ctplus.main": "CrabMTR's Extension of MTR",
 
-  "item.ctplus.card": "Card"
+  "item.ctplus.card": "Card",
+
+  "tooltip.ctplus.transit_plus_part": "A part of \u00a7bTransit\u00a7e+ \u00a7rsystem"
 }

@@ -18,6 +18,9 @@ abstract class Card {
 
     abstract fun rechargeImpl(amount: Int): Boolean
 
+    /**
+     * Tips 已确认是否有足够的余额
+     */
     fun pay(price: Int): Boolean {
         if(price < balance() || (canOverdraft())) {
             return payImpl(price)

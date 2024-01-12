@@ -22,7 +22,9 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "fabric-language-kotlin": ">=1.10.17+kotlin.1.9.22",
+    "mtr": "*"
   },
   "accessWidener" : "ctplus.accesswidener",
   "mixins": [

@@ -139,4 +139,6 @@ class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
             Shapes.or(append, base)
         }
     }
+
+
 }

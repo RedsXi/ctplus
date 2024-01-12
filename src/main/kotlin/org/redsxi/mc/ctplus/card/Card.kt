@@ -7,7 +7,7 @@ import org.redsxi.mc.ctplus.idOf
 abstract class Card {
     fun getID(): ResourceLocation = Registries.CARD.getItemID(this)
 
-    fun getCardItemTextureLocation(): ResourceLocation = idOf("item/card/white")
+    open fun getCardItemTextureLocation(): ResourceLocation = idOf("item/card/white")
     fun getCardFrontTextureLocation(): ResourceLocation = idOf("item/card/white_f")
     fun getCardBackTextureLocation(): ResourceLocation = idOf("item/card/white_b")
 

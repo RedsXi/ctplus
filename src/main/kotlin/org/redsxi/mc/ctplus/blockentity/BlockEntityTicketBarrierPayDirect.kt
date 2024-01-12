@@ -7,10 +7,10 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import org.redsxi.mc.ctplus.blockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.Collections
 
 class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState) : BlockEntity(
-    blockEntityTicketBarrierPayDirect,
+    Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
     pos, state
 ) {
     var price: Long = 2

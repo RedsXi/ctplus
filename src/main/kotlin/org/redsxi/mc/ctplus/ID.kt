@@ -10,6 +10,7 @@ fun mcIdOf(name: String): ResourceLocation = ResourceLocation("minecraft", name)
 
 val ticketBarrierPayDirect = idOf("ticket_barrier_pay_direct")
 val card = idOf("card")
-val whiteCard = idOf("white_card")
+val whiteCard = idOf("white")
+val singleJourneyCard = idOf("single_journey")
 
 val modelItemGenerated = mcIdOf("item/generated")

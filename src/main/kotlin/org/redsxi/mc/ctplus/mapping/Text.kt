@@ -27,4 +27,6 @@ object Text {
     fun toolTip(id: String): Component {
         return translatable("tooltip", id)
     }
+
+    fun card(ns: String, id: String): Component = Component.translatable("card.$ns.$id")
 }

@@ -17,9 +17,13 @@
   "command.ctplus.tb.area.success": "成功修改了%s个闸机的数据",
   "command.ctplus.exception": "无法执行此命令",
 
-  "itemGroup.ctplus.main": "CrabMTR 的铁路扩展包",
+  "itemGroup.ctplus.main": "CrabMTR Transit+",
+  "itemGroup.ctplus.cards": "所有的卡",
 
   "item.ctplus.card": "卡",
 
-  "tooltip.ctplus.transit_plus_part": "\u00a7bTransit\u00a7e+ \u00a7r的一部分"
+  "tooltip.ctplus.transit_plus_part": "\u00a7bTransit\u00a7e+ \u00a7r的一部分",
+
+  "card.ctplus.white": "白卡",
+  "card.ctplus.single_journey": "单程票卡"
 }

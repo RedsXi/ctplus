@@ -1,5 +1,8 @@
 package org.redsxi.mc.ctplus.card
 
+import net.minecraft.resources.ResourceLocation
+import org.redsxi.mc.ctplus.idOf
+
 class SingleJourneyCard(private val price: Int) : Card() {
 
     private var isUsed = false
@@ -19,4 +22,8 @@ class SingleJourneyCard(private val price: Int) : Card() {
     override fun canRecharge() = false
 
     override fun isValid() = !isUsed
+
+    override fun getCardItemTextureLocation(): ResourceLocation {
+        return idOf("item/card/single_journey")
+    }
 }

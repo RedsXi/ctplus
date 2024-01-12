@@ -59,6 +59,10 @@ public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Cl
         return map.getOrDefault(id, defaultItem);
     }
 
+    public T get(ResourceLocation id, T defaultT) {
+        return map.getOrDefault(id, defaultT);
+    }
+
     public ResourceLocation getItemID(Card card) {
         ResourceLocation result = defaultLocation;
         for(Map.Entry<ResourceLocation, T> entry : map.entrySet()) {

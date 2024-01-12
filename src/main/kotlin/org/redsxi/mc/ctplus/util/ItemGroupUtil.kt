@@ -11,4 +11,10 @@ object ItemGroupUtil {
             .icon { icon }
             .build()
     }
+
+    fun create(id: String): CreativeModeTab {
+        return CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+            .title(Text.itemGroup(id))
+            .build()
+    }
 }

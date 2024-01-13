@@ -38,8 +38,10 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerItemGroup(Collections.ItemGroups.MAIN);
         registerItemGroup(Collections.ItemGroups.CARDS);
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect(), Collections.ItemGroups.MAIN);
+        registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp(), Collections.ItemGroups.MAIN);
 
-        registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
+        registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
+
 
         Registries.CARD.addRegistrationHook(((location, card) -> {
 
@@ -67,8 +69,6 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         //ModelLoadingPlugin.register(new CardModelLoadingPlugin());
 
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT);
-
-
     }
 
     public void onInitializeServer() {

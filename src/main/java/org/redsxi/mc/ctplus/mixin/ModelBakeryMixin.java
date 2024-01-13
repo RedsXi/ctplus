@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ModelBakeryMixin {
     @Inject(at=@At("HEAD"), method = "loadBlockModel", cancellable = true)
     private void load(ResourceLocation resourceLocation, CallbackInfoReturnable<BlockModel> cir) {
-        if(resourceLocation.getNamespace().equals(IDKt.modId)) System.out.println(resourceLocation);
-        if(resourceLocation.getNamespace().equals(IDKt.modId)) System.out.println(resourceLocation);
         if (resourceLocation.getPath().startsWith("item/card_")) {
             String id = resourceLocation.getPath().substring(10);
             ResourceLocation cardLocation = new ResourceLocation(resourceLocation.getNamespace(), id);

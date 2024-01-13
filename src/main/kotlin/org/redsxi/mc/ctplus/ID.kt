@@ -14,3 +14,4 @@ val whiteCard = idOf("white")
 val singleJourneyCard = idOf("single_journey")
 
 val modelItemGenerated = mcIdOf("item/generated")
+val ticketBarrierPayDirectTp = idOf("ticket_barrier_pay_direct_tp")

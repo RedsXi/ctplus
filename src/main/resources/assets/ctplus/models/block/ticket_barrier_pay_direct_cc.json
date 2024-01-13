@@ -1,6 +1,0 @@
-{
-    "parent": "cgcem:block/ticket_barrier_closed_base",
-    "textures": {
-        "color": "block/red_concrete"
-    }
-}

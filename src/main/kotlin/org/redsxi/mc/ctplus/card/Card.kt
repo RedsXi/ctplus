@@ -1,8 +1,11 @@
 package org.redsxi.mc.ctplus.card
 
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.Registries
 import org.redsxi.mc.ctplus.idOf
+import org.redsxi.mc.ctplus.mapping.Text
 
 abstract class Card {
     fun getID(): ResourceLocation = Registries.CARD.getItemID(this)
@@ -40,4 +43,9 @@ abstract class Card {
 
 
     abstract fun isValid(): Boolean
+
+    open fun loadData(nbt: CompoundTag) {}
+    open fun saveData(nbt: CompoundTag): CompoundTag = nbt
+
+    fun getPassMessage(): Component = Text.gui("passed_barrier")
 }

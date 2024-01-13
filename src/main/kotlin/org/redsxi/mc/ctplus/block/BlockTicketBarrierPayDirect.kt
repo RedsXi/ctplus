@@ -4,6 +4,7 @@ import mtr.SoundEvents
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
@@ -29,18 +30,27 @@ import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.util.FacingUtil
 import org.redsxi.mc.ctplus.core.PassManager
+import org.redsxi.mc.ctplus.core.TransitPlus
 
-class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
+open class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
     Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)
 ) {
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return BlockEntityTicketBarrierPayDirect(pos, state)
+        return BlockEntityTicketBarrierPayDirect(pos, state, false)
     }
+
+    open fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean
+    = PassManager.onEntityPass(pos, level, player, SoundEvents.TICKET_PROCESSOR_ENTRY)
 
     @Deprecated("", level = DeprecationLevel.WARNING)
     override fun entityInside(state: BlockState, world: Level, pos: BlockPos, entity: Entity) {
         world.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS)
         if(!world.isClientSide && entity is Player) {
+            val blockEntity = world.getBlockEntity(pos)
+            if (blockEntity !is BlockEntityTicketBarrierPayDirect) return
+
+            val price = blockEntity.price
+
             val facing = state.getValue(FACING)
             val playerPosRotated = entity
                 .position()
@@ -50,7 +60,7 @@ class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
             if(open && playerPosRotated.z > 0) {
                 world.setBlockAndUpdate(pos, state.setValue(OPEN, false))
             } else if (!open && playerPosRotated.z < 0) {
-                val newOpen = PassManager.onEntityPass(pos, world, entity, SoundEvents.TICKET_PROCESSOR_ENTRY)
+                val newOpen = process(pos, world, entity, SoundEvents.TICKET_PROCESSOR_ENTRY, price)
                 world.setBlockAndUpdate(pos, state.setValue(OPEN, newOpen))
                 if(!newOpen && !world.blockTicks.hasScheduledTick(pos, this)) {
                     world.scheduleTick(pos, this, 40)
@@ -140,5 +150,23 @@ class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
         }
     }
 
+    class WithinTransitPlus : BlockTicketBarrierPayDirect() {
+        override fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean {
+            return TransitPlus.pass(player.mainHandItem, player, price, pos, level, passSoundEvent)
+        }
 
+        override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
+            return BlockEntityTicketBarrierPayDirect(pos, state, true)
+        }
+
+        override fun appendHoverText(
+            stack: ItemStack,
+            blockGetter: BlockGetter?,
+            tooltip: MutableList<Component>,
+            options: TooltipFlag
+        ) {
+            super.appendHoverText(stack, blockGetter, tooltip, options)
+            tooltip.add(Text.toolTip("within_transit_plus"))
+        }
+    }
 }

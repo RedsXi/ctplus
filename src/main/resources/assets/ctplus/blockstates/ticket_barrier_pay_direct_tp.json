@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,open=false": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_closed"
+    },
+    "facing=east,open=false": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_closed",
+      "y": 90
+    },
+    "facing=south,open=false": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_closed",
+      "y": 180
+    },
+    "facing=west,open=false": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_closed",
+      "y": 270
+    },
+    "facing=north,open=true": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_open"
+    },
+    "facing=east,open=true": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_open",
+      "y": 90
+    },
+    "facing=south,open=true": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_open",
+      "y": 180
+    },
+    "facing=west,open=true": {
+      "model": "ctplus:block/ticket_barrier_pay_direct_open",
+      "y": 270
+    }
+  }
+}

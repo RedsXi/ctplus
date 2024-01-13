@@ -1,29 +1,19 @@
 {
-  "gui.ctplus.enter_barrier": "%s$ has been deducted",
-  "block.ctplus.ticket_barrier_pay_direct": "Ticket Barrier (Deducts Balance directly)",
-  "block.ctplus.ticket_barrier_pay_direct_redstone": "Ticket Barrier (Deducts Balance directly, Need Redstone)",
   "block.ctplus.ticket_barrier_entrance_redstone": "Ticket Barrier (Entrance, Need Redstone)",
   "block.ctplus.ticket_barrier_exit_redstone": "Ticket Barrier (Exit, Need Redstone)",
-  "tooltip.ctplus.ticket_barrier_pay_direct": "\u00A72Deducts your balance directly when you pass the barrier",
-  "command.ctplus.tb.fail": "Target block isn't a ticket barrier",
-  "command.ctplus.tb.success": "Successfully changed ticket barrier's data at %s",
-  "command.ctplus.tb.area.none": "No ticket barrier's cost changed",
-  "command.ctplus.tb.area.success": "Successfully changed %s ticket barriers' data",
-  "command.ctplus.exception": "Unable to execute this command",
-  "tooltip.ctplus.need_enable_by_redstone": "\u00a7cMust be enabled by redstone for using this.",
-  "gui.ctplus.barrier_not_open": "The barrier is closed",
-  "command.ctplus.kill.client.forbidden": "You can't use this command!",
-  "command.ctplus.kill.client.success": "Killed %s's Client",
-  "command.ctplus.kill.client.fail": "You can't kill %s's Client!",
-  "modmenu.nameTranslation.ctplus": "CrabMTR's Extension of MTR",
-
-  "itemGroup.ctplus.main": "CrabMTR Transit+",
-  "itemGroup.ctplus.cards": "Collection of cards",
-
-  "item.ctplus.card": "Card",
-
-  "tooltip.ctplus.transit_plus_part": "A part of \u00a7bTransit\u00a7e+ \u00a7rsystem",
-
+  "block.ctplus.ticket_barrier_pay_direct": "Ticket Barrier (Deducts Balance directly)",
+  "block.ctplus.ticket_barrier_pay_direct_tp": "Ticket Barrier (Deducts Balance directly)",
+  "card.ctplus.single_journey": "Single journey card",
   "card.ctplus.white": "White card",
-  "card.ctplus.single_journey": "Single journey card"
+  "gui.ctplus.card_invalid": "Invalid card",
+  "gui.ctplus.enter_barrier": "%s$ has been deducted",
+  "gui.ctplus.hold_card_to_pass": "Hold a valid card to pass",
+  "gui.ctplus.insufficient_balance": "Insufficient balance: %s",
+  "gui.ctplus.passed_barrier": "Passed",
+  "item.ctplus.card": "Card",
+  "itemGroup.ctplus.cards": "Collection of cards",
+  "itemGroup.ctplus.main": "CrabMTR Transit+",
+  "tooltip.ctplus.ticket_barrier_pay_direct": "§2Deducts your balance directly when you pass the barrier",
+  "tooltip.ctplus.transit_plus_part": "A part of §bTransit§e+ §rsystem",
+  "tooltip.ctplus.within_transit_plus": "Within §bTransit§e+ §rsystem"
 }

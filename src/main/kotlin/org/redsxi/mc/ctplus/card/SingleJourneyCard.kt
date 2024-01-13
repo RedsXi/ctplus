@@ -10,7 +10,11 @@ class SingleJourneyCard : Card() {
 
     private var isUsed = true
 
-    override fun balance(): Int = price
+    override fun balance(): Int = if(isUsed) {
+        0
+    } else {
+        price
+    }
 
     override fun payImpl(price: Int): Boolean {
         if(isUsed) return false

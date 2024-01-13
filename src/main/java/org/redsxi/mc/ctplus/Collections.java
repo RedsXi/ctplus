@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
+import org.redsxi.mc.ctplus.blockentity.JBlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
 import org.redsxi.mc.ctplus.card.WhiteCard;
@@ -19,8 +20,8 @@ public interface Collections {
     }
 
     interface BlockEntities {
-        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.createBooleanArg(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, false);
-        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.createBooleanArg(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, true);
+        BlockEntityType<JBlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, JBlockEntityTicketBarrierPayDirect.class, false);
+        BlockEntityType<JBlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, JBlockEntityTicketBarrierPayDirect.class, true);
     }
 
     interface Cards {

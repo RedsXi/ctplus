@@ -1,20 +1,14 @@
 package org.redsxi.mc.ctplus.util
 
-import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
-import kotlin.reflect.KClass
 
 @SuppressWarnings("any")
 object BlockEntityTypeUtil {
-
-
-
-    @Deprecated("Use create(Block, Class, Object[] instead)")
-    fun <T : BlockEntity> create(block: Block, blockEntitySupplier: (BlockPos, BlockState) -> T): BlockEntityType<T> {
+    private fun <T : BlockEntity> create(block: Block, blockEntitySupplier: (BlockPos, BlockState) -> T): BlockEntityType<T> {
         val builder = BlockEntityType.Builder.of(blockEntitySupplier, block)
         return builder.build(null)
     }
@@ -37,7 +31,4 @@ object BlockEntityTypeUtil {
             pos, state -> constructor.newInstance(pos, state, *arguments)
         }
     }
-
-    fun <T : BlockEntity> createBooleanArg(block: Block, blockEntityClass: Class<T>, bl: Boolean): BlockEntityType<T>
-    = create(block, blockEntityClass, bl)
 }

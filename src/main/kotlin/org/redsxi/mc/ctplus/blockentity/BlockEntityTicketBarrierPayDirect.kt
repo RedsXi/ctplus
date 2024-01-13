@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import org.redsxi.mc.ctplus.Collections
 
-class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState, isTransitPlus: Boolean) : BlockEntity(
+open class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState, isTransitPlus: Boolean) : BlockEntity(
     if(isTransitPlus) Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP else Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
     pos, state
 ) {

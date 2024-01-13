@@ -16,7 +16,7 @@ import java.util.Objects;
 public class PlayerManagerMixin {
     @Inject(at=@At("HEAD"), method = "placeNewPlayer")
     private void onJoin(Connection connection, ServerPlayer player, CallbackInfo ci) {
-        Variables.INSTANCE.getPlayerList().put(player.getUUID(), Objects.requireNonNull(player.getTabListDisplayName()).getString());
+        Variables.INSTANCE.getPlayerList().put(player.getUUID(), player);
     }
 
     @Inject(at=@At("HEAD"), method="remove")

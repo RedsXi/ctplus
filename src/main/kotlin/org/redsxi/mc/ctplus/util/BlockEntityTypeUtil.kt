@@ -17,7 +17,7 @@ object BlockEntityTypeUtil {
 
         val classArray = ArrayList<Class<out Any>>()
         classArray.add(BlockPos::class.java)
-        classArray.add(BlockEntity::class.java)
+        classArray.add(BlockState::class.java)
         arguments.forEach {
             classArray.add(it::class.java)
         }

@@ -37,4 +37,7 @@ object BlockEntityTypeUtil {
             pos, state -> constructor.newInstance(pos, state, *arguments)
         }
     }
+
+    fun <T : BlockEntity> createBooleanArg(block: Block, blockEntityClass: Class<T>, bl: Boolean): BlockEntityType<T>
+    = create(block, blockEntityClass, bl)
 }

@@ -1,8 +1,10 @@
 package org.redsxi.mc.ctplus.card
 
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.idOf
+import org.redsxi.mc.ctplus.mapping.Text
 
 class SingleJourneyCard : Card() {
 
@@ -43,5 +45,12 @@ class SingleJourneyCard : Card() {
         nbt.putInt("Price", price)
         nbt.putBoolean("IsUsed", isUsed)
         return nbt
+    }
+
+    override fun appendCardInformation(list: MutableList<Component>) {
+        list.add(Text.toolTip("price", price))
+        if(isUsed) {
+            list.add(Text.toolTip("card_is_used"))
+        }
     }
 }

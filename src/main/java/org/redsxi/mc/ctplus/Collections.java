@@ -2,6 +2,8 @@ package org.redsxi.mc.ctplus;
 
 import kotlin.reflect.KClass;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
@@ -29,8 +31,12 @@ public interface Collections {
         Card SINGLE_JOURNEY = new SingleJourneyCard();
     }
 
+    interface Items {
+        Item CT_PLUS = new Item(new Item.Properties());
+    }
+
     interface ItemGroups {
-        CreativeModeTab MAIN = ItemGroupUtil.INSTANCE.create("main");
+        CreativeModeTab MAIN = ItemGroupUtil.INSTANCE.create("main", new ItemStack(Items.CT_PLUS));
         CreativeModeTab CARDS = ItemGroupUtil.INSTANCE.create("cards");
     }
 }

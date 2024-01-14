@@ -78,7 +78,6 @@ public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Cl
     public void close() {
         if(close) return;
         close = true;
-        register(defaultItem, defaultLocation);
     }
 
     public int registeredItemCount() {

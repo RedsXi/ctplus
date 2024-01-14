@@ -9,7 +9,7 @@ object Text {
     }
 
     private fun translatable(type: String, name: String, vararg objects: Any): Component {
-        return Component.translatable("${type}.${modId}.${name}", objects)
+        return Component.translatable("${type}.${modId}.${name}", *objects)
     }
 
     fun itemGroup(id: String): Component {
@@ -21,11 +21,11 @@ object Text {
     }
 
     fun gui(id: String, vararg objects: Any): Component {
-        return translatable("gui", id, objects)
+        return translatable("gui", id, *objects)
     }
 
-    fun toolTip(id: String): Component {
-        return translatable("tooltip", id)
+    fun toolTip(id: String, vararg objects: Any): Component {
+        return translatable("tooltip", id, *objects)
     }
 
     fun card(ns: String, id: String): Component = Component.translatable("card.$ns.$id")

@@ -13,17 +13,24 @@ import org.redsxi.mc.ctplus.mapping.Text
  * Yes. This, what you are seeing, is a new generation of mtr journey system. It has created a system based on cards.
  */
 object TransitPlus {
-    fun pass(item: ItemStack, player: Player, price: Int, position: BlockPos, currentLevel: Level, passSound: SoundEvent): Boolean {
-        val compound = item.tag ?: return false
-        if(item.item is ItemCard) {
-            val card = (item.item as ItemCard).card
-
+    fun pass(player: Player, price: Int, position: BlockPos, currentLevel: Level, passSound: SoundEvent): Boolean {
+        val itemStack = player.mainHandItem
+        if(itemStack == ItemStack.EMPTY) {
+            player.displayClientMessage(Text.gui("hold_card_to_pass"), true)
+            return false
+        }
+        val item = itemStack.item
+        if (item is ItemCard) {
+            val card = item.card
+            var compound = itemStack.tag
+            if(compound == null) {
+                compound = card.createData()
+            }
             card.loadData(compound)
-
             return if(card.isValid()) {
                 if(card.pay(price)) {
                     player.displayClientMessage(card.getPassMessage(), true)
-                    item.tag = card.saveData(compound)
+                    itemStack.tag = card.createData()
                     currentLevel.playSound(player, position, passSound, SoundSource.BLOCKS)
                     true
                 } else {

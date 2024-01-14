@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ctplus:item/ticket_barrier_pay_direct"
+  }
+}

@@ -152,7 +152,7 @@ open class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock
 
     class WithinTransitPlus : BlockTicketBarrierPayDirect() {
         override fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean {
-            return TransitPlus.pass(player.mainHandItem, player, price, pos, level, passSoundEvent)
+            return TransitPlus.pass(player, price, pos, level, passSoundEvent)
         }
 
         override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {

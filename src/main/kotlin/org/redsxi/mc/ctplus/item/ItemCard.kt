@@ -1,6 +1,5 @@
 package org.redsxi.mc.ctplus.item
 
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -17,10 +16,19 @@ class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
         list: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        val loc = Registries.CARD.getItemID(card)
-        list.add(Text.card(loc.namespace, loc.path))
         list.add(Text.toolTip("transit_plus_part"))
+        val compound = itemStack.tag
+        if(compound != null) {
+            list.add(Component.empty())
+            list.add(Text.toolTip("card_information"))
+            card.loadData(compound)
+            card.appendCardInformation(list)
+        }
+
     }
 
-    override fun getName(itemStack: ItemStack): Component = Component.translatable("item.ctplus.card")
+    override fun getName(itemStack: ItemStack): Component {
+        val id = Registries.CARD.getItemID(card)
+        return Text.card(id.namespace, id.path)
+    }
 }

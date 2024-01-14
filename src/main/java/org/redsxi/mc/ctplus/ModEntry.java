@@ -42,6 +42,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
         registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
+        registerItem(Collections.Items.CT_PLUS, IDKt.getCtPlus(), Collections.ItemGroups.MAIN);
 
         Registries.CARD.addRegistrationHook(((location, card) -> {
 
@@ -69,6 +70,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         //ModelLoadingPlugin.register(new CardModelLoadingPlugin());
 
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT);
+        registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
     }
 
     public void onInitializeServer() {

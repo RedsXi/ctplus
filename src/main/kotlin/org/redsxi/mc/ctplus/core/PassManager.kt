@@ -26,7 +26,7 @@ object PassManager {
                 )
                 return false
             }
-            balanceScore.add((0 - price).toInt())
+            balanceScore.add((0 - price))
             player.displayClientMessage(
                 Text.translatable("gui.cgcem.enter_barrier", price),
                 true

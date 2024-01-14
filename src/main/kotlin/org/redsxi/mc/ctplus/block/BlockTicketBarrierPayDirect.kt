@@ -14,27 +14,22 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.EntityBlock
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
-import net.minecraft.world.level.material.Material
-import net.minecraft.world.level.material.MaterialColor
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import org.redsxi.mc.ctplus.Properties.HORIZONTAL_FACING
 import org.redsxi.mc.ctplus.Properties.OPEN
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
-import org.redsxi.mc.ctplus.mapping.Text
-import org.redsxi.mc.ctplus.util.FacingUtil
 import org.redsxi.mc.ctplus.core.PassManager
 import org.redsxi.mc.ctplus.core.TransitPlus
+import org.redsxi.mc.ctplus.mapping.BarrierBlockMapper
+import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.util.FacingUtil
 
-open class BlockTicketBarrierPayDirect : EntityBlock, HorizontalDirectionalBlock (
-    Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)
-) {
+open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return BlockEntityTicketBarrierPayDirect(pos, state, false)
     }

@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.api.CardRegisterApi;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.item.ItemCard;
-import org.redsxi.mc.ctplus.model.CardModelLoadingPlugin;
-import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
+import org.redsxi.mc.ctplus.mapping.RegistryMapper;
+import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
 import org.redsxi.mc.ctplus.web.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,8 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
     public void onInitialize() {
         //System.setProperty("ctplus.transit_plus_svc", "true");
-        registerItemGroup(Collections.ItemGroups.MAIN);
-        registerItemGroup(Collections.ItemGroups.CARDS);
+        registerItemGroup(Collections.ItemGroups.MAIN, IDKt.getMain());
+        registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect(), Collections.ItemGroups.MAIN);
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp(), Collections.ItemGroups.MAIN);
 
@@ -60,7 +60,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         for (Entry<ResourceLocation, Card> entry : Registries.CARD) {
             Item item = new ItemCard(entry.getValue());
             Variables.INSTANCE.getCardItemList().put(entry.getValue(), item);
-            registerItem(item, entry.getKey().withPrefix("card_"), Collections.ItemGroups.CARDS, true);
+            registerItem(item, ResourceLocationUtil.INSTANCE.addPrefix(entry.getKey(), "card_"), Collections.ItemGroups.CARDS, true);
         }
 
         //ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new CardItemTextureLoadListener());
@@ -79,28 +79,16 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
     private static void registerBlock(Block block, ResourceLocation identifier) {
         LOGGER.info("Registered block %s".formatted(identifier.getPath()));
-        Registry.register (
-                BuiltInRegistries.BLOCK,
-                identifier,
-                block
-        );
+        RegistryMapper.INSTANCE.registerBlock(identifier, block);
     }
 
     private static <T extends BlockEntity> void registerBlockEntityType(BlockEntityType<T> block, ResourceLocation identifier) {
         LOGGER.info("Registered block entity %s".formatted(identifier.getPath()));
-        Registry.register (
-                BuiltInRegistries.BLOCK_ENTITY_TYPE,
-                identifier,
-                block
-        );
+        RegistryMapper.INSTANCE.registerBlockEntityType(identifier, block);
     }
 
     private static void registerItem(Item item, ResourceLocation identifier, boolean... dontPrint) {
-        Registry.register (
-                BuiltInRegistries.ITEM,
-                identifier,
-                item
-        );
+        RegistryMapper.INSTANCE.registerItem(identifier, item);
         if(dontPrint.length == 0 || dontPrint[0]) return;
         LOGGER.info("Registered item %s".formatted(identifier.getPath()));
     }
@@ -108,15 +96,12 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     private static void registerBlock(Block block, ResourceLocation identifier, CreativeModeTab group) {
         registerBlock(block, identifier);
         BlockItem bItem = new BlockItem(block, new Item.Properties());
-        registerItem(bItem, identifier);
-        ItemGroupEvents.modifyEntriesEvent(group).register((entries) -> {
-            entries.accept(bItem);
-        });
+        registerItem(bItem, identifier, group);
     }
 
     private static void registerItem(Item item, ResourceLocation identifier, CreativeModeTab tab, boolean... dontPrint) {
         registerItem(item, identifier, dontPrint);
-        ItemGroupEvents.modifyEntriesEvent(tab).register((entries) -> entries.accept(item));
+        RegistryMapper.INSTANCE.registerItem(item, tab);
     }
 
     private static void registerCard(Card card, ResourceLocation location) {
@@ -128,8 +113,8 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
     }
 
-    private void registerItemGroup(CreativeModeTab tab) {
-        ItemGroupHelper.appendItemGroup(tab);
+    private void registerItemGroup(CreativeModeTab tab, ResourceLocation id) {
+        RegistryMapper.INSTANCE.registerItemGroup(id, tab);
     }
 
 

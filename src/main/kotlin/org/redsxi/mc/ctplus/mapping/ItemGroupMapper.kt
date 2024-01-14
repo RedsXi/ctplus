@@ -1,10 +1,9 @@
-package org.redsxi.mc.ctplus.util
+package org.redsxi.mc.ctplus.mapping
 
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
-import org.redsxi.mc.ctplus.mapping.Text
 
-object ItemGroupUtil {
+object ItemGroupMapper {
     fun create(id: String): CreativeModeTab {
         return CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
             .title(Text.itemGroup(id))

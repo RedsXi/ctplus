@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.redsxi.mc.ctplus.Collections;
 import org.redsxi.mc.ctplus.Variables;
+import org.redsxi.mc.ctplus.mapping.ItemEntityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,7 +123,7 @@ public class HttpService {
                                 itemEntity = player.drop(itemStack, false);
                                 if (itemEntity != null) {
                                     itemEntity.setNoPickUpDelay();
-                                    itemEntity.setTarget(player.getUUID());
+                                    ItemEntityMapper.INSTANCE.setTarget(itemEntity, player.getUUID());
                                 }
                             }
 

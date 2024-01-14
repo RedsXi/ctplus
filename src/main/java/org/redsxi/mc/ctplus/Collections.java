@@ -1,19 +1,17 @@
 package org.redsxi.mc.ctplus;
 
-import kotlin.reflect.KClass;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
-import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.JBlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
 import org.redsxi.mc.ctplus.card.WhiteCard;
 import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
-import org.redsxi.mc.ctplus.util.ItemGroupUtil;
+import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 
 public interface Collections {
     interface Blocks {
@@ -36,7 +34,7 @@ public interface Collections {
     }
 
     interface ItemGroups {
-        CreativeModeTab MAIN = ItemGroupUtil.INSTANCE.create("main", new ItemStack(Items.CT_PLUS));
-        CreativeModeTab CARDS = ItemGroupUtil.INSTANCE.create("cards");
+        CreativeModeTab MAIN = ItemGroupMapper.INSTANCE.create("main", new ItemStack(Items.CT_PLUS));
+        CreativeModeTab CARDS = ItemGroupMapper.INSTANCE.create("cards");
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
-import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -79,13 +78,11 @@ open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
     }
 
     override fun tick(
-        blockState: BlockState,
-        serverLevel: ServerLevel,
-        blockPos: BlockPos,
-        randomSource: RandomSource
+        state: BlockState,
+        level: ServerLevel,
+        pos: BlockPos
     ) {
-        super.tick(blockState, serverLevel, blockPos, randomSource)
-        serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(OPEN, false))
+        level.setBlockAndUpdate(pos, state.setValue(OPEN, false))
     }
 
     override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState? {

@@ -19,7 +19,7 @@ class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
         list.add(Text.toolTip("transit_plus_part"))
         val compound = itemStack.tag
         if(compound != null) {
-            list.add(Component.empty())
+            list.add(Text.empty())
             list.add(Text.toolTip("card_information"))
             card.loadData(compound)
             card.appendCardInformation(list)

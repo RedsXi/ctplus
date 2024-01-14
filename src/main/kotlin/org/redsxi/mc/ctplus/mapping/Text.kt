@@ -12,6 +12,8 @@ object Text {
         return Component.translatable("${type}.${modId}.${name}", *objects)
     }
 
+    private fun literal(str: String): Component = Component.literal(str)
+
     fun itemGroup(id: String): Component {
         return translatable("itemGroup", id)
     }
@@ -29,4 +31,6 @@ object Text {
     }
 
     fun card(ns: String, id: String): Component = Component.translatable("card.$ns.$id")
+
+    fun empty(): Component = literal("")
 }

@@ -49,14 +49,14 @@ public class HttpService {
     }
 
     public static boolean isEnabled() {
-        return Objects.equals(System.getProperty("ctplus.transit_plus_svc", "false"), "true");
+        return true;//Objects.equals(System.getProperty("ctplus.transit_plus_svc", "false"), "true");
     }
 
     private static final String WEBAPI_URL;
 
     static {
 
-        WEBAPI_URL = System.getProperty("ctplus.ticketserver.APIEndpointURI", "http://mtr-api.crabapi.cn");
+        WEBAPI_URL = System.getProperty("ctplus.ticketserver.APIEndpointURI", "http://localhost:7000");
         LOGGER.info("WebAPI url is " + WEBAPI_URL);
 
         try {

@@ -8,7 +8,7 @@ import org.redsxi.mc.ctplus.mapping.Text
 
 class SingleJourneyCard : Card() {
 
-    private var price: Int = 2
+    var price: Int = 2
 
     private var isUsed = true
 

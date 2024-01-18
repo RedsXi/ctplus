@@ -1,5 +1,7 @@
 package org.redsxi.mc.ctplus.card
 
+import com.mojang.brigadier.CommandDispatcher
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -25,8 +27,9 @@ abstract class Card {
      * Tips 已确认是否有足够的余额
      */
     fun pay(price: Int): Boolean {
-        if(price <= balance() || (canOverdraft() && balance() > 0)) {
-            return payImpl(price)
+        val actualPrice = (price * discountFactor()).toInt()
+        if(actualPrice <= balance() || (canOverdraft() && balance() > 0)) {
+            return payImpl(actualPrice)
         }
         return false
     }

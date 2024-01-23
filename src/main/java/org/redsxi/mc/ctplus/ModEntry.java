@@ -6,6 +6,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
+import net.minecraft.CrashReport;
+import net.minecraft.ReportedException;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.api.CardRegisterApi;
 import org.redsxi.mc.ctplus.card.Card;
+import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.item.ItemCard;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
@@ -31,10 +34,11 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     public void onInitialize() {
         //System.setProperty("ctplus.transit_plus_svc", "true");
         registerItemGroup(Collections.ItemGroups.MAIN, IDKt.getMain());
-        registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());
+        // registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect(), Collections.ItemGroups.MAIN);
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp(), Collections.ItemGroups.MAIN);
 
+        registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
         registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
         registerItem(Collections.Items.CT_PLUS, IDKt.getCtPlus(), Collections.ItemGroups.MAIN);
@@ -43,6 +47,8 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
         }));
 
+
+        registerCard(Collections.Cards.PREPAID, IDKt.getPrepaidCard());
         registerCard(Collections.Cards.SINGLE_JOURNEY, IDKt.getSingleJourneyCard());
 
         // For other mods
@@ -55,7 +61,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         for (Entry<ResourceLocation, Card> entry : Registries.CARD) {
             Item item = new ItemCard(entry.getValue());
             Variables.INSTANCE.getCardItemList().put(entry.getValue(), item);
-            registerItem(item, ResourceLocationUtil.INSTANCE.addPrefix(entry.getKey(), "card_"), Collections.ItemGroups.CARDS, true);
+            registerItem(item, ResourceLocationUtil.addPrefix(entry.getKey(), "card_"), true);
         }
 
         //ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new CardItemTextureLoadListener());

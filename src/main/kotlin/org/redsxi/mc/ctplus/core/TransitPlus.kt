@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import org.redsxi.mc.ctplus.item.ItemCard
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.mapping.Text.GUI
 
 /**
  * Yes. This, what you are seeing, is a new generation of mtr journey system. It has created a system based on cards.
@@ -16,7 +17,7 @@ object TransitPlus {
     fun pass(player: Player, price: Int, position: BlockPos, currentLevel: Level, passSound: SoundEvent): Boolean {
         val itemStack = player.mainHandItem
         if(itemStack == ItemStack.EMPTY) {
-            player.displayClientMessage(Text.gui("hold_card_to_pass"), true)
+            player.displayClientMessage(Text.translatable(GUI, "hold_card_to_pass"), true)
             return false
         }
         val item = itemStack.item
@@ -34,15 +35,15 @@ object TransitPlus {
                     currentLevel.playSound(player, position, passSound, SoundSource.BLOCKS)
                     true
                 } else {
-                    player.displayClientMessage(Text.gui("insufficient_balance", card.balance()), true)
+                    player.displayClientMessage(Text.translatable(GUI, "insufficient_balance", card.balance()), true)
                     false
                 }
             } else {
-                player.displayClientMessage(Text.gui("card_invalid"), true)
+                player.displayClientMessage(Text.translatable(GUI, "card_invalid"), true)
                 false
             }
         } else {
-            player.displayClientMessage(Text.gui("hold_card_to_pass"), true)
+            player.displayClientMessage(Text.translatable(GUI, "hold_card_to_pass"), true)
             return false
         }
     }

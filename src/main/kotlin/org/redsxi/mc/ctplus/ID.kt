@@ -12,9 +12,9 @@ val ticketBarrierPayDirect = idOf("ticket_barrier_pay_direct")
 val card = idOf("card")
 val whiteCard = idOf("white")
 val singleJourneyCard = idOf("single_journey")
+val prepaidCard = idOf("prepaid")
 val ctPlus = idOf("ct_plus")
 
 val ticketBarrierPayDirectTp = idOf("ticket_barrier_pay_direct_tp")
 
-val cards = idOf("cards")
 val main = idOf("main")

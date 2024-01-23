@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.JBlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
+import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
 import org.redsxi.mc.ctplus.card.WhiteCard;
 import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
@@ -25,8 +26,9 @@ public interface Collections {
     }
 
     interface Cards {
-        Card WHITE_CARD = new WhiteCard();
+        Card PREPAID = new PrepaidCard();
         Card SINGLE_JOURNEY = new SingleJourneyCard();
+        Card WHITE_CARD = new WhiteCard();
     }
 
     interface Items {
@@ -35,6 +37,6 @@ public interface Collections {
 
     interface ItemGroups {
         CreativeModeTab MAIN = ItemGroupMapper.INSTANCE.create("main", new ItemStack(Items.CT_PLUS));
-        CreativeModeTab CARDS = ItemGroupMapper.INSTANCE.create("cards");
+        //CreativeModeTab CARDS = ItemGroupMapper.INSTANCE.create("cards");
     }
 }

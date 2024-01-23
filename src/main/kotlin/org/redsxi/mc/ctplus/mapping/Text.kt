@@ -1,36 +1,33 @@
 package org.redsxi.mc.ctplus.mapping
 
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.modId
 
 object Text {
-    private fun translatable(type: String, name: String): Component {
-        return Component.translatable("${type}.${modId}.${name}")
-    }
 
-    private fun translatable(type: String, name: String, vararg objects: Any): Component {
-        return Component.translatable("${type}.${modId}.${name}", *objects)
-    }
+    const val CARD = "card"
+    const val GUI = "gui"
+    const val TOOLTIP = "tooltip"
+    const val ITEM_GROUP = "itemGroup"
 
-    private fun literal(str: String): Component = Component.literal(str)
+    @JvmStatic
+    fun translatable(type: String, modId: String, name: String, vararg objects: Any): Component
+        = Component.translatable("$type.$modId.$name", *objects)
+    @JvmStatic
+    fun literal(str: String): Component
+        = Component.literal(str)
 
-    fun itemGroup(id: String): Component {
-        return translatable("itemGroup", id)
-    }
 
-    fun gui(id: String): Component {
-        return translatable("gui", id)
-    }
+    @JvmStatic
+    fun translatable(type: String, id: ResourceLocation, vararg objects: Any)
+        = translatable(type, id.namespace, id.path, *objects)
+    @JvmStatic
+    fun translatable(type: String, name: String, vararg objects: Any): Component
+        = translatable(type, modId, name, objects)
 
-    fun gui(id: String, vararg objects: Any): Component {
-        return translatable("gui", id, *objects)
-    }
 
-    fun toolTip(id: String, vararg objects: Any): Component {
-        return translatable("tooltip", id, *objects)
-    }
 
-    fun card(ns: String, id: String): Component = Component.translatable("card.$ns.$id")
-
+    @JvmStatic
     fun empty(): Component = literal("")
 }

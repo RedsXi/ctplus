@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "ctplus:sign/ct_plus"
+    "layer0": "ctplus:item/ct_plus"
   }
 }

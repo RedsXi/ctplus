@@ -26,6 +26,7 @@ import org.redsxi.mc.ctplus.core.PassManager
 import org.redsxi.mc.ctplus.core.TransitPlus
 import org.redsxi.mc.ctplus.mapping.BarrierBlockMapper
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 import org.redsxi.mc.ctplus.util.FacingUtil
 
 open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
@@ -70,7 +71,7 @@ open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
         options: TooltipFlag
     ) {
         super.appendHoverText(stack, blockGetter, tooltip, options)
-        tooltip.add(Text.toolTip("ticket_barrier_pay_direct"))
+        tooltip.add(Text.translatable(TOOLTIP, "ticket_barrier_pay_direct"))
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
@@ -158,7 +159,7 @@ open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
             options: TooltipFlag
         ) {
             super.appendHoverText(stack, blockGetter, tooltip, options)
-            tooltip.add(Text.toolTip("within_transit_plus"))
+            tooltip.add(Text.translatable(TOOLTIP, "within_transit_plus"))
         }
     }
 }

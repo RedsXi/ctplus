@@ -8,6 +8,8 @@ import net.minecraft.world.level.Level
 import org.redsxi.mc.ctplus.Registries
 import org.redsxi.mc.ctplus.card.Card
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.mapping.Text.CARD
+import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 
 class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
     override fun appendHoverText(
@@ -16,11 +18,11 @@ class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
         list: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        list.add(Text.toolTip("transit_plus_part"))
+        list.add(Text.translatable(TOOLTIP, "transit_plus_part"))
         val compound = itemStack.tag
         if(compound != null) {
             list.add(Text.empty())
-            list.add(Text.toolTip("card_information"))
+            list.add(Text.translatable(TOOLTIP, "card_information"))
             card.loadData(compound)
             card.appendCardInformation(list)
         }
@@ -29,6 +31,6 @@ class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
 
     override fun getName(itemStack: ItemStack): Component {
         val id = Registries.CARD.getItemID(card)
-        return Text.card(id.namespace, id.path)
+        return Text.translatable(CARD, id.namespace, id.path)
     }
 }

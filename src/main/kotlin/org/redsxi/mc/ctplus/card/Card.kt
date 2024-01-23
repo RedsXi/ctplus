@@ -1,13 +1,12 @@
 package org.redsxi.mc.ctplus.card
 
-import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.commands.CommandSourceStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.Registries
 import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.mapping.Text.GUI
 
 abstract class Card {
     fun getID(): ResourceLocation = Registries.CARD.getItemID(this)
@@ -55,7 +54,7 @@ abstract class Card {
         return compound
     }
 
-    open fun getPassMessage(): Component = Text.gui("passed_barrier")
+    open fun getPassMessage(): Component = Text.translatable(GUI, "passed_barrier")
 
     open fun appendCardInformation(list: MutableList<Component>) = Unit
 }

@@ -1,6 +1,5 @@
 package org.redsxi.mc.ctplus.mapping
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.impl.itemgroup.ItemGroupHelper
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -15,7 +14,7 @@ object RegistryMapper {
     private fun getBlockEntityTypeRegistry(): Registry<BlockEntityType<*>> = BuiltInRegistries.BLOCK_ENTITY_TYPE
     private fun getItemRegistry(): Registry<Item> = BuiltInRegistries.ITEM
 
-    private fun <T> register(registry: Registry<T>, location: ResourceLocation, item: T): T = Registry.register(registry, location, item)
+    private fun <T> register(registry: Registry<T>, location: ResourceLocation, item: T & Any): T = Registry.register(registry, location, item)
     fun registerBlock(location: ResourceLocation, item: Block): Block = register(getBlockRegistry(), location, item)
     fun registerBlockEntityType(location: ResourceLocation, item: BlockEntityType<*>): BlockEntityType<*> = register(
         getBlockEntityTypeRegistry(), location, item)
@@ -23,8 +22,4 @@ object RegistryMapper {
 
     fun registerItemGroup(location: ResourceLocation, item: CreativeModeTab) =
         ItemGroupHelper.appendItemGroup(item)
-
-    fun registerItem(item: Item, tab: CreativeModeTab) = ItemGroupEvents.modifyEntriesEvent(tab).register {
-        it.accept(item)
-    }
 }

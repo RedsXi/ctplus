@@ -101,7 +101,7 @@ public class HttpService {
                         JsonObject data = resp.getAsJsonObject("data");
                         if(!Variables.INSTANCE.getPlayerList().containsKey(UUID.fromString(data.getAsJsonPrimitive("playerUUID").getAsString()))) {
                             ServerPlayer player = Variables.INSTANCE.getPlayerList().get(UUID.fromString(data.getAsJsonPrimitive("playerUUID").getAsString()));
-                            ItemStack itemStack = new ItemStack(Variables.INSTANCE.getCardItemList().get(Collections.Cards.SINGLE_JOURNEY));
+                            ItemStack itemStack = new ItemStack(Collections.Cards.SINGLE_JOURNEY.getItem());
                             CompoundTag tag = itemStack.getTag();
                             if (tag != null) {
                                 tag.putInt("Price", 50);

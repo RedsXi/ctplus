@@ -1,10 +1,19 @@
 package org.redsxi.mc.ctplus;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.GameRules.Key;
+import net.minecraft.world.level.GameRules.IntegerValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.Property;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.JBlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
@@ -31,12 +40,32 @@ public interface Collections {
         Card WHITE_CARD = new WhiteCard();
     }
 
-    interface Items {
-        Item CT_PLUS = new Item(new Item.Properties());
+    interface Rules {
+        Key<IntegerValue> ENGLISH_TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index_en", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(1, 0));
+        Key<IntegerValue> CHINESE_TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index_zh", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(0, 0));
     }
 
-    interface ItemGroups {
-        CreativeModeTab MAIN = ItemGroupMapper.INSTANCE.create("main", new ItemStack(Items.CT_PLUS));
+    interface Items {
+        private static Item createBlockItem(Block block) {
+            return new BlockItem(block, new Item.Properties());
+        }
+
+        static ItemStack asStack(Item item) {
+            return new ItemStack(item, 1);
+        }
+        Item CT_PLUS = new Item(new Item.Properties());
+
+        Item TICKET_BARRIER_PAY_DIRECT = createBlockItem(Blocks.TICKET_BARRIER_PAY_DIRECT);
+        Item TICKET_BARRIER_PAY_DIRECT_TP = createBlockItem(Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
+    }
+
+    interface ItemGroupBuilders {
+        CreativeModeTab.Builder MAIN = ItemGroupMapper.builder("main", Items.CT_PLUS, out -> {
+            out.accept(Items.asStack(Items.CT_PLUS));
+            out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT));
+            out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT_TP));
+            return Unit.INSTANCE;
+        });
         //CreativeModeTab CARDS = ItemGroupMapper.INSTANCE.create("cards");
     }
 }

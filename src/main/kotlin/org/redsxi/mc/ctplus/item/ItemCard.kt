@@ -20,11 +20,11 @@ class ItemCard(val card: Card) : Item(Properties().stacksTo(1)) {
     ) {
         list.add(Text.translatable(TOOLTIP, "transit_plus_part"))
         val compound = itemStack.tag
-        if(compound != null) {
+        if(compound != null && level != null) {
             list.add(Text.empty())
             list.add(Text.translatable(TOOLTIP, "card_information"))
             card.loadData(compound)
-            card.appendCardInformation(list)
+            card.appendCardInformation(list, level)
         }
 
     }

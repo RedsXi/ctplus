@@ -3,6 +3,7 @@
   "block.ctplus.ticket_barrier_exit_redstone": "Ticket Barrier (Exit, Need Redstone)",
   "block.ctplus.ticket_barrier_pay_direct": "Ticket Barrier (Deducts Balance directly)",
   "block.ctplus.ticket_barrier_pay_direct_tp": "Ticket Barrier (Deducts Balance directly)",
+  "card.ctplus.prepaid": "Prepaid card",
   "card.ctplus.single_journey": "Single journey card",
   "card.ctplus.white": "White card",
   "gui.ctplus.card_invalid": "Invalid card",

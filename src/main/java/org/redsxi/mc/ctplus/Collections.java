@@ -1,7 +1,6 @@
 package org.redsxi.mc.ctplus;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.item.BlockItem;
@@ -13,9 +12,10 @@ import net.minecraft.world.level.GameRules.Key;
 import net.minecraft.world.level.GameRules.IntegerValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.properties.Property;
-import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
-import org.redsxi.mc.ctplus.blockentity.JBlockEntityTicketBarrierPayDirect;
+import org.redsxi.bool.False;
+import org.redsxi.bool.True;
+import org.redsxi.mc.ctplus.block.OldBlockTicketBarrierPayDirect;
+import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
@@ -25,13 +25,13 @@ import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 
 public interface Collections {
     interface Blocks {
-        Block TICKET_BARRIER_PAY_DIRECT = new BlockTicketBarrierPayDirect();
-        Block TICKET_BARRIER_PAY_DIRECT_TP = new BlockTicketBarrierPayDirect.WithinTransitPlus();
+        Block TICKET_BARRIER_PAY_DIRECT = new OldBlockTicketBarrierPayDirect();
+        Block TICKET_BARRIER_PAY_DIRECT_TP = new OldBlockTicketBarrierPayDirect.WithinTransitPlus();
     }
 
     interface BlockEntities {
-        BlockEntityType<JBlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, JBlockEntityTicketBarrierPayDirect.class, false);
-        BlockEntityType<JBlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, JBlockEntityTicketBarrierPayDirect.class, true);
+        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, False.INSTANCE);
+        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, True.INSTANCE);
     }
 
     interface Cards {
@@ -41,8 +41,7 @@ public interface Collections {
     }
 
     interface Rules {
-        Key<IntegerValue> ENGLISH_TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index_en", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(1, 0));
-        Key<IntegerValue> CHINESE_TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index_zh", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(0, 0));
+        Key<IntegerValue> TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(1, 0));
     }
 
     interface Items {

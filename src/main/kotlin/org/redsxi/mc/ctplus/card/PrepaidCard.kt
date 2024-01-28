@@ -20,7 +20,7 @@ class PrepaidCard : Card() {
 
     override fun isValid(): Boolean = valid
 
-    private var balance: Int = 50
+    private var balance: Int = 5
     private var lastRechargeTime: Long = Time.millis
     private val valid: Boolean
         get() {
@@ -32,12 +32,14 @@ class PrepaidCard : Card() {
         balance = nbt.getInt("Balance")
     }
     override fun saveData(nbt: CompoundTag): CompoundTag {
+        super.saveData(nbt)
         nbt.putLong("LastChargeTime", lastRechargeTime)
         nbt.putInt("Balance", balance)
         return nbt
     }
 
     override fun appendCardInformation(list: MutableList<Component>) {
+        super.appendCardInformation(list)
         list.add(Text.translatable(TOOLTIP, "card_balance", balance))
         list.add(Text.translatable(TOOLTIP, "card_last_recharge_time", Date[lastRechargeTime] as Any))
         if(!valid) {

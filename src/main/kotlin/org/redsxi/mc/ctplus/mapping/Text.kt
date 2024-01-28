@@ -6,6 +6,7 @@ import org.redsxi.mc.ctplus.modId
 
 object Text {
 
+    const val BLOCK = "block"
     const val CARD = "card"
     const val GUI = "gui"
     const val TOOLTIP = "tooltip"
@@ -24,7 +25,7 @@ object Text {
         = translatable(type, id.namespace, id.path, *objects)
     @JvmStatic
     fun translatable(type: String, name: String, vararg objects: Any): Component
-        = translatable(type, modId, name, objects)
+        = translatable(type, modId, name, *objects)
 
 
 

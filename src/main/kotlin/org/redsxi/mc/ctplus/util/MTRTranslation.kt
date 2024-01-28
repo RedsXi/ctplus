@@ -12,19 +12,10 @@ import org.redsxi.mc.ctplus.mapping.Text
 @Environment(EnvType.CLIENT)
 object MTRTranslation {
     @JvmStatic
-    fun getChineseTranslation(level: Level, name: String): Component {
+    fun getTranslation(level: Level, name: String): String {
         val nameArray = name.split("|")
-        if(nameArray.size == 1) return Text.literal(name)
-        val str = nameArray[level.gameRules.getInt(Collections.Rules.CHINESE_TRANSLATE_INDEX), 0]
-        return Text.literal(str)
-    }
-
-    @JvmStatic
-    fun getEnglishTranslation(level: Level, name: String): Component {
-        val nameArray = name.split("|")
-        if(nameArray.size == 1) return Text.literal(name)
-        val str = nameArray[level.gameRules.getInt(Collections.Rules.ENGLISH_TRANSLATE_INDEX), 1]
-        return Text.literal(str)
+        if(nameArray.size == 1) return name
+        return nameArray[level.gameRules.getInt(Collections.Rules.TRANSLATE_INDEX), 0]
     }
 
     private operator fun List<String>.get(index: Int, defaultIndex: Int): String {

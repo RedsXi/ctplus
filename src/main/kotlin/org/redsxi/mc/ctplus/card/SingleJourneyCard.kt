@@ -48,6 +48,7 @@ class SingleJourneyCard : Card() {
     }
 
     override fun appendCardInformation(list: MutableList<Component>) {
+        super.appendCardInformation(list)
         list.add(Text.translatable(Text.TOOLTIP, "price", price))
         if(isUsed) {
             list.add(Text.translatable(Text.TOOLTIP, "card_is_used"))

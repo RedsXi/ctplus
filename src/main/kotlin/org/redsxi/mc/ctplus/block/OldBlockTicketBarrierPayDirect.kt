@@ -13,12 +13,15 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.EntityBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import org.redsxi.bool.False
+import org.redsxi.bool.True
 import org.redsxi.mc.ctplus.Properties.HORIZONTAL_FACING
 import org.redsxi.mc.ctplus.Properties.OPEN
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
@@ -29,9 +32,9 @@ import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 import org.redsxi.mc.ctplus.util.FacingUtil
 
-open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
+open class OldBlockTicketBarrierPayDirect : BarrierBlockMapper(), EntityBlock {
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return BlockEntityTicketBarrierPayDirect(pos, state, false)
+        return BlockEntityTicketBarrierPayDirect(pos, state, False)
     }
 
     open fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean
@@ -92,6 +95,7 @@ open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
             .setValue(OPEN, false)
     }
 
+    @Deprecated("")
     override fun getShape(
         blockState: BlockState,
         blockGetter: BlockGetter,
@@ -143,13 +147,13 @@ open class BlockTicketBarrierPayDirect : BarrierBlockMapper() {
         }
     }
 
-    class WithinTransitPlus : BlockTicketBarrierPayDirect() {
+    class WithinTransitPlus : OldBlockTicketBarrierPayDirect() {
         override fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean {
-            return TransitPlus.pass(player, price, pos, level, passSoundEvent)
+            return TransitPlus.pass(player, pos, level, passSoundEvent, TransitPlus.PassType.PAY_DIRECT).getK()
         }
 
         override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-            return BlockEntityTicketBarrierPayDirect(pos, state, true)
+            return BlockEntityTicketBarrierPayDirect(pos, state, True)
         }
 
         override fun appendHoverText(

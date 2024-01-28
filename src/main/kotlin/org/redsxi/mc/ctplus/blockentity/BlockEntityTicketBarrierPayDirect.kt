@@ -7,10 +7,11 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
+import org.redsxi.bool.Bool
 import org.redsxi.mc.ctplus.Collections
 
-open class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState, isTransitPlus: Boolean) : BlockEntity(
-    if(isTransitPlus) Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP else Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
+open class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState, isTransitPlus: Bool) : BlockEntity(
+    if(isTransitPlus.getK()) Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP else Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
     pos, state
 ) {
     var price: Int = 2

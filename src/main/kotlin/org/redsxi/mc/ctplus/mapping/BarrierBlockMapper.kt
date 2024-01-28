@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.level.material.MaterialColor
 
-abstract class BarrierBlockMapper : EntityBlock, HorizontalDirectionalBlock(Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)) {
+abstract class BarrierBlockMapper : HorizontalDirectionalBlock(Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2.0F)) {
     override fun tick(
         blockState: BlockState,
         serverLevel: ServerLevel,

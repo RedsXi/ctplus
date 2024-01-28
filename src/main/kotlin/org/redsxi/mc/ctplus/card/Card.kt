@@ -5,12 +5,15 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
+import org.redsxi.bool.Bool
+import org.redsxi.bool.False
 import org.redsxi.mc.ctplus.Registries
 import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.item.ItemCard
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.GUI
 import org.redsxi.mc.ctplus.util.MTROptionalData
+import org.redsxi.mc.ctplus.util.MTRTranslation
 
 abstract class Card {
     val item = ItemCard(this)
@@ -33,7 +36,7 @@ abstract class Card {
      */
     fun pay(price: Int): Boolean {
         val actualPrice = (price * discountFactor()).toInt()
-        if(actualPrice <= balance() || (canOverdraft() && balance() > 0)) {
+        if(actualPrice <= balance() || (canOverdraft() && balance() >= 0)) {
             return payImpl(actualPrice)
         }
         return false
@@ -52,8 +55,18 @@ abstract class Card {
 
     abstract fun isValid(): Boolean
 
-    open fun loadData(nbt: CompoundTag) {}
-    open fun saveData(nbt: CompoundTag): CompoundTag = nbt
+    open fun loadData(nbt: CompoundTag) {
+        entryZoneEncoded = nbt.getFloat("EntryZone")
+        entryStationName = nbt.getString("EntryStation")
+        isEntered = Bool.fromK(nbt.getBoolean("IsEntered"))
+    }
+    open fun saveData(nbt: CompoundTag): CompoundTag {
+        nbt.putFloat("EntryZone", entryZoneEncoded)
+        nbt.putString("EntryStation", entryStationName)
+        nbt.putBoolean("IsEntered", isEntered.getK())
+        return nbt
+    }
+
     fun createData(): CompoundTag {
         val compound = CompoundTag()
         saveData(compound)
@@ -63,16 +76,15 @@ abstract class Card {
     open fun getPassMessage(): Component = Text.translatable(GUI, "passed_barrier")
 
     open fun appendCardInformation(list: MutableList<Component>) = Unit
-    open fun appendCardInformation(list: MutableList<Component>, level: Level) = appendCardInformation(list)
+    open fun appendCardInformation(list: MutableList<Component>, level: Level) {
+        appendCardInformation(list)
+        if(!isEntered.getK()) return
+        list.add(Text.translatable(GUI, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName)))
+    }
 
     // For exits and entrances
 
-    var entryZone: Int = 0
-    var entryStationName: Component = Text.empty()
-
-    fun entrance(pos: BlockPos, level: Level) {
-        val stationOpt = MTROptionalData.getStation(MTROptionalData.getRailwayData(level), pos)
-        if(!stationOpt.isPresent) return
-
-    }
+    var entryZoneEncoded: Float = Float.MIN_VALUE
+    var entryStationName: String = ""
+    var isEntered: Bool = False
 }

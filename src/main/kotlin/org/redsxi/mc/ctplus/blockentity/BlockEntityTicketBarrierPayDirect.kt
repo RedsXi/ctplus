@@ -11,7 +11,7 @@ import org.redsxi.bool.Bool
 import org.redsxi.mc.ctplus.Collections
 
 open class BlockEntityTicketBarrierPayDirect(pos: BlockPos, state: BlockState, isTransitPlus: Bool) : BlockEntity(
-    if(isTransitPlus.getK()) Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP else Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
+    if(isTransitPlus.get()) Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP else Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT,
     pos, state
 ) {
     var price: Int = 2

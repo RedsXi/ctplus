@@ -20,8 +20,7 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import org.redsxi.bool.False
-import org.redsxi.bool.True
+import org.redsxi.bool.Bool
 import org.redsxi.mc.ctplus.Properties.HORIZONTAL_FACING
 import org.redsxi.mc.ctplus.Properties.OPEN
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
@@ -34,7 +33,7 @@ import org.redsxi.mc.ctplus.util.FacingUtil
 
 open class OldBlockTicketBarrierPayDirect : BarrierBlockMapper(), EntityBlock {
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return BlockEntityTicketBarrierPayDirect(pos, state, False)
+        return BlockEntityTicketBarrierPayDirect(pos, state, Bool.FALSE)
     }
 
     open fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean
@@ -149,11 +148,11 @@ open class OldBlockTicketBarrierPayDirect : BarrierBlockMapper(), EntityBlock {
 
     class WithinTransitPlus : OldBlockTicketBarrierPayDirect() {
         override fun process(pos: BlockPos, level: Level, player: Player, passSoundEvent: SoundEvent, price: Int): Boolean {
-            return TransitPlus.pass(player, pos, level, passSoundEvent, TransitPlus.PassType.PAY_DIRECT).getK()
+            return TransitPlus.pass(player, pos, level, passSoundEvent, TransitPlus.PassType.PAY_DIRECT).get()
         }
 
         override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-            return BlockEntityTicketBarrierPayDirect(pos, state, True)
+            return BlockEntityTicketBarrierPayDirect(pos, state, Bool.TRUE)
         }
 
         override fun appendHoverText(

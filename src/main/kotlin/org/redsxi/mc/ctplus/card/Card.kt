@@ -1,18 +1,15 @@
 package org.redsxi.mc.ctplus.card
 
-import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
 import org.redsxi.bool.Bool
-import org.redsxi.bool.False
 import org.redsxi.mc.ctplus.Registries
 import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.item.ItemCard
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.GUI
-import org.redsxi.mc.ctplus.util.MTROptionalData
 import org.redsxi.mc.ctplus.util.MTRTranslation
 
 abstract class Card {
@@ -58,12 +55,12 @@ abstract class Card {
     open fun loadData(nbt: CompoundTag) {
         entryZoneEncoded = nbt.getFloat("EntryZone")
         entryStationName = nbt.getString("EntryStation")
-        isEntered = Bool.fromK(nbt.getBoolean("IsEntered"))
+        isEntered = Bool(nbt.getBoolean("IsEntered"))
     }
     open fun saveData(nbt: CompoundTag): CompoundTag {
         nbt.putFloat("EntryZone", entryZoneEncoded)
         nbt.putString("EntryStation", entryStationName)
-        nbt.putBoolean("IsEntered", isEntered.getK())
+        nbt.putBoolean("IsEntered", isEntered.get())
         return nbt
     }
 
@@ -78,7 +75,7 @@ abstract class Card {
     open fun appendCardInformation(list: MutableList<Component>) = Unit
     open fun appendCardInformation(list: MutableList<Component>, level: Level) {
         appendCardInformation(list)
-        if(!isEntered.getK()) return
+        if(!isEntered.get()) return
         list.add(Text.translatable(GUI, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName)))
     }
 
@@ -86,5 +83,5 @@ abstract class Card {
 
     var entryZoneEncoded: Float = Float.MIN_VALUE
     var entryStationName: String = ""
-    var isEntered: Bool = False
+    var isEntered: Bool = Bool.FALSE
 }

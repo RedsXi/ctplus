@@ -123,6 +123,6 @@ open class BlockTicketBarrier : BarrierBlockMapper() {
     }
 
     fun pass(player: Player, position: BlockPos, world: Level, passType: TransitPlus.PassType): Boolean {
-        return TransitPlus.pass(player, position, world, SoundEvents.TICKET_BARRIER, passType).getK()
+        return TransitPlus.pass(player, position, world, SoundEvents.TICKET_BARRIER, passType).get()
     }
 }

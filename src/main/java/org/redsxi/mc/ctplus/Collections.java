@@ -12,11 +12,9 @@ import net.minecraft.world.level.GameRules.Key;
 import net.minecraft.world.level.GameRules.IntegerValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.redsxi.bool.False;
-import org.redsxi.bool.True;
+import org.redsxi.bool.Bool;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirectTP;
-import org.redsxi.mc.ctplus.block.OldBlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.PrepaidCard;
@@ -32,8 +30,8 @@ public interface Collections {
     }
 
     interface BlockEntities {
-        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, False.INSTANCE);
-        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, True.INSTANCE);
+        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, Bool.FALSE);
+        BlockEntityType<BlockEntityTicketBarrierPayDirect> TICKET_BARRIER_PAY_DIRECT_TP = BlockEntityTypeUtil.INSTANCE.create(Blocks.TICKET_BARRIER_PAY_DIRECT, BlockEntityTicketBarrierPayDirect.class, Bool.TRUE);
     }
 
     interface Cards {

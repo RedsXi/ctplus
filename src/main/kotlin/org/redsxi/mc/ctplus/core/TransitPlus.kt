@@ -9,8 +9,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import org.redsxi.bool.Bool
-import org.redsxi.bool.False
-import org.redsxi.bool.True
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.ctplus.card.Card
 import org.redsxi.mc.ctplus.core.TransitPlus.PassType.*
@@ -82,39 +80,39 @@ object TransitPlus {
         if(card.pay(price)) {
             player.displayClientMessage(card.getPassMessage(), true)
             passFunc()
-            True
+            Bool.TRUE
         } else {
             player.displayClientMessage(Text.translatable(GUI, "insufficient_balance", card.balance()), true)
-            False
+            Bool.FALSE
         }
 
     private fun enter(card: Card, zone: Int, stationName: String, stationNameTranslated: String, player: Player, passFunc: () -> Unit): Bool {
-        if(card.isEntered.getK()) {
+        if(card.isEntered.get()) {
             player.displayClientMessage(Text.translatable(GUI, "card_invalid"), true)
-            return False
+            return Bool.FALSE
         }
         card.entryZoneEncoded = encodeZone(zone)
         card.entryStationName = stationName
-        card.isEntered = Bool.fromK(true)
+        card.isEntered = Bool(true)
         player.displayClientMessage(Text.translatable(GUI, "entered_station", stationNameTranslated, card.balance()), true)
         passFunc()
-        return True
+        return Bool.TRUE
     }
 
     private fun exit(card: Card, zone: Int, stationNameTranslated: String, player: Player, passFunc: () -> Unit): Bool {
-        if(!card.isEntered.getK()) {
+        if(!card.isEntered.get()) {
             player.displayClientMessage(Text.translatable(GUI, "card_invalid"), true)
-            return False
+            return Bool.FALSE
         }
         val price = price(decodeZone(card.entryZoneEncoded), zone)
         return if(card.pay(price)) {
-            card.isEntered = Bool.fromK(false)
+            card.isEntered = Bool(false)
             player.displayClientMessage(Text.translatable(GUI, "exited_station", stationNameTranslated, card.balance()), true)
             passFunc()
-            True
+            Bool.TRUE
         } else {
             player.displayClientMessage(Text.translatable(GUI, "insufficient_balance", card.balance()), true)
-            False
+            Bool.FALSE
         }
     }
 
@@ -125,7 +123,7 @@ object TransitPlus {
         val stack = player.mainHandItem
         if (stack == ItemStack.EMPTY) {
             player.displayClientMessage(Text.translatable(GUI, "hold_card_to_pass"), true)
-            return False
+            return Bool.FALSE
         }
         val item = stack.item
         if (item is ItemCard) {
@@ -142,7 +140,7 @@ object TransitPlus {
                         if (bEntity is BlockEntityTicketBarrierPayDirect) {
                             val price = bEntity.price
                             pass(card, price, player, playSoundFunc)
-                        } else False // If I forgot to register the block entity
+                        } else Bool.FALSE // If I forgot to register the block entity
                     }
                     else -> {
                         val stationOptional = MTROptionalData.getStation(
@@ -151,7 +149,7 @@ object TransitPlus {
                         )
                         if(!stationOptional.isPresent) {
                             player.displayClientMessage(Text.translatable(GUI, "barrier_not_inside_the_station"), true)
-                            return False
+                            return Bool.FALSE
                         }
                         val station = stationOptional.get()
                         val zone = station.zone
@@ -159,13 +157,13 @@ object TransitPlus {
                         when (passType) {
                             ENTRY -> {
                                 enter(card, zone, station.name, MTRTranslation.getTranslation(world, station.name), player, playSoundFunc)
-                                //False
+                                //Bool.FALSE
                             }
                             EXIT -> {
                                 exit(card, zone, MTRTranslation.getTranslation(world, station.name), player, playSoundFunc)
-                                //False
+                                //Bool.FALSE
                             }
-                            else -> False // Impossible but kotlin tell me to do this
+                            else -> Bool.FALSE // Impossible but kotlin tell me to do this
                         }
                     }
                 }
@@ -173,11 +171,11 @@ object TransitPlus {
                 return result
             } else {
                 player.displayClientMessage(Text.translatable(GUI, "card_invalid"), true)
-                return False
+                return Bool.FALSE
             }
         } else {
             player.displayClientMessage(Text.translatable(GUI, "hold_card_to_pass"), true)
-            return False
+            return Bool.FALSE
         }
     }
 }

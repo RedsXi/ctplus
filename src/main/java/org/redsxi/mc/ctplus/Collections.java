@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.bool.False;
 import org.redsxi.bool.True;
+import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
+import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirectTP;
 import org.redsxi.mc.ctplus.block.OldBlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.card.Card;
@@ -25,8 +27,8 @@ import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 
 public interface Collections {
     interface Blocks {
-        Block TICKET_BARRIER_PAY_DIRECT = new OldBlockTicketBarrierPayDirect();
-        Block TICKET_BARRIER_PAY_DIRECT_TP = new OldBlockTicketBarrierPayDirect.WithinTransitPlus();
+        Block TICKET_BARRIER_PAY_DIRECT = new BlockTicketBarrierPayDirect();
+        Block TICKET_BARRIER_PAY_DIRECT_TP = new BlockTicketBarrierPayDirectTP();
     }
 
     interface BlockEntities {

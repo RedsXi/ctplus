@@ -4,12 +4,13 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 
 abstract class Command {
     abstract fun getCommandImpl(): ArgumentBuilder<CommandSourceStack, *>
     open fun getChild(): Array<Command> = arrayOf()
-    open fun execute(): Int = 0
+    open fun execute(context: CommandContext<CommandSourceStack>): Int = 0
     open fun canExecute(): Boolean = false
 
     fun getCommand(): ArgumentBuilder<CommandSourceStack, *> {
@@ -18,7 +19,7 @@ abstract class Command {
             cmd.then(it.getCommand())
         }
         if(canExecute()) cmd.executes {
-            execute()
+            execute(it)
         }
         return cmd
     }

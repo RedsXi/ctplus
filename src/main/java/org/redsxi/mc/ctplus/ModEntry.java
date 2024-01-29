@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.event.CardRegistrationEvent;
+import org.redsxi.mc.ctplus.generated.BuildProps;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     private static final Logger LOGGER = LoggerFactory.getLogger("CrabMTR-TransitPlus-Loader");
 
     public void onInitialize() {
-       // LOGGER.info("CrabMTR's Extension of MTR version " + VersionConfig.VERSION);
+        LOGGER.info("CrabMTR Transit+ version " + BuildProps.VERSION);
         //System.setProperty("ctplus.transit_plus_svc", "true");
 
         // registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());

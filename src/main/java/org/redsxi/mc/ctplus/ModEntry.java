@@ -4,29 +4,17 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
-import net.minecraft.CrashReport;
-import net.minecraft.ReportedException;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.redsxi.mc.ctplus.api.CardRegisterApi;
 import org.redsxi.mc.ctplus.card.Card;
-import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.event.CardRegistrationEvent;
-import org.redsxi.mc.ctplus.item.ItemCard;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
-import org.redsxi.mc.ctplus.web.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +24,13 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     private static final Logger LOGGER = LoggerFactory.getLogger("CrabMTR-TransitPlus-Loader");
 
     public void onInitialize() {
+       // LOGGER.info("CrabMTR's Extension of MTR version " + VersionConfig.VERSION);
         //System.setProperty("ctplus.transit_plus_svc", "true");
 
         // registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());
+
+        registerBlock(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP, IDKt.getTicketBarrierEntranceTp());
+        registerBlock(Collections.Blocks.TICKET_BARRIER_EXIT_TP, IDKt.getTicketBarrierExitTp());
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
@@ -46,13 +38,14 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
         registerItem(Collections.Items.CT_PLUS, IDKt.getCtPlus());
+        registerItem(Collections.Items.TICKET_BARRIER_ENTRANCE_TP, IDKt.getTicketBarrierEntranceTp());
+        registerItem(Collections.Items.TICKET_BARRIER_EXIT_TP, IDKt.getTicketBarrierExitTp());
         registerItem(Collections.Items.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
         registerItem(Collections.Items.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
         Registries.CARD.addRegistrationHook(((location, card) -> {
 
         }));
-
 
         registerCard(Collections.Cards.PREPAID, IDKt.getPrepaidCard());
         registerCard(Collections.Cards.SINGLE_JOURNEY, IDKt.getSingleJourneyCard());
@@ -87,7 +80,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     }
 
     public void onInitializeServer() {
-        HttpService.start();
+        // HttpService.start();
         ModEntryKt.serverInit();
     }
 
@@ -118,6 +111,4 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     private void registerItemGroup(CreativeModeTab tab, ResourceLocation id) {
         RegistryMapper.INSTANCE.registerItemGroup(id, tab);
     }
-
-
 }

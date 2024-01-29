@@ -15,6 +15,9 @@ val singleJourneyCard = idOf("single_journey")
 val prepaidCard = idOf("prepaid")
 val ctPlus = idOf("ct_plus")
 
+val ticketBarrierEntranceTp = idOf("ticket_barrier_entrance_tp")
+val ticketBarrierExitTp = idOf("ticket_barrier_exit_tp")
 val ticketBarrierPayDirectTp = idOf("ticket_barrier_pay_direct_tp")
+
 
 val main = idOf("main")

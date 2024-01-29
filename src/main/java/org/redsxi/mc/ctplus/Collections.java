@@ -13,6 +13,8 @@ import net.minecraft.world.level.GameRules.IntegerValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.bool.Bool;
+import org.redsxi.mc.ctplus.block.BlockTicketBarrierEntranceTP;
+import org.redsxi.mc.ctplus.block.BlockTicketBarrierExitTP;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirectTP;
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
@@ -25,6 +27,8 @@ import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 
 public interface Collections {
     interface Blocks {
+        Block TICKET_BARRIER_ENTRANCE_TP = new BlockTicketBarrierEntranceTP();
+        Block TICKET_BARRIER_EXIT_TP = new BlockTicketBarrierExitTP();
         Block TICKET_BARRIER_PAY_DIRECT = new BlockTicketBarrierPayDirect();
         Block TICKET_BARRIER_PAY_DIRECT_TP = new BlockTicketBarrierPayDirectTP();
     }
@@ -53,7 +57,8 @@ public interface Collections {
             return new ItemStack(item, 1);
         }
         Item CT_PLUS = new Item(new Item.Properties());
-
+        Item TICKET_BARRIER_ENTRANCE_TP = createBlockItem(Blocks.TICKET_BARRIER_ENTRANCE_TP);
+        Item TICKET_BARRIER_EXIT_TP = createBlockItem(Blocks.TICKET_BARRIER_EXIT_TP);
         Item TICKET_BARRIER_PAY_DIRECT = createBlockItem(Blocks.TICKET_BARRIER_PAY_DIRECT);
         Item TICKET_BARRIER_PAY_DIRECT_TP = createBlockItem(Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
     }
@@ -61,6 +66,8 @@ public interface Collections {
     interface ItemGroupBuilders {
         CreativeModeTab.Builder MAIN = ItemGroupMapper.builder("main", Items.CT_PLUS, out -> {
             out.accept(Items.asStack(Items.CT_PLUS));
+            out.accept(Items.asStack(Items.TICKET_BARRIER_ENTRANCE_TP));
+            out.accept(Items.asStack(Items.TICKET_BARRIER_EXIT_TP));
             out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT));
             out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT_TP));
             return Unit.INSTANCE;

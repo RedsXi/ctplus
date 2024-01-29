@@ -87,6 +87,10 @@ object TransitPlus {
         }
 
     private fun enter(card: Card, zone: Int, stationName: String, stationNameTranslated: String, player: Player, passFunc: () -> Unit): Bool {
+        if(card.balance() < 0 && !card.canOverdraft()) {
+            player.displayClientMessage(Text.translatable(GUI, "insufficient_balance", card.balance()), true)
+            return Bool.FALSE
+        }
         if(card.isEntered.get()) {
             player.displayClientMessage(Text.translatable(GUI, "card_invalid"), true)
             return Bool.FALSE
@@ -107,7 +111,7 @@ object TransitPlus {
         val price = price(decodeZone(card.entryZoneEncoded), zone)
         return if(card.pay(price)) {
             card.isEntered = Bool(false)
-            player.displayClientMessage(Text.translatable(GUI, "exited_station", stationNameTranslated as Any, card.balance()), true)
+            player.displayClientMessage(Text.translatable(GUI, "exited_station", stationNameTranslated as Any, price, card.balance()), true)
             passFunc()
             Bool.TRUE
         } else {

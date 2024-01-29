@@ -10,6 +10,7 @@ import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.item.ItemCard
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.GUI
+import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 import org.redsxi.mc.ctplus.util.MTRTranslation
 
 abstract class Card {
@@ -76,7 +77,7 @@ abstract class Card {
     open fun appendCardInformation(list: MutableList<Component>, level: Level) {
         appendCardInformation(list)
         if(!isEntered.get()) return
-        list.add(Text.translatable(GUI, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName) as Any))
+        list.add(Text.translatable(TOOLTIP, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName) as Any))
     }
 
     // For exits and entrances

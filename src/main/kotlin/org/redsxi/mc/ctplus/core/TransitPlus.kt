@@ -94,7 +94,7 @@ object TransitPlus {
         card.entryZoneEncoded = encodeZone(zone)
         card.entryStationName = stationName
         card.isEntered = Bool(true)
-        player.displayClientMessage(Text.translatable(GUI, "entered_station", stationNameTranslated, card.balance()), true)
+        player.displayClientMessage(Text.translatable(GUI, "entered_station", stationNameTranslated as Any, card.balance()), true)
         passFunc()
         return Bool.TRUE
     }
@@ -107,7 +107,7 @@ object TransitPlus {
         val price = price(decodeZone(card.entryZoneEncoded), zone)
         return if(card.pay(price)) {
             card.isEntered = Bool(false)
-            player.displayClientMessage(Text.translatable(GUI, "exited_station", stationNameTranslated, card.balance()), true)
+            player.displayClientMessage(Text.translatable(GUI, "exited_station", stationNameTranslated as Any, card.balance()), true)
             passFunc()
             Bool.TRUE
         } else {

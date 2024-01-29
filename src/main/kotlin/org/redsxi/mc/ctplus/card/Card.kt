@@ -76,7 +76,7 @@ abstract class Card {
     open fun appendCardInformation(list: MutableList<Component>, level: Level) {
         appendCardInformation(list)
         if(!isEntered.get()) return
-        list.add(Text.translatable(GUI, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName)))
+        list.add(Text.translatable(GUI, "enter_at_station", MTRTranslation.getTranslation(level, entryStationName) as Any))
     }
 
     // For exits and entrances

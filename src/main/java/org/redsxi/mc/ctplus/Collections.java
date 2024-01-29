@@ -44,10 +44,6 @@ public interface Collections {
         Card WHITE_CARD = new WhiteCard();
     }
 
-    interface Rules {
-        Key<IntegerValue> TRANSLATE_INDEX = GameRuleRegistry.register("mtr_translate_index", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(1, 0));
-    }
-
     interface Items {
         private static Item createBlockItem(Block block) {
             return new BlockItem(block, new Item.Properties());

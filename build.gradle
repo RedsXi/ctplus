@@ -1,10 +1,119 @@
+import java.nio.charset.StandardCharsets
+
 plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version "1.8.20"
 }
 
-version = project.mod_version
+import java.nio.charset.StandardCharsets
+
+
+class SourceGeneration {
+    SourceGeneration(String name) {
+        this.name = name
+    }
+
+
+    final String name
+    String pack = "org.redsxi.mc.ctplus.generated"
+
+    Map<String, String> STRING_VALUES = new HashMap<>()
+    Map<String, Integer> INT_VALUES = new HashMap<>()
+    Map<String, Long> LONG_VALUES = new HashMap<>()
+    Map<String, Short> SHORT_VALUES = new HashMap<>()
+    Map<String, Boolean> BOOLEAN_VALUES = new HashMap<>()
+
+    String getFileData() {
+        StringBuilder stringBuilder = new StringBuilder()
+        stringBuilder.append("package ${pack};\n\n/**\n\tAuto-generated file by AutoSourceGen. \n\tDO NOT EDIT.\n*/\npublic final class ${name} {\n")
+        STRING_VALUES.forEach {key, value ->
+            stringBuilder.append("\tpublic static final String ${key} = \"${value}\";\n")
+        }
+        INT_VALUES.forEach {key, value ->
+            stringBuilder.append("\tpublic static final int ${key} = ${value};\n")
+        }
+        LONG_VALUES.forEach {key, value ->
+            stringBuilder.append("\tpublic static final long ${key} = ${value}L;\n")
+        }
+        SHORT_VALUES.forEach {key, value ->
+            stringBuilder.append("\tpublic static final short ${key} = ${value};\n")
+        }
+        BOOLEAN_VALUES.forEach {key, value ->
+            stringBuilder.append("\tpublic static final boolean ${key} = ${value};\n")
+        }
+        stringBuilder.append("}")
+        return stringBuilder.toString()
+    }
+
+    void stringProperty(String key, String value) {
+        STRING_VALUES.put(key, value)
+    }
+
+    void integerProperty(String key, int value) {
+        INT_VALUES.put(key, value)
+    }
+
+    void shortProperty(String key, short value) {
+        SHORT_VALUES.put(key, value)
+    }
+
+    void longProperty(String key, long value) {
+        LONG_VALUES.put(key, value)
+    }
+
+    void booleanProperty(String key, boolean value) {
+        BOOLEAN_VALUES.put(key, value)
+    }
+
+    void pack(String pack) {
+        this.pack = pack
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs "generated/sources"
+        }
+    }
+}
+
+class GenerationList {
+    public static final GenerationList INSTANCE = new GenerationList()
+    private List<SourceGeneration> list = new ArrayList<>()
+
+    void append(SourceGeneration gen) {
+        list.add(gen)
+    }
+
+    List<SourceGeneration> get() {
+        return list
+    }
+}
+
+def genSrcList = new ArrayList<SourceGeneration>()
+
+static void generateFile(String name, Action<SourceGeneration> action) {
+    SourceGeneration generation = new SourceGeneration(name)
+    action.execute(generation)
+    GenerationList.INSTANCE.append(generation)
+}
+
+tasks.register('generateSources') {
+    var genSrcDir = new File("${projectDir.absolutePath}/generated/sources/org/redsxi/mc/ctplus/generated")
+    genSrcDir.mkdirs()
+    GenerationList.INSTANCE.get().forEach {
+        var verConfigFile = new File(genSrcDir.absolutePath + "/${it.name}.java")
+        if (verConfigFile.exists() || verConfigFile.isDirectory()) verConfigFile.delete()
+        verConfigFile.createNewFile()
+        var verConfigWriter = new FileOutputStream(verConfigFile)
+        verConfigWriter.write(it.getFileData().getBytes(StandardCharsets.UTF_8))
+        verConfigWriter.close()
+    }
+}
+
+
 group = project.maven_group
 
 repositories {
@@ -34,6 +143,21 @@ dependencies {
 
     // Mods
     modImplementation "maven.modrinth:XKPAmI6u:UT2U5yfn"
+}
+
+var isDebug = true
+
+var buildTime = System.currentTimeMillis()
+
+version = isDebug ? "${project.mod_version}+DEBUGBUILD.${buildTime}" : project.mod_version.toString()
+
+generateFile("BuildProps") {
+    it.stringProperty("VERSION", project.version.toString())
+    it.longProperty("BUILD_TIME", buildTime)
+}
+
+generateFile("RuntimeVariables") {
+    it.booleanProperty("DEBUG", isDebug)
 }
 
 processResources {

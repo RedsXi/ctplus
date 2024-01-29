@@ -1,10 +1,12 @@
 package org.redsxi.mc.ctplus.model
 
 import net.minecraft.resources.ResourceLocation
+import org.slf4j.LoggerFactory
 
 object CardItemModelGenerator {
+    private val LOGGER = LoggerFactory.getLogger("CardItemModelGen")
     fun generate(icon: ResourceLocation): String {
-        return """
+        val str = """
             {
                 "parent": "item/generated",
                 "textures": {
@@ -12,5 +14,7 @@ object CardItemModelGenerator {
                 }
             }
         """.trimIndent()
+        LOGGER.debug("Model: $str")
+        return str
     }
 }

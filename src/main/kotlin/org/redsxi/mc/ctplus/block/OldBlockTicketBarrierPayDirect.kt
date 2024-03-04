@@ -31,6 +31,7 @@ import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 import org.redsxi.mc.ctplus.util.FacingUtil
 
+@Deprecated("Use newer one")
 open class OldBlockTicketBarrierPayDirect : BarrierBlockMapper(), EntityBlock {
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return BlockEntityTicketBarrierPayDirect(pos, state, Bool.FALSE)

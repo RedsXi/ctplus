@@ -10,7 +10,7 @@ import org.redsxi.mc.ctplus.mapping.Text
 object CTPlusCommand : Command() {
     override fun getCommandImpl(): ArgumentBuilder<CommandSourceStack, *> = LiteralArgumentBuilder.literal("ctplus")
     override fun getChild(): Array<Command> {
-        return arrayOf(GetCardCommand)
+        return arrayOf(GetCardCommand, TestCommand, SetTranslationIndexCommand)
     }
 
     override fun canExecute(): Boolean = true

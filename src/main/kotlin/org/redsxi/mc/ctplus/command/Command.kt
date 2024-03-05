@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 
+@Suppress("UNUSED")
 abstract class Command {
     abstract fun getCommandImpl(): ArgumentBuilder<CommandSourceStack, *>
     open fun getChild(): Array<Command> = arrayOf()

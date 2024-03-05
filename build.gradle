@@ -100,19 +100,6 @@ static void generateFile(String name, Action<SourceGeneration> action) {
     GenerationList.INSTANCE.append(generation)
 }
 
-tasks.register('generateSources') {
-    var genSrcDir = new File("${projectDir.absolutePath}/generated/sources/org/redsxi/mc/ctplus/generated")
-    genSrcDir.mkdirs()
-    GenerationList.INSTANCE.get().forEach {
-        var verConfigFile = new File(genSrcDir.absolutePath + "/${it.name}.java")
-        if (verConfigFile.exists() || verConfigFile.isDirectory()) verConfigFile.delete()
-        verConfigFile.createNewFile()
-        var verConfigWriter = new FileOutputStream(verConfigFile)
-        verConfigWriter.write(it.getFileData().getBytes(StandardCharsets.UTF_8))
-        verConfigWriter.close()
-    }
-}
-
 
 group = project.maven_group
 
@@ -226,4 +213,19 @@ loom {
 
 remapJar {
     archiveFileName = "crabmtr-railway-plus_${project.minecraft_version}_${project.version}.jar"
+}
+
+
+
+// do not edit
+
+var genSrcDir = new File("${projectDir.absolutePath}/generated/sources/org/redsxi/mc/ctplus/generated")
+genSrcDir.mkdirs()
+GenerationList.INSTANCE.get().forEach {
+    var verConfigFile = new File(genSrcDir.absolutePath + "/${it.name}.java")
+    if (verConfigFile.exists() || verConfigFile.isDirectory()) verConfigFile.delete()
+    verConfigFile.createNewFile()
+    var verConfigWriter = new FileOutputStream(verConfigFile)
+    verConfigWriter.write(it.getFileData().getBytes(StandardCharsets.UTF_8))
+    verConfigWriter.close()
 }

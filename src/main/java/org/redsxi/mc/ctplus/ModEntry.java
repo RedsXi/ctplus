@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -11,9 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.redsxi.mc.ctplus.api.CardRegisterApi;
 import org.redsxi.mc.ctplus.card.Card;
-import org.redsxi.mc.ctplus.event.CardRegistrationEvent;
+import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.generated.BuildProps;
+import org.redsxi.mc.ctplus.generated.RuntimeVariables;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
 import org.slf4j.Logger;
@@ -26,10 +29,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
     public void onInitialize() {
         LOGGER.info("CrabMTR Transit+ version " + BuildProps.VERSION);
-        //System.setProperty("ctplus.transit_plus_svc", "true");
-
-        // registerItemGroup(Collections.ItemGroups.CARDS, IDKt.getCards());
-
+        if(RuntimeVariables.DEBUG) LOGGER.info("Build time " + BuildProps.BUILD_TIME);
         registerBlock(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP, IDKt.getTicketBarrierEntranceTp());
         registerBlock(Collections.Blocks.TICKET_BARRIER_EXIT_TP, IDKt.getTicketBarrierExitTp());
         registerBlock(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
@@ -44,20 +44,24 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerItem(Collections.Items.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
         registerItem(Collections.Items.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
-        Registries.CARD.addRegistrationHook(((location, card) -> {
+        CardRegistries.CARD.addRegistrationHook(((location, card) -> {
 
         }));
 
-        registerCard(Collections.Cards.PREPAID, IDKt.getPrepaidCard());
-        registerCard(Collections.Cards.SINGLE_JOURNEY, IDKt.getSingleJourneyCard());
+        registerCard(Collections.Cards.PREPAID, Collections.CardDataTypes.PREPAID, IDKt.getPrepaidCard());
+        registerCard(Collections.Cards.SINGLE_JOURNEY, Collections.CardDataTypes.SINGLE_JOURNEY, IDKt.getSingleJourneyCard());
+
+
 
         // For other mods
-        CardRegistrationEvent.EVENT.invoker().registerCards();
+        FabricLoader.getInstance().getEntrypointContainers("card-reg", CardRegisterApi.class).forEach(container -> container.getEntrypoint().registerCards());
 
-        LOGGER.info("Registered %d kind(s) of cards".formatted(Registries.CARD.registeredItemCount()));
-        Registries.CARD.close();
+        LOGGER.info("Registered %d kind(s) of cards".formatted(CardRegistries.CARD.registeredItemCount()));
+        CardRegistries.CARD.close();
 
-        for (Entry<ResourceLocation, Card> entry : Registries.CARD) {
+        for (Entry<ResourceLocation, Card<?, ?>> entry : CardRegistries.CARD) {
+            Card<?, ?> card = entry.getValue();
+            card.initItem();
             Item item = entry.getValue().getItem();
             registerItem(item, ResourceLocationUtil.addPrefix(entry.getKey(), "card_"), true);
         }
@@ -100,9 +104,10 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         if(dontPrint.length == 0 || dontPrint[0]) return;
         LOGGER.info("Registered item %s".formatted(identifier.getPath()));
     }
-    private static void registerCard(Card card, ResourceLocation location) {
+    private static void registerCard(Card<?, ?> card, CardDataType<?> dataType, ResourceLocation location) {
         LOGGER.info("Registered card %s".formatted(location.getPath()));
-        Registries.CARD.register(card, location);
+        CardRegistries.CARD_DATA_TYPE.register(dataType, location);
+        CardRegistries.CARD.register(card, location);
     }
 
     private static void registerBlockCutOutRender(Block block) {

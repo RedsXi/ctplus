@@ -1,18 +1,13 @@
 package org.redsxi.mc.ctplus.core
 
 import mtr.mappings.Text
-import net.minecraft.CrashReport
-import net.minecraft.ReportedException
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.minecraft.world.scores.Objective
 import net.minecraft.world.scores.Score
 import net.minecraft.world.scores.criteria.ObjectiveCriteria
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
-import java.lang.RuntimeException
-import java.util.Objects
 
 object PassManager {
     fun onEntityPass(pos: BlockPos, level: Level, player: Player, passSound: SoundEvent): Boolean {

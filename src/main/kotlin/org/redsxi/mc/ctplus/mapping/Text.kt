@@ -1,7 +1,6 @@
 package org.redsxi.mc.ctplus.mapping
 
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.modId
 
 object Text {
@@ -19,10 +18,6 @@ object Text {
     fun literal(str: String): Component
         = Component.literal(str)
 
-
-    @JvmStatic
-    fun translatable(type: String, id: ResourceLocation, vararg objects: Any)
-        = translatable(type, id.namespace, id.path, *objects)
     @JvmStatic
     fun translatable(type: String, name: String, vararg objects: Any): Component
         = translatable(type, modId, name, *objects)

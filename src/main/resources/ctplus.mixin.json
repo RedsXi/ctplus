@@ -3,9 +3,9 @@
   "minVersion": "0.8",
   "package": "org.redsxi.mc.ctplus.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "mixins": [
+  ],
   "server": [
-    "PlayerManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

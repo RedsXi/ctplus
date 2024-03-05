@@ -6,7 +6,6 @@ const val modId: String = "ctplus"
 
 fun idOf(name: String): ResourceLocation = ResourceLocation(modId, name)
 
-fun mcIdOf(name: String): ResourceLocation = ResourceLocation("minecraft", name)
 
 val ticketBarrierPayDirect = idOf("ticket_barrier_pay_direct")
 val card = idOf("card")

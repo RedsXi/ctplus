@@ -1,15 +1,10 @@
 package org.redsxi.mc.ctplus;
 
 import kotlin.Unit;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.GameRules.Key;
-import net.minecraft.world.level.GameRules.IntegerValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.redsxi.bool.Bool;
@@ -22,6 +17,10 @@ import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
 import org.redsxi.mc.ctplus.card.WhiteCard;
+import org.redsxi.mc.ctplus.data.CardData;
+import org.redsxi.mc.ctplus.data.CardDataType;
+import org.redsxi.mc.ctplus.data.PrepaidCardData;
+import org.redsxi.mc.ctplus.data.SingleJourneyCardData;
 import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
 import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 
@@ -39,9 +38,15 @@ public interface Collections {
     }
 
     interface Cards {
-        Card PREPAID = new PrepaidCard();
-        Card SINGLE_JOURNEY = new SingleJourneyCard();
-        Card WHITE_CARD = new WhiteCard();
+        PrepaidCard PREPAID = new PrepaidCard();
+        SingleJourneyCard SINGLE_JOURNEY = new SingleJourneyCard();
+        WhiteCard WHITE_CARD = new WhiteCard();
+    }
+
+    interface CardDataTypes {
+        CardDataType<CardData> WHITE = CardDataType.createSimple(CardData::new);
+        CardDataType<SingleJourneyCardData> SINGLE_JOURNEY = CardDataType.createSimple(SingleJourneyCardData::new);
+        CardDataType<PrepaidCardData> PREPAID = CardDataType.createSimple(PrepaidCardData::new);
     }
 
     interface Items {

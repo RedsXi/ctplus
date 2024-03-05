@@ -2,28 +2,21 @@ package org.redsxi.mc.ctplus.block
 
 import mtr.SoundEvents
 import net.minecraft.core.BlockPos
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import org.redsxi.mc.ctplus.Properties
 import org.redsxi.mc.ctplus.Properties.OPEN
 import org.redsxi.mc.ctplus.core.TransitPlus
 import org.redsxi.mc.ctplus.mapping.BarrierBlockMapper
-import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.util.FacingUtil
 
 open class BlockTicketBarrier : BarrierBlockMapper() {
@@ -31,7 +24,6 @@ open class BlockTicketBarrier : BarrierBlockMapper() {
 
     open fun process(pos: BlockPos, level: Level, player: Player): Boolean = false
 
-    @Deprecated("", level = DeprecationLevel.WARNING)
     override fun entityInside(state: BlockState, world: Level, pos: BlockPos, entity: Entity) {
         world.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS)
         if(!world.isClientSide && entity is Player) {

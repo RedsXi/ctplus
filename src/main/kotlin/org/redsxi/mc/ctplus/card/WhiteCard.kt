@@ -1,15 +1,17 @@
 package org.redsxi.mc.ctplus.card
 
-class WhiteCard : Card() {
-    override fun balance(): Int = 0
+import org.redsxi.mc.ctplus.data.CardData
 
-    override fun payImpl(price: Int): Boolean = false
+class WhiteCard : Card<CardData, WhiteCard>() {
+    override fun balance(data: CardData): Int = 0
 
-    override fun rechargeImpl(amount: Int): Boolean = false
+    override fun payImpl(data: CardData, price: Int): Boolean = false
 
-    override fun canOverdraft(): Boolean = false
+    override fun rechargeImpl(data: CardData, amount: Int): Boolean = false
 
-    override fun canRecharge(): Boolean = false
+    override fun canOverdraft(data: CardData): Boolean = false
 
-    override fun isValid(): Boolean = false
+    override fun canRecharge(data: CardData): Boolean = false
+
+    override fun isValid(data: CardData): Boolean = false
 }

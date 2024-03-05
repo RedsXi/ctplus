@@ -1,12 +1,15 @@
 package org.redsxi.mc.ctplus.card
 
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import org.redsxi.mc.ctplus.data.SingleJourneyCardData
 import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.mapping.Text
 
-class SingleJourneyCard : Card() {
+class SingleJourneyCard : Card<SingleJourneyCardData, SingleJourneyCard>() {
+
+    /*
+    DEPRECATED CODE AT 2024-3-3 -CTPLUS
 
     var price: Int = 2
 
@@ -53,5 +56,33 @@ class SingleJourneyCard : Card() {
         if(isUsed) {
             list.add(Text.translatable(Text.TOOLTIP, "card_is_used"))
         }
+    }
+    */
+
+    override fun balance(data: SingleJourneyCardData): Int = if(data.isUsed) data.price else 0
+
+    override fun payImpl(data: SingleJourneyCardData, price: Int): Boolean {
+        data.isUsed = true
+        return true
+    }
+
+    override fun rechargeImpl(data: SingleJourneyCardData, amount: Int): Boolean = false
+
+    override fun canOverdraft(data: SingleJourneyCardData): Boolean = false
+
+    override fun canRecharge(data: SingleJourneyCardData): Boolean = false
+
+    override fun isValid(data: SingleJourneyCardData): Boolean = data.isUsed
+
+    override fun appendCardInformation(data: SingleJourneyCardData, list: MutableList<Component>) {
+        super.appendCardInformation(data, list)
+        list.add(Text.translatable(Text.TOOLTIP, "price", data.price))
+        if(data.isUsed) {
+            list.add(Text.translatable(Text.TOOLTIP, "card_is_used"))
+        }
+    }
+
+    override fun getCardItemTextureLocation(): ResourceLocation {
+        return idOf("item/card/single_journey")
     }
 }

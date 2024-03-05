@@ -21,25 +21,24 @@ import org.jetbrains.annotations.NotNull;
 import org.redsxi.mc.ctplus.card.Card;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Closeable {
+    public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Closeable {
 
-    private boolean close = false;
+        private boolean close = false;
 
-    private final T defaultItem;
-    private final ResourceLocation defaultLocation;
+        private final T defaultItem;
+        private final ResourceLocation defaultLocation;
 
-    private final Map<ResourceLocation, T> map = new HashMap<>();
+        private final Map<ResourceLocation, T> map = new HashMap<>();
 
-    private final List<BiConsumer<ResourceLocation, T>> registrationHooks = new ArrayList<>();
-    private final List<Consumer<T>> registrationHooksSimple = new ArrayList<>();
+        private final List<BiConsumer<ResourceLocation, T>> registrationHooks = new ArrayList<>();
+        private final List<Consumer<T>> registrationHooksSimple = new ArrayList<>();
 
-    @NotNull
-    public Iterator<Map.Entry<ResourceLocation, T>> iterator() {
+        @NotNull
+        public Iterator<Map.Entry<ResourceLocation, T>> iterator() {
         return map.entrySet().iterator();
     }
 
@@ -63,7 +62,7 @@ public class Registry<T> implements Iterable<Map.Entry<ResourceLocation, T>>, Cl
         return map.getOrDefault(id, defaultT);
     }
 
-    public ResourceLocation getItemID(Card card) {
+    public ResourceLocation getItemID(T card) {
         ResourceLocation result = defaultLocation;
         for(Map.Entry<ResourceLocation, T> entry : map.entrySet()) {
             if(entry.getValue().equals(card)) result = entry.getKey();

@@ -13,7 +13,7 @@ open class CardData(val stack: ItemStack) {
     fun load() {
         val itemTag = stack.tag ?: CompoundTag()
         val cardDataTag = itemTag.getCompound("CardData")
-        // if(cardDataTag.isEmpty) putDefaultData(cardDataTag)
+        if(cardDataTag.isEmpty) putDefaultData(cardDataTag)
         loadData(cardDataTag)
     }
 
@@ -34,7 +34,6 @@ open class CardData(val stack: ItemStack) {
         isEntered = tag.getBoolean("IsEntered")
     }
 
-    @Deprecated("")
     protected open fun putDefaultData(tag: CompoundTag) {
         tag.putFloat("EntryZone", Float.MIN_VALUE)
         tag.putString("EntryStation", "")

@@ -130,7 +130,7 @@ dependencies {
     modImplementation "maven.modrinth:XKPAmI6u:UT2U5yfn"
 }
 
-var isDebug = true
+var isDebug = false
 
 var buildTime = System.currentTimeMillis()
 

@@ -4,8 +4,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.mojang.brigadier.builder.RequiredArgumentBuilder.argument
-import net.fabricmc.fabric.api.networking.v1.FabricPacket
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument
@@ -17,7 +15,6 @@ import org.redsxi.mc.ctplus.generated.BuildProps
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.network.SetTranslationIndexS2CPacket
-import org.redsxi.mc.ctplus.setTranslationIndex
 import org.redsxi.mc.ctplus.util.Date
 import org.redsxi.mc.ctplus.util.Time
 

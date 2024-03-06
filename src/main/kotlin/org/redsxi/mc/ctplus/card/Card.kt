@@ -9,7 +9,6 @@ import org.redsxi.mc.ctplus.data.CardData
 import org.redsxi.mc.ctplus.idOf
 import org.redsxi.mc.ctplus.item.ItemCard
 import org.redsxi.mc.ctplus.mapping.Text
-import org.redsxi.mc.ctplus.mapping.Text.GUI
 import org.redsxi.mc.ctplus.mapping.Text.TOOLTIP
 import org.redsxi.mc.ctplus.util.MTRTranslation
 

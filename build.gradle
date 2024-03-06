@@ -92,8 +92,6 @@ class GenerationList {
     }
 }
 
-def genSrcList = new ArrayList<SourceGeneration>()
-
 static void generateFile(String name, Action<SourceGeneration> action) {
     SourceGeneration generation = new SourceGeneration(name)
     action.execute(generation)

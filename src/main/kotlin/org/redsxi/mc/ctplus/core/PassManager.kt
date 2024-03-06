@@ -3,6 +3,7 @@ package org.redsxi.mc.ctplus.core
 import mtr.mappings.Text
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.scores.Score
@@ -31,6 +32,7 @@ object PassManager {
                 Text.translatable("gui.cgcem.enter_barrier", price),
                 true
             )
+            level.playSound(player, pos, passSound, SoundSource.BLOCKS)
             return true
         }
         return false

@@ -13,7 +13,6 @@ import org.redsxi.mc.ctplus.block.BlockTicketBarrierExitTP;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirect;
 import org.redsxi.mc.ctplus.block.BlockTicketBarrierPayDirectTP;
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect;
-import org.redsxi.mc.ctplus.card.Card;
 import org.redsxi.mc.ctplus.card.PrepaidCard;
 import org.redsxi.mc.ctplus.card.SingleJourneyCard;
 import org.redsxi.mc.ctplus.card.WhiteCard;
@@ -21,8 +20,8 @@ import org.redsxi.mc.ctplus.data.CardData;
 import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.data.PrepaidCardData;
 import org.redsxi.mc.ctplus.data.SingleJourneyCardData;
-import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
 import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
+import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
 
 public interface Collections {
     interface Blocks {

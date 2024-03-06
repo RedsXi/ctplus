@@ -14,7 +14,7 @@ object MTRTranslation {
     }
 
     private operator fun List<String>.get(index: Int, defaultIndex: Int): String {
-        if(size > index) return this[defaultIndex]
+        if(size < index) return this[defaultIndex]
         return this[index]
     }
 }

@@ -76,7 +76,7 @@ object TransitPlus {
 
     private fun <CDT: CardData, CT: Card<CDT, CT>> pass(cardCtx: CardContext<CDT, CT>, price: Int, player: Player, passFunc: () -> Unit): Bool =
         if(cardCtx.card.pay(cardCtx.data, price)) {
-            player.displayClientMessage(cardCtx.card.getPassMessage(), true)
+            player.displayClientMessage(Text.translatable(GUI, "gui.cgcem.enter_barrier", price), true)
             passFunc()
             Bool.TRUE
         } else {

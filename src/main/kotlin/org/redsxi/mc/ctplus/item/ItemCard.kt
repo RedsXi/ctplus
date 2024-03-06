@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
-import org.redsxi.mc.ctplus.CardRegistries
+import org.redsxi.mc.ctplus.CTPlusRegistries
 import org.redsxi.mc.ctplus.card.Card
 import org.redsxi.mc.ctplus.data.CardData
 import org.redsxi.mc.ctplus.mapping.Text
@@ -32,7 +32,7 @@ class ItemCard<CardT : Card<CardDataT, CardT>, CardDataT : CardData>(val card: C
     }
 
     override fun getName(itemStack: ItemStack): Component {
-        val id = CardRegistries.CARD.getItemID(card)
+        val id = CTPlusRegistries.CARD.getItemID(card)
         return Text.translatable(CARD, id.namespace, id.path)
     }
 }

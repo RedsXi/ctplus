@@ -4,7 +4,7 @@ import net.minecraft.CrashReport
 import net.minecraft.ReportedException
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
-import org.redsxi.mc.ctplus.CardRegistries
+import org.redsxi.mc.ctplus.CTPlusRegistries
 import org.redsxi.mc.ctplus.card.Card
 import org.redsxi.mc.ctplus.item.ItemCard
 
@@ -54,7 +54,7 @@ open class CardData(val stack: ItemStack) {
                 val cardItem = stack.item as ItemCard<CT, CDT>
                 val card = cardItem.card
                 val id = card.id
-                val data = CardRegistries.CARD_DATA_TYPE[id].create(stack) as CDT
+                val data = CTPlusRegistries.CARD_DATA_TYPE[id].create(stack) as CDT
                 data.load()
                 return CardContext(card, data)
             } catch (e : ClassCastException) {

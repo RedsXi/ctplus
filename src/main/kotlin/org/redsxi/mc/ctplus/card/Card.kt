@@ -3,7 +3,7 @@ package org.redsxi.mc.ctplus.card
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
-import org.redsxi.mc.ctplus.CardRegistries
+import org.redsxi.mc.ctplus.CTPlusRegistries
 import org.redsxi.mc.ctplus.data.CardContext
 import org.redsxi.mc.ctplus.data.CardData
 import org.redsxi.mc.ctplus.idOf
@@ -27,7 +27,7 @@ abstract class Card<CardDataT : CardData, CardT : Card<CardDataT, CardT>> {
         itemOpt = ItemCard(this as CardT)
     }
 
-    val id: ResourceLocation get() = CardRegistries.CARD.getItemID(this)
+    val id: ResourceLocation get() = CTPlusRegistries.CARD.getItemID(this)
 
     open fun getCardItemTextureLocation(): ResourceLocation = idOf("item/card/white")
     fun getCardFrontTextureLocation(): ResourceLocation = idOf("item/card/white_f")
@@ -61,15 +61,16 @@ abstract class Card<CardDataT : CardData, CardT : Card<CardDataT, CardT>> {
     abstract fun canRecharge(data: CardDataT): Boolean
     abstract fun isValid(data: CardDataT): Boolean
 
-    open fun getPassMessage(): Component = Text.translatable(GUI, "passed_barrier")
-
     open fun appendCardInformation(data: CardDataT, list: MutableList<Component>) {
-        if(!data.isEntered) return
-        list.add(Text.translatable(
-            TOOLTIP,
-            "enter_at_station",
-            MTRTranslation.getTranslation(data.entryStationName)
-        ))
+        if(data.isEntered) {
+            list.add(
+                Text.translatable(
+                    TOOLTIP,
+                    "enter_at_station",
+                    MTRTranslation.getTranslation(data.entryStationName) as Any
+                )
+            )
+        }
     }
 
     override fun toString(): String {

@@ -49,6 +49,7 @@ class PrepaidCard : Card<PrepaidCardData, PrepaidCard>() {
     override fun balance(data: PrepaidCardData) = data.balance
 
     override fun appendCardInformation(data: PrepaidCardData, list: MutableList<Component>) {
+        super.appendCardInformation(data, list)
         list.add(Text.translatable(TOOLTIP, "card_balance", data.balance))
         list.add(Text.translatable(TOOLTIP, "card_last_recharge_time", Date[data.lastRechargeTime] as Any))
         if(!isValid(data)) list.add(Text.translatable(TOOLTIP, "card_invalid"))

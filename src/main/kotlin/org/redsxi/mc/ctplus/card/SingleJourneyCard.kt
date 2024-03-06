@@ -59,7 +59,7 @@ class SingleJourneyCard : Card<SingleJourneyCardData, SingleJourneyCard>() {
     }
     */
 
-    override fun balance(data: SingleJourneyCardData): Int = if(data.isUsed) data.price else 0
+    override fun balance(data: SingleJourneyCardData): Int = if(data.isUsed) 0 else data.price
 
     override fun payImpl(data: SingleJourneyCardData, price: Int): Boolean {
         data.isUsed = true
@@ -72,7 +72,7 @@ class SingleJourneyCard : Card<SingleJourneyCardData, SingleJourneyCard>() {
 
     override fun canRecharge(data: SingleJourneyCardData): Boolean = false
 
-    override fun isValid(data: SingleJourneyCardData): Boolean = data.isUsed
+    override fun isValid(data: SingleJourneyCardData): Boolean = !data.isUsed
 
     override fun appendCardInformation(data: SingleJourneyCardData, list: MutableList<Component>) {
         super.appendCardInformation(data, list)

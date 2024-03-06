@@ -20,3 +20,5 @@ val ticketBarrierPayDirectTp = idOf("ticket_barrier_pay_direct_tp")
 
 
 val main = idOf("main")
+
+val setTranslationIndex = idOf("set_translation_index")

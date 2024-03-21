@@ -1,0 +1,5 @@
+.java linguist-language=Java
+.kt linguist-language=Kotlin
+.gradle linguist-language=Groovy
+.json linguist-language=Resource Metadata
+.png linguist-language=Resource Metadata

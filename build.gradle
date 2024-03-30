@@ -4,6 +4,7 @@ plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version "1.8.20"
+    id("io.ktor.plugin") version "2.3.9"
 }
 
 import java.nio.charset.StandardCharsets
@@ -112,7 +113,14 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
+
+    maven {
+        name = "Maven"
+        url = "https://maven.mit.edu/nexus/content/repositories/public/"
+    }
 }
+
+def myndocs_oauth_version = "0.7.1"
 
 dependencies {
     // To change the versions see the gradle.properties file
@@ -128,6 +136,9 @@ dependencies {
 
     // Mods
     modImplementation "maven.modrinth:XKPAmI6u:UT2U5yfn"
+
+    implementation "io.ktor:ktor-server-core-jvm"
+    implementation "io.ktor:ktor-server-netty-jvm"
 }
 
 var isDebug = false

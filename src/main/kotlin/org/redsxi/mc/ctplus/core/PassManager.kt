@@ -1,6 +1,5 @@
 package org.redsxi.mc.ctplus.core
 
-import mtr.mappings.Text
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
@@ -9,6 +8,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.scores.Score
 import net.minecraft.world.scores.criteria.ObjectiveCriteria
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
+import org.redsxi.mc.ctplus.mapping.Text
 
 object PassManager {
     fun onEntityPass(pos: BlockPos, level: Level, player: Player, passSound: SoundEvent): Boolean {
@@ -21,7 +21,9 @@ object PassManager {
             if(balanceScore.score < price) {
                 player.displayClientMessage(
                     Text.translatable(
-                        "gui.mtr.insufficient_balance",
+                        Text.GUI,
+                        "mtr",
+                        "insufficient_balance",
                         balanceScore.score
                     ), true
                 )
@@ -29,7 +31,7 @@ object PassManager {
             }
             balanceScore.add((0 - price))
             player.displayClientMessage(
-                Text.translatable("gui.cgcem.enter_barrier", price),
+                Text.translatable(Text.GUI, "enter_barrier", price),
                 true
             )
             level.playSound(player, pos, passSound, SoundSource.BLOCKS)

@@ -17,7 +17,6 @@
   "gui.ctplus.insufficient_balance": "Insufficient balance: %d$",
   "gui.ctplus.passed_barrier": "Passed",
   "item.ctplus.card": "Card",
-  "itemGroup.ctplus.cards": "Collection of cards",
   "itemGroup.ctplus.main": "CrabMTR Transit+",
   "tooltip.ctplus.card_balance": "§6Balance: §a%d$",
   "tooltip.ctplus.card_information": "Card Information:",

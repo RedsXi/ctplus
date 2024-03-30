@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+@Deprecated(forRemoval = true)
 public class HttpService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("HttpService-CrabMTR");

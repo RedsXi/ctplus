@@ -1,6 +1,6 @@
 package org.redsxi.bool
 
-class Bool(private val bool: Boolean) {
+class Bool private constructor(private val bool: Boolean) {
     companion object {
         @JvmField
         val TRUE = Bool(true)

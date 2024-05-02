@@ -1,7 +1,7 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.5.7'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version "1.8.20"
     id("io.ktor.plugin") version "2.3.9"
@@ -120,8 +120,6 @@ repositories {
     }
 }
 
-def myndocs_oauth_version = "0.7.1"
-
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -139,9 +137,12 @@ dependencies {
 
     implementation "io.ktor:ktor-server-core-jvm"
     implementation "io.ktor:ktor-server-netty-jvm"
+    implementation "io.ktor:ktor-server-content-negotiation"
+    implementation "io.ktor:ktor-serialization-gson"
+
 }
 
-var isDebug = false
+var isDebug = true
 
 var buildTime = System.currentTimeMillis()
 

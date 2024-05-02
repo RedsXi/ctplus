@@ -7,6 +7,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.commands.CommandSourceStack;
@@ -26,6 +29,7 @@ import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.network.SetTranslationIndexS2CPacket;
 import org.redsxi.mc.ctplus.util.Date;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
+import org.redsxi.mc.ctplus.web.WebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,13 +87,29 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerCommand(CommandStructures.GET_CARD);
         registerCommand(CommandStructures.VARIABLES);
 
-        ClientPlayNetworking.registerGlobalReceiver(SetTranslationIndexS2CPacket.TYPE, (packet, u, v) -> Variables.INSTANCE.setTranslationIndex(packet.getIndex()));
+        ServerPlayConnectionEvents.JOIN.register((listener, u0, u1) -> {
+            Variables.INSTANCE.getPlayerList().put(listener.player.getUUID(), listener.player);
+        });
+
+        ServerPlayConnectionEvents.DISCONNECT.register((listener, u0) -> {
+            Variables.INSTANCE.getPlayerList().remove(listener.player.getUUID());
+        });
+
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            WebService.INSTANCE.start();
+        });
+
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            WebService.INSTANCE.stop();
+        });
     }
 
     public void onInitializeClient() {
         LOGGER.info("Environment: Client & Integrated server");
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
+
+        ClientPlayNetworking.registerGlobalReceiver(SetTranslationIndexS2CPacket.TYPE, (packet, u, v) -> Variables.INSTANCE.setTranslationIndex(packet.getIndex()));
     }
 
     public void onInitializeServer() {

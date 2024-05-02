@@ -4,7 +4,7 @@ import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
 object Variables {
-    var playerList: MutableMap<UUID, ServerPlayer> = HashMap()
+    val playerList: MutableMap<UUID, ServerPlayer> = HashMap()
 
     var translationIndex: Int = 0
 }

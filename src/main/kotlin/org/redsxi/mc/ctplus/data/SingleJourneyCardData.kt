@@ -1,5 +1,6 @@
 package org.redsxi.mc.ctplus.data
 
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 
@@ -23,5 +24,11 @@ class SingleJourneyCardData(stack: ItemStack) : CardData(stack) {
         super.update0(tag)
         tag.putInt("Price", price)
         tag.putBoolean("IsUsed", isUsed)
+    }
+
+    override fun json(json: JsonObject) {
+        super.json(json)
+        json.addProperty("price", price)
+        json.addProperty("isUsed", isUsed)
     }
 }

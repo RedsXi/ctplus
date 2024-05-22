@@ -1,7 +1,7 @@
 {
   "block.ctplus.ticket_barrier_entrance_redstone": "Ticket Barrier (Entrance, Need Redstone)",
-  "block.ctplus.ticket_barrier_exit_redstone": "Ticket Barrier (Exit, Need Redstone)",
   "block.ctplus.ticket_barrier_entrance_tp": "Ticket Barrier (Entrance)",
+  "block.ctplus.ticket_barrier_exit_redstone": "Ticket Barrier (Exit, Need Redstone)",
   "block.ctplus.ticket_barrier_exit_tp": "Ticket Barrier (Exit)",
   "block.ctplus.ticket_barrier_pay_direct": "Ticket Barrier (Deducts Balance directly)",
   "block.ctplus.ticket_barrier_pay_direct_tp": "Ticket Barrier (Deducts Balance directly)",
@@ -10,6 +10,8 @@
   "card.ctplus.white": "White card",
   "gui.ctplus.barrier_not_inside_the_station": "Ticket Barrier is not inside the station",
   "gui.ctplus.card_invalid": "Invalid card",
+  "gui.ctplus.created_prepaid_card": "Created prepaid card, balance %d$",
+  "gui.ctplus.created_single_journey_card": "Created single journey card, price %d$",
   "gui.ctplus.enter_barrier": "%d$ has been deducted",
   "gui.ctplus.entered_station": "Entered: %s Station | Card balance %d$",
   "gui.ctplus.exited_station": "Exited: %s Station | Deducted %d$ | Card balance %d$",

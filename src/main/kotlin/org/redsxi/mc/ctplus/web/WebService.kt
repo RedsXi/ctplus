@@ -1,6 +1,5 @@
 package org.redsxi.mc.ctplus.web
 
-import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -8,18 +7,21 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.redsxi.mc.ctplus.api.BadResponse
+import org.redsxi.mc.ctplus.api.CardService
 import org.redsxi.mc.ctplus.api.GoodResponse
 import org.redsxi.mc.ctplus.api.Players
 import org.redsxi.mc.ctplus.api.VersionData
+import org.redsxi.mc.ctplus.data.CardContext
 import org.redsxi.mc.ctplus.generated.BuildProps
-import java.util.UUID
+import java.util.*
 
 object WebService {
     private val server = embeddedServer(Netty, port = 7000) {
         install(plugin)
         install(ContentNegotiation) {
-            gson()
+            gson {
+                registerTypeAdapter(CardContext.Web::class.java, CardContext.Web.JsonAdapter())
+            }
         }
         routing {
             get("/") {
@@ -31,24 +33,26 @@ object WebService {
             }
 
             route("/player/{uuid}") {
-                get("/createPrepaidCard") {
-                    try {
-                        val uuid = UUID.fromString(call.parameters["uuid"])
-
-                        call.respond("Prepaid Card for $uuid | balance: ${call.request.queryParameters["balance"]}")
-                    } catch (e: Exception) {
-                        call.respond(HttpStatusCode.BadRequest, BadResponse(e))
-                    }
+                exCaughtGet("/createPrepaidCard") {
+                    val uuidStr = call.parameters["uuid"] ?: "00000000-0000-0000-0000-000000000000"
+                    val balanceStr = call.request.queryParameters["balance"] ?: throw IllegalArgumentException("Balance shouldn't be null")
+                    val uuid = UUID.fromString(uuidStr)
+                    val balance = balanceStr.toInt() //Integer.getInteger(balanceStr) ?: 50 // bad but this may solve the problem. 50 is default balance
+                    CardService.createPrepaidCard(uuid, balance)
                 }
 
-                get("/createSingleJourneyCard") {
-                    try {
-                        val uuid = UUID.fromString(call.parameters["uuid"])
+                exCaughtGet("/createSingleJourneyCard") {
+                    val uuidStr = call.parameters["uuid"] ?: "00000000-0000-0000-0000-000000000000"
+                    val priceStr = call.request.queryParameters["price"] ?: throw IllegalArgumentException("Price shouldn't be null")
+                    val uuid = UUID.fromString(uuidStr)
+                    val price = priceStr.toInt() //Integer.getInteger(balanceStr) ?: 50 // bad but this may solve the problem. 50 is default balance
+                    CardService.createSingleJourneyCard(uuid, price)
+                }
 
-                        call.respond("Prepaid Card for $uuid | balance: ${call.request.queryParameters["balance"]}")
-                    } catch (e: Exception) {
-                        call.respond(HttpStatusCode.BadRequest, BadResponse(e))
-                    }
+                exCaughtGet("/getHoldingCard") {
+                    val uuidStr = call.parameters["uuid"] ?: "00000000-0000-0000-0000-000000000000"
+                    val uuid = UUID.fromString(uuidStr)
+                    CardService.getHoldingCard(uuid)
                 }
             }
 

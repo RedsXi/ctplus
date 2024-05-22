@@ -1,5 +1,6 @@
 package org.redsxi.mc.ctplus.data
 
+import com.google.gson.JsonObject
 import net.minecraft.CrashReport
 import net.minecraft.ReportedException
 import net.minecraft.nbt.CompoundTag
@@ -44,6 +45,18 @@ open class CardData(val stack: ItemStack) {
         tag.putFloat("EntryZone", entryZoneEncoded)
         tag.putString("EntryStation", entryStationName)
         tag.putBoolean("IsEntered", isEntered)
+    }
+
+    fun json(): JsonObject {
+        val json = JsonObject()
+        json(json)
+        return json
+    }
+
+    open fun json(json: JsonObject){
+        json.addProperty("entryZone", entryZoneEncoded)
+        json.addProperty("entryStation", entryStationName)
+        json.addProperty("isEntered", isEntered)
     }
 
     companion object {

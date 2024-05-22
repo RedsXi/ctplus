@@ -5,6 +5,7 @@ plugins {
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version "1.8.20"
     id("io.ktor.plugin") version "2.3.9"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.20'
 }
 
 import java.nio.charset.StandardCharsets
@@ -139,6 +140,7 @@ dependencies {
     implementation "io.ktor:ktor-server-netty-jvm"
     implementation "io.ktor:ktor-server-content-negotiation"
     implementation "io.ktor:ktor-serialization-gson"
+    implementation("io.ktor:ktor-server-resources")
 
 }
 

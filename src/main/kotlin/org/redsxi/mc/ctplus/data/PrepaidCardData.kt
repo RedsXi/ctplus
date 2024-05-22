@@ -1,5 +1,6 @@
 package org.redsxi.mc.ctplus.data
 
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 import org.redsxi.mc.ctplus.util.Time
@@ -25,5 +26,11 @@ class PrepaidCardData(stack: ItemStack) : CardData(stack) {
         super.update0(tag)
         tag.putLong("LastChargeTime", lastRechargeTime)
         tag.putInt("Balance", balance)
+    }
+
+    override fun json(json: JsonObject) {
+        super.json(json)
+        json.addProperty("lastChargeTime", lastRechargeTime)
+        json.addProperty("balance", balance)
     }
 }

@@ -6,7 +6,7 @@ import java.util.Date
 object Date {
     @JvmStatic
     operator fun get(time: Long): String {
-        val dateFormat = SimpleDateFormat("yyyy:MM:dd HH:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val date = Date(time)
         return dateFormat.format(date)
     }

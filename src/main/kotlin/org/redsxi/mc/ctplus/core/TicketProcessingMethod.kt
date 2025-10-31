@@ -26,6 +26,10 @@ interface TicketProcessingMethod {
      * Method trying passing the barriers. When player can pass, it should return [TicketProcessResult.PASS]. If not, return [TicketProcessResult.FORBID]
      */
     fun tryPass(
-
+        level: Level,
+        pos: BlockPos,
+        player: Player,
+        passType: PassType,
+        passSound: SoundEvent
     ): TicketProcessResult
 }

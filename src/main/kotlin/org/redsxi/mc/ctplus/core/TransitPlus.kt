@@ -127,7 +127,7 @@ object TransitPlus {
 
         // TODO (DIDN'T WORK) Play pass sound
         val playSoundFunc = {
-            world.playSound(player, position, passSound, SoundSource.BLOCKS)
+            world.playSound(player, position, passSound, SoundSource.BLOCKS, 1f, 1f)
         }
         val stack = player.mainHandItem
         if (stack == ItemStack.EMPTY) {

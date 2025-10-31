@@ -8,13 +8,13 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument
 import net.minecraft.commands.arguments.coordinates.Coordinates
+import net.minecraft.network.FriendlyByteBuf
 import org.redsxi.mc.ctplus.Collections
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.ctplus.data.CardData
 import org.redsxi.mc.ctplus.generated.BuildProps
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import org.redsxi.mc.ctplus.mapping.Text
-import org.redsxi.mc.ctplus.network.SetTranslationIndexS2CPacket
 import org.redsxi.mc.ctplus.util.Date
 import org.redsxi.mc.ctplus.util.Time
 
@@ -25,7 +25,7 @@ object CommandStructures {
         argument<CommandSourceStack, Coordinates>("Position", BlockPosArgument.blockPos()).then(
             argument<CommandSourceStack?, Int?>("Cost", IntegerArgumentType.integer()).executes {
                 val cost = IntegerArgumentType.getInteger(it, "Cost")
-                val pos = BlockPosArgument.getBlockPos(it, "Position")
+                val pos = BlockPosArgument.getLoadedBlockPos(it, "Position")
                 val blockEntity = it.source.level.getBlockEntity(pos)
                 if (blockEntity is BlockEntityTicketBarrierPayDirect) {
                     blockEntity.price = cost
@@ -76,16 +76,5 @@ object CommandStructures {
             }
             1
         }
-    )
-
-    @JvmField
-    val VARIABLES: LiteralArgumentBuilder<CommandSourceStack>
-    = literal<CommandSourceStack>("variables").then(
-        literal<CommandSourceStack>("translationIndex").then(
-            argument<CommandSourceStack, Int>("Index", IntegerArgumentType.integer(0)).executes {
-                ServerPlayNetworking.send(it.source.playerOrException, SetTranslationIndexS2CPacket(IntegerArgumentType.getInteger(it, "Index")))
-                1
-            }
-        )
     )
 }

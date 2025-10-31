@@ -26,7 +26,6 @@ import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.generated.BuildProps;
 import org.redsxi.mc.ctplus.generated.RuntimeVariables;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
-import org.redsxi.mc.ctplus.network.SetTranslationIndexS2CPacket;
 import org.redsxi.mc.ctplus.util.Date;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
 import org.redsxi.mc.ctplus.web.WebService;
@@ -80,12 +79,11 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
             registerItem(item, ResourceLocationUtil.addPrefix(entry.getKey(), "card_"), true);
         }
 
-        registerItemGroup(Collections.ItemGroupBuilders.MAIN.build(), IDKt.getMain());
+        registerItemGroup(Collections.ItemGroupBuilders.MAIN, IDKt.getMain());
 
         registerCommand(CommandStructures.CTPLUS);
         registerCommand(CommandStructures.SET_PASS_COST);
         registerCommand(CommandStructures.GET_CARD);
-        registerCommand(CommandStructures.VARIABLES);
 
         ServerPlayConnectionEvents.JOIN.register((listener, u0, u1) -> {
             Variables.INSTANCE.getPlayerList().put(listener.player.getUUID(), listener.player);
@@ -110,7 +108,6 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_EXIT_TP);
-        ClientPlayNetworking.registerGlobalReceiver(SetTranslationIndexS2CPacket.TYPE, (packet, u, v) -> Variables.INSTANCE.setTranslationIndex(packet.getIndex()));
     }
 
     public void onInitializeServer() {

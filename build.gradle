@@ -144,7 +144,7 @@ dependencies {
 
 }
 
-var isDebug = true
+var isDebug = false
 
 var buildTime = System.currentTimeMillis()
 

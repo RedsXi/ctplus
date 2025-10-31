@@ -118,7 +118,14 @@ object TransitPlus {
         }
     }
 
+
+    /**
+     * Main entry of T+
+     */
+    // TODO Anchor of T+ main entry
     fun pass(player: Player, position: BlockPos, world: Level, passSound: SoundEvent, passType: PassType): Bool {
+
+        // TODO (DIDN'T WORK) Play pass sound
         val playSoundFunc = {
             world.playSound(player, position, passSound, SoundSource.BLOCKS)
         }

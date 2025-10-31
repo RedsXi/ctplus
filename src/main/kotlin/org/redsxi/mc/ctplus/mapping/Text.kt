@@ -22,7 +22,7 @@ object Text {
     fun translatable(type: String, name: String, vararg objects: Any): Component
         = translatable(type, modId, name, *objects)
 
-
+  
 
     @JvmStatic
     fun empty(): Component = literal("")

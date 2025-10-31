@@ -41,7 +41,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
     public void onInitialize() {
         LOGGER.info("CrabMTR Transit+ version " + BuildProps.VERSION);
         if(RuntimeVariables.DEBUG) {
-            LOGGER.info("Build time " + Date.get(BuildProps.BUILD_TIME));
+            LOGGER.info("Build time {}", Date.get(BuildProps.BUILD_TIME));
             LOGGER.warn("You're running a debug version of CTPlus!");
         }
         registerBlock(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP, IDKt.getTicketBarrierEntranceTp());
@@ -70,7 +70,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         // For other mods
         FabricLoader.getInstance().getEntrypointContainers("card-reg", CardRegisterApi.class).forEach(container -> container.getEntrypoint().registerCards());
 
-        LOGGER.info("Registered %d kind(s) of cards".formatted(CTPlusRegistries.CARD.registeredItemCount()));
+        LOGGER.info("Registered {} kind(s) of cards", CTPlusRegistries.CARD.registeredItemCount());
         CTPlusRegistries.CARD.close();
 
         for (Entry<ResourceLocation, Card<?, ?>> entry : CTPlusRegistries.CARD) {

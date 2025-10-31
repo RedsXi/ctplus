@@ -10,6 +10,7 @@ import net.minecraft.world.scores.criteria.ObjectiveCriteria
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.ctplus.mapping.Text
 
+@Deprecated("")
 object PassManager {
     fun onEntityPass(pos: BlockPos, level: Level, player: Player, passSound: SoundEvent): Boolean {
         addObjective(level)

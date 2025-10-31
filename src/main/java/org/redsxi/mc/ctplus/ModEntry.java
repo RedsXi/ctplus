@@ -108,7 +108,8 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         LOGGER.info("Environment: Client & Integrated server");
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
-
+        registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP);
+        registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_EXIT_TP);
         ClientPlayNetworking.registerGlobalReceiver(SetTranslationIndexS2CPacket.TYPE, (packet, u, v) -> Variables.INSTANCE.setTranslationIndex(packet.getIndex()));
     }
 

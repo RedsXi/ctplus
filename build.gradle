@@ -134,7 +134,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-language-kotlin:1.10.17+kotlin.1.9.22"
 
     // Mods
-    modImplementation "maven.modrinth:XKPAmI6u:UT2U5yfn"
+    modImplementation "maven.modrinth:XKPAmI6u:H0yHV2yE"
 
     implementation "io.ktor:ktor-server-core-jvm"
     implementation "io.ktor:ktor-server-netty-jvm"

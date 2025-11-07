@@ -28,7 +28,6 @@ import org.redsxi.mc.ctplus.generated.RuntimeVariables;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
 import org.redsxi.mc.ctplus.util.Date;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
-import org.redsxi.mc.ctplus.web.WebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,14 +90,6 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
 
         ServerPlayConnectionEvents.DISCONNECT.register((listener, u0) -> {
             Variables.INSTANCE.getPlayerList().remove(listener.player.getUUID());
-        });
-
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            WebService.INSTANCE.start();
-        });
-
-        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
-            WebService.INSTANCE.stop();
         });
     }
 

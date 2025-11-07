@@ -1,5 +1,9 @@
-.java linguist-language=Java
-.kt linguist-language=Kotlin
-.gradle linguist-language=Groovy
-.json linguist-language=Resource Metadata
-.png linguist-language=Resource Metadata
+#
+# https://help.github.com/articles/dealing-with-line-endings/
+#
+# Linux start script should use lf
+/gradlew        text eol=lf
+
+# These are Windows script files and should use crlf
+*.bat           text eol=crlf
+

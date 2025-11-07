@@ -25,7 +25,7 @@ fun JsonWriter.value(v: JsonObject) {
 
 fun JsonWriter.value(v: JsonArray) {
     beginArray()
-    v.asList().forEach { element ->
+    v.toList().forEach { element ->
         if(element is JsonNull) nullValue()
         if(element is JsonObject) value(element)
         if(element is JsonArray) value(element)

@@ -19,6 +19,7 @@
   "gui.ctplus.insufficient_balance": "余额不足: %d$",
   "gui.ctplus.passed_barrier": "已通过闸机",
   "item.ctplus.card": "卡",
+  "item.ctplus.ct_plus": "CTPlus 标志",
   "itemGroup.ctplus.main": "CrabMTR Transit+",
   "tooltip.ctplus.card_balance": "§6余额: §a%d$",
   "tooltip.ctplus.card_information": "卡片信息:",

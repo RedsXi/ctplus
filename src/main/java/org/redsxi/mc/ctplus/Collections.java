@@ -1,6 +1,7 @@
 package org.redsxi.mc.ctplus;
 
-import kotlin.Unit;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -20,7 +21,6 @@ import org.redsxi.mc.ctplus.data.CardData;
 import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.data.PrepaidCardData;
 import org.redsxi.mc.ctplus.data.SingleJourneyCardData;
-import org.redsxi.mc.ctplus.mapping.ItemGroupMapper;
 import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
 
 public interface Collections {
@@ -64,14 +64,17 @@ public interface Collections {
     }
 
     interface ItemGroupBuilders {
-        CreativeModeTab.Builder MAIN = ItemGroupMapper.builder("main", Items.CT_PLUS, out -> {
-            out.accept(Items.asStack(Items.CT_PLUS));
-            out.accept(Items.asStack(Items.TICKET_BARRIER_ENTRANCE_TP));
-            out.accept(Items.asStack(Items.TICKET_BARRIER_EXIT_TP));
-            out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT));
-            out.accept(Items.asStack(Items.TICKET_BARRIER_PAY_DIRECT_TP));
-            return Unit.INSTANCE;
-        });
+        CreativeModeTab MAIN = FabricItemGroupBuilder.create(IDKt.getMain())
+                .icon(() -> new ItemStack(Items.CT_PLUS))
+                .appendItems((list) -> {
+                    list.add(new ItemStack(Items.CT_PLUS));
+                    list.add(new ItemStack(Items.TICKET_BARRIER_ENTRANCE_TP));
+                    list.add(new ItemStack(Items.TICKET_BARRIER_EXIT_TP));
+                    list.add(new ItemStack(Items.TICKET_BARRIER_PAY_DIRECT));
+                    list.add(new ItemStack(Items.TICKET_BARRIER_PAY_DIRECT_TP));
+                })
+                .build();
+
         //CreativeModeTab CARDS = ItemGroupMapper.INSTANCE.create("cards");
     }
 }

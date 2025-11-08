@@ -35,7 +35,7 @@ object PassManager {
                 Text.translatable(Text.GUI, "enter_barrier", price),
                 true
             )
-            level.playSound(player, pos, passSound, SoundSource.BLOCKS)
+            level.playSound(player, pos, passSound, SoundSource.BLOCKS, 1f, 1f)
             return true
         }
         return false

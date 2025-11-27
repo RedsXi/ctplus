@@ -102,7 +102,7 @@ static void generateFile(String name, Action<SourceGeneration> action) {
 
 // End
 
-var isDebug = Boolean.valueOf(project.debug.toString())
+var isDebug = Boolean.valueOf(project.mod_debug.toString())
 
 var buildTime = System.currentTimeMillis()
 

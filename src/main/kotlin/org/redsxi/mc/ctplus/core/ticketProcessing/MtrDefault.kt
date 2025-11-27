@@ -71,7 +71,7 @@ object MtrDefault: TicketProcessingMethod {
                         Text.translatable(Text.GUI, "enter_barrier", price),
                         true
                     )
-                    level.playSound(player, pos, passSound, SoundSource.BLOCKS)
+                    level.playSound(player, pos, passSound, SoundSource.BLOCKS, 1.0f, 1.0f)
                     return PASS
                 }
             }

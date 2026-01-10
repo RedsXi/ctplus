@@ -22,3 +22,7 @@ val ticketBarrierPayDirectTp = idOf("ticket_barrier_pay_direct_tp")
 val main = idOf("main")
 
 val setTranslationIndex = idOf("set_translation_index")
+
+val openRailwayControlPanel = idOf("open_dashboard")
+
+val railwayControlPanel = idOf("railway_control_panel")

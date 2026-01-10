@@ -1,7 +1,6 @@
 package org.redsxi.mc.ctplus;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -21,6 +20,7 @@ import org.redsxi.mc.ctplus.data.CardData;
 import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.data.PrepaidCardData;
 import org.redsxi.mc.ctplus.data.SingleJourneyCardData;
+import org.redsxi.mc.ctplus.item.ItemRailwayControlPanel;
 import org.redsxi.mc.ctplus.util.BlockEntityTypeUtil;
 
 public interface Collections {
@@ -57,6 +57,7 @@ public interface Collections {
             return new ItemStack(item, 1);
         }
         Item CT_PLUS = new Item(new Item.Properties());
+        Item RAILWAY_CONTROLL_PANEL = new ItemRailwayControlPanel();
         Item TICKET_BARRIER_ENTRANCE_TP = createBlockItem(Blocks.TICKET_BARRIER_ENTRANCE_TP);
         Item TICKET_BARRIER_EXIT_TP = createBlockItem(Blocks.TICKET_BARRIER_EXIT_TP);
         Item TICKET_BARRIER_PAY_DIRECT = createBlockItem(Blocks.TICKET_BARRIER_PAY_DIRECT);
@@ -68,6 +69,7 @@ public interface Collections {
                 .icon(() -> new ItemStack(Items.CT_PLUS))
                 .appendItems((list) -> {
                     list.add(new ItemStack(Items.CT_PLUS));
+                    list.add(new ItemStack(Items.RAILWAY_CONTROLL_PANEL));
                     list.add(new ItemStack(Items.TICKET_BARRIER_ENTRANCE_TP));
                     list.add(new ItemStack(Items.TICKET_BARRIER_EXIT_TP));
                     list.add(new ItemStack(Items.TICKET_BARRIER_PAY_DIRECT));

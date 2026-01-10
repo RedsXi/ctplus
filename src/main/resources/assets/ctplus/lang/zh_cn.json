@@ -20,6 +20,7 @@
   "gui.ctplus.passed_barrier": "已通过闸机",
   "item.ctplus.card": "卡",
   "item.ctplus.ct_plus": "CTPlus 标志",
+  "item.ctplus.railway_control_panel": "铁路控制面板",
   "itemGroup.ctplus.main": "CrabMTR Transit+",
   "tooltip.ctplus.card_balance": "§6余额: §a%d$",
   "tooltip.ctplus.card_information": "卡片信息:",
@@ -30,5 +31,7 @@
   "tooltip.ctplus.price": "§6此卡面额: §a%d$",
   "tooltip.ctplus.ticket_barrier_pay_direct": "§2在您通过闸机时直接扣款",
   "tooltip.ctplus.transit_plus_part": "§bTransit§e+ §r的一部分",
-  "tooltip.ctplus.within_transit_plus": "接入了 §bTransit§e+ §r系统"
+  "tooltip.ctplus.within_transit_plus": "接入了 §bTransit§e+ §r系统",
+  "ui.ctplus.rcp": "铁路控制面板",
+  "ui.ctplus.button": "啥也没有 :)"
 }

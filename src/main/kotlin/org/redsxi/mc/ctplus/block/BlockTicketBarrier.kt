@@ -15,7 +15,7 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import org.redsxi.mc.ctplus.Properties.OPEN
-import org.redsxi.mc.ctplus.core.TransitPlus
+import org.redsxi.mc.ctplus.core.ticketProcessing.TransitPlus
 import org.redsxi.mc.ctplus.mapping.BarrierBlockMapper
 import org.redsxi.mc.ctplus.util.FacingUtil
 

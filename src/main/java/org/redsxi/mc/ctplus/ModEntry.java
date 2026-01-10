@@ -7,8 +7,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
@@ -26,6 +24,7 @@ import org.redsxi.mc.ctplus.data.CardDataType;
 import org.redsxi.mc.ctplus.generated.BuildProps;
 import org.redsxi.mc.ctplus.generated.RuntimeVariables;
 import org.redsxi.mc.ctplus.mapping.RegistryMapper;
+import org.redsxi.mc.ctplus.network.NetworkClient;
 import org.redsxi.mc.ctplus.util.Date;
 import org.redsxi.mc.ctplus.util.ResourceLocationUtil;
 import org.slf4j.Logger;
@@ -51,6 +50,7 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlockEntityType(Collections.BlockEntities.TICKET_BARRIER_PAY_DIRECT_TP, IDKt.getTicketBarrierPayDirectTp());
 
         registerItem(Collections.Items.CT_PLUS, IDKt.getCtPlus());
+        registerItem(Collections.Items.RAILWAY_CONTROLL_PANEL, IDKt.getRailwayControlPanel());
         registerItem(Collections.Items.TICKET_BARRIER_ENTRANCE_TP, IDKt.getTicketBarrierEntranceTp());
         registerItem(Collections.Items.TICKET_BARRIER_EXIT_TP, IDKt.getTicketBarrierExitTp());
         registerItem(Collections.Items.TICKET_BARRIER_PAY_DIRECT, IDKt.getTicketBarrierPayDirect());
@@ -99,6 +99,8 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_PAY_DIRECT_TP);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_EXIT_TP);
+
+        ClientPlayNetworking.registerGlobalReceiver(IDKt.getOpenRailwayControlPanel(), (client, cpl, buf, ps) -> NetworkClient.INSTANCE.openDashboard(client, buf));
     }
 
     public void onInitializeServer() {

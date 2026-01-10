@@ -15,6 +15,7 @@ import org.redsxi.mc.ctplus.data.CardData
 import org.redsxi.mc.ctplus.generated.BuildProps
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.network.NetworkServer
 import org.redsxi.mc.ctplus.util.Date
 import org.redsxi.mc.ctplus.util.Time
 
@@ -74,6 +75,10 @@ object CommandStructures {
                 it.source.sendSuccess(Text.literal("Build time ${Date[BuildProps.BUILD_TIME]}"), false)
                 it.source.sendSuccess(Text.literal("\u00a7eYou're running a debug version of CTPlus!"), false)
             }
+            1
+        }
+        ).then(literal<CommandSourceStack>("railwayDashboard").executes {
+            NetworkServer.openDashboard(it.source.playerOrException)
             1
         }
     )

@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState
 import org.redsxi.bool.Bool
 import org.redsxi.mc.ctplus.blockentity.BlockEntityTicketBarrierPayDirect
 import org.redsxi.mc.ctplus.core.PassManager
-import org.redsxi.mc.ctplus.core.TransitPlus
+import org.redsxi.mc.ctplus.core.ticketProcessing.TransitPlus
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.mapping.Text.BLOCK
 

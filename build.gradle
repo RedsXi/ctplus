@@ -204,3 +204,12 @@ GenerationList.INSTANCE.get().forEach {
     verConfigWriter.write(it.getFileData().getBytes(StandardCharsets.UTF_8))
     verConfigWriter.close()
 }
+
+sourceSets {
+    main {
+        java.srcDir("modules/entry")
+        java.srcDir("modules/card")
+        java.srcDir("modules/core")
+        java.srcDir("modules/api")
+    }
+}

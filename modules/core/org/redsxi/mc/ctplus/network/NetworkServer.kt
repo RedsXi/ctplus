@@ -11,6 +11,7 @@ object NetworkServer {
         player: ServerPlayer
     ) {
         val buf = FriendlyByteBuf(Unpooled.buffer())
+
         ServerPlayNetworking.send(player, openRailwayControlPanel, buf)
     }
 }

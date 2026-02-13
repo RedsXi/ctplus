@@ -14,6 +14,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -100,7 +101,10 @@ public class ModEntry implements ModInitializer, ClientModInitializer, Dedicated
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_ENTRANCE_TP);
         registerBlockCutOutRender(Collections.Blocks.TICKET_BARRIER_EXIT_TP);
 
-        ClientPlayNetworking.registerGlobalReceiver(IDKt.getOpenRailwayControlPanel(), (client, cpl, buf, ps) -> NetworkClient.INSTANCE.openDashboard(client, buf));
+        ClientPlayNetworking.registerGlobalReceiver(IDKt.getOpenRailwayControlPanel(), (client, cpl, buf, ps) -> {
+            NetworkClient.INSTANCE.openDashboard(client, buf);
+            
+        });
     }
 
     public void onInitializeServer() {

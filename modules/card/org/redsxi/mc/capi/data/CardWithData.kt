@@ -1,5 +1,4 @@
 package org.redsxi.mc.capi.data
 
-class CardDataContainer {
-
+interface CardWithData {
 }

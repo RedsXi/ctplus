@@ -17,7 +17,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
       - name: Build Mod
         run: ./gradlew remapJar
-      - name: Archive code coverage results
+      - name: Upload mod file
         uses: actions/upload-artifact@v4
         with:
           name: mod

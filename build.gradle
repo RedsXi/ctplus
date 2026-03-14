@@ -209,6 +209,7 @@ sourceSets {
     main {
         java.srcDir("modules/entry")
         java.srcDir("modules/card")
+        java.srcDir("modules/core_legacy")
         java.srcDir("modules/core")
         java.srcDir("modules/api")
     }

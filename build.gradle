@@ -145,7 +145,7 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.mod_version
+	inputs.property "version", project.version
 	inputs.property "loader", project.loader_version
 	
 
@@ -179,7 +179,7 @@ jar {
 }
 
 remapJar {
-	archiveFileName = "ctplus_${project.mod_version}_1.19.2.jar"
+	archiveFileName = "ctplus_${project.version}_1.19.2.jar"
 }
 
 generateFile("BuildProps") {

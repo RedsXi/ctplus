@@ -44,7 +44,7 @@ class RailwayViewerWidget(
         try {
             val n = enter.value.split(",")
             context.drawCircle(160, 100, 30, 0xFFC00080.toInt())
-            // context.drawRing(80, 100, 25, 4,0xFFC00080.toInt())
+            context.drawRing(80, 100, 25, 4,0xFF00C0C0.toInt())
             context.renderTriangle(
                 n[0].toFloat(),
                 n[1].toFloat(),

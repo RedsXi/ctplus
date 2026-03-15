@@ -149,11 +149,8 @@ class RenderContext(val stack: PoseStack) {
     }
 
     /**
-     * 此物不工作，勿用
-     *
      * 画圆环的
      */
-    // TODO 修复不显示 Tip: 顶点必须逆时针
     fun drawRing(
         centerX: Int,
         centerY: Int,
@@ -167,7 +164,7 @@ class RenderContext(val stack: PoseStack) {
         RenderSystem.setShader{ GameRenderer.getPositionColorShader() }
         render {
             begin(VertexFormat.Mode.TRIANGLE_STRIP, POSITION_COLOR)
-            vertex(it, centerX.toFloat(), centerY.toFloat(), 1f).color(color).endVertex()
+            //vertex(it, centerX.toFloat(), centerY.toFloat(), 1f).color(color).endVertex()
             val accuracy = radius * 4
             for (k in accuracy * 2 downTo 0) {
                 val kX = sin(PI * ( k / accuracy.toDouble() )).toFloat()

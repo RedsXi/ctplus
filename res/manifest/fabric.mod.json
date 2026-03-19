@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "ctplus",
+  "version": "${version}",
+  "name": "CrabMTR Transit+",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.redsxi.mc.ctplus.ModEntry"
+    ],
+    "client": [
+      "org.redsxi.mc.ctplus.ModEntry"
+    ],
+    "server": [
+      "org.redsxi.mc.ctplus.ModEntry"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader}",
+    "fabric": "*",
+    "minecraft": "1.19.2",
+    "fabric-language-kotlin": ">=1.13.7+kotlin.2.2.21",
+    "mtr": "*"
+  },
+  "mixins": [
+    "ctplus.mixin.json"
+  ]
+}

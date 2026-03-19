@@ -207,6 +207,9 @@ GenerationList.INSTANCE.get().forEach {
 
 sourceSets {
     main {
+        resources.srcDir("res/asset")
+        resources.srcDir("res/manifest")
+
         java.srcDir("modules/entry")
         java.srcDir("modules/card")
         java.srcDir("modules/core_legacy")

@@ -12,6 +12,7 @@ import com.mojang.logging.LogUtils
 import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import kotlin.math.PI
@@ -48,7 +49,7 @@ class RenderContext(val stack: PoseStack) {
         y: Int,
         w: Int,
         h: Int
-    ) = scissorRenderArea0(
+    ) = scissorRenderArea0( // H 30 L 90 CHICK 15 RAB 15
         x * guiScale,
         y * guiScale,
         w  * guiScale,
@@ -89,7 +90,7 @@ class RenderContext(val stack: PoseStack) {
     /**
      * 画三角形的
      */
-    fun renderTriangle(
+    fun drawTriangle(
         aX: Float,
         aY: Float,
         aColor: Int,
@@ -103,7 +104,7 @@ class RenderContext(val stack: PoseStack) {
         RenderSystem.enableBlend()
         RenderSystem.disableTexture()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ GameRenderer.getPositionColorShader() }
+        RenderSystem.setShader{ getPositionColorShader() }
         render {
             begin(VertexFormat.Mode.TRIANGLES, POSITION_COLOR)
             vertex(it, aX, aY, 1f).color(aColor).endVertex()
@@ -119,19 +120,19 @@ class RenderContext(val stack: PoseStack) {
      * 画圆的
      */
     fun drawCircle(
-        centerX: Int,
-        centerY: Int,
-        radius: Int,
+        centerX: Float,
+        centerY: Float,
+        radius: Float,
         color: Int
     ) {
         RenderSystem.enableBlend()
         RenderSystem.disableTexture()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ GameRenderer.getPositionColorShader() }
+        RenderSystem.setShader{ getPositionColorShader() }
         render {
             begin(VertexFormat.Mode.TRIANGLE_FAN, POSITION_COLOR)
-            vertex(it, centerX.toFloat(), centerY.toFloat(), 1f).color(color).endVertex()
-            val accuracy = radius * 4
+            vertex(it, centerX, centerY, 1f).color(color).endVertex()
+            val accuracy = radius.toInt() * 4
             for (k in accuracy * 2 downTo 0) {
                 val vertexX = radius * sin(PI * ( k / accuracy.toDouble() )).toFloat()
                 val vertexY = radius * cos(PI * ( k / accuracy.toDouble() )).toFloat()
@@ -152,20 +153,20 @@ class RenderContext(val stack: PoseStack) {
      * 画圆环的
      */
     fun drawRing(
-        centerX: Int,
-        centerY: Int,
-        radius: Int,
-        strokeWidth: Int,
+        centerX: Float,
+        centerY: Float,
+        radius: Float,
+        strokeWidth: Float,
         color: Int
     ) {
         RenderSystem.enableBlend()
         RenderSystem.disableTexture()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ GameRenderer.getPositionColorShader() }
+        RenderSystem.setShader{ getPositionColorShader() }
         render {
             begin(VertexFormat.Mode.TRIANGLE_STRIP, POSITION_COLOR)
             //vertex(it, centerX.toFloat(), centerY.toFloat(), 1f).color(color).endVertex()
-            val accuracy = radius * 4
+            val accuracy = radius.toInt() * 4
             for (k in accuracy * 2 downTo 0) {
                 val kX = sin(PI * ( k / accuracy.toDouble() )).toFloat()
                 val kY = cos(PI * ( k / accuracy.toDouble() )).toFloat()
@@ -192,4 +193,127 @@ class RenderContext(val stack: PoseStack) {
         RenderSystem.enableTexture()
         RenderSystem.disableBlend()
     }
+
+    /**
+     * 启用材质
+     */
+    fun enableTexture() = RenderSystem.enableTexture()
+
+    /**
+     * 禁用材质
+     */
+    fun disableTexture() = RenderSystem.disableTexture()
+
+    /**
+     * 启用混合
+     */
+    fun enableBlend() = RenderSystem.enableBlend()
+
+    /**
+     * 禁用混合
+     */
+    fun disableBlend() = RenderSystem.disableBlend()
+
+    /**
+     * 使用默认混合方式
+     */
+    fun defaultBlendFunc() = RenderSystem.defaultBlendFunc()
+
+    /**
+     * 修改着色器
+     *
+     * 各种着色器参见[GameRenderer]
+     *
+     * @see GameRenderer.getPositionColorShader
+     * @see GameRenderer.getPositionColorTexShader
+     * @see GameRenderer.getPositionTexShader
+     */
+    fun setShader(shader: ShaderInstance) = RenderSystem.setShader { shader }
+
+    /**
+     * 画矩形
+     */
+    fun drawRect(
+        x: Float,
+        y: Float,
+        w: Float,
+        h: Float,
+        color: Int
+    ) {
+        defaultBlendFunc()
+        disableTexture()
+        enableBlend()
+
+        setShader(getPositionColorShader() ?: throw RuntimeException())
+
+        render {
+            begin(
+                VertexFormat.Mode.QUADS,
+                POSITION_COLOR
+            )
+            vertex(
+                it,
+                x,
+                y + h,
+                1.0f
+            ).color(color).endVertex()
+            vertex(
+                it,
+                x + w,
+                y + h,
+                1.0f
+            ).color(color).endVertex()
+            vertex(
+                it,
+                x + w,
+                y,
+                1.0f
+            ).color(color).endVertex()
+            vertex(
+                it,
+                x,
+                y,
+                1.0f
+            ).color(color).endVertex()
+
+            end()
+        }
+
+        disableBlend()
+        enableTexture()
+    }
+
+    /**
+     * 矩形描边
+     */
+    fun drawRectBorder(
+        x: Float,
+        y: Float,
+        w: Float,
+        h: Float,
+        strokeWidth: Float,
+        strokeColor: Int
+    ) {
+        val sHalf = strokeWidth / 2
+
+        // 左边界
+        drawRect(
+            x - sHalf,
+            y - sHalf,
+            strokeWidth,
+            h + strokeWidth,
+            strokeColor
+        )
+
+        // 上边界
+        drawRect(
+            x - sHalf,
+            y - sHalf,
+            w + strokeWidth,
+            strokeWidth,
+            strokeColor
+        )
+    }
+
+
 }

@@ -12,14 +12,12 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.EditBox
-import net.minecraft.client.gui.components.Widget
 import net.minecraft.client.gui.narration.NarratableEntry
 import net.minecraft.client.gui.narration.NarrationElementOutput
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.network.chat.Component
 import org.redsxi.transitplus.client.render.RenderContext
-import kotlin.math.ceil
 
 @Environment(EnvType.CLIENT)
 class RailwayViewerWidget(
@@ -43,9 +41,11 @@ class RailwayViewerWidget(
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
         try {
             val n = enter.value.split(",")
-            context.drawCircle(160, 100, 30, 0xFFC00080.toInt())
-            context.drawRing(80, 100, 25, 4,0xFF00C0C0.toInt())
-            context.renderTriangle(
+            context.drawRect(x.toFloat(), y.toFloat(), width.toFloat(), height.toFloat(), 0xFF000000.toInt())
+            context.drawRectBorder(x.toFloat(), y.toFloat(), width.toFloat(), height.toFloat(), 1f, 0xFFFFFFFF.toInt())
+            context.drawCircle(160f, 100f, 30f, 0xFFC00080.toInt())
+            context.drawRing(80f, 100f, 25f, 4f,0xFF00C0C0.toInt())
+            context.drawTriangle(
                 n[0].toFloat(),
                 n[1].toFloat(),
                 0xFFFF0000.toInt(),
@@ -57,7 +57,7 @@ class RailwayViewerWidget(
                 0xFF0000FF.toInt()
             )
             context.scissorRenderArea(20,20,30,30)
-            context.renderTriangle(
+            context.drawTriangle(
                 n[0].toFloat(),
                 n[1].toFloat(),
                 0xFFFFFFFF.toInt(),

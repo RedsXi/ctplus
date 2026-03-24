@@ -11,9 +11,11 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.logging.LogUtils
 import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiComponent
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
+import net.minecraft.network.chat.Component
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import kotlin.math.PI
 import kotlin.math.cos
@@ -36,7 +38,8 @@ class RenderContext(val stack: PoseStack) {
     private val debug = RuntimeVariables.DEBUG
     private val displayAsFrameworks = false
 
-    val window: Window get() = Minecraft.getInstance().window
+    val client: Minecraft get() = Minecraft.getInstance()
+    val window: Window get() = client.window
     val guiScale: Int get() = window.guiScale.toInt()
 
     /**
@@ -315,5 +318,29 @@ class RenderContext(val stack: PoseStack) {
         )
     }
 
+    /**
+     * 绘制文字
+     */
+
+    fun drawString(
+        text: String,
+        x: Float,
+        y: Float,
+        color: Int
+    )
+        = client.font.draw(stack, text, x, y, color)
+
+    /**
+     * 坐标变换（平移）
+     */
+    fun translate(tX: Double, tY: Double, tZ: Double = 0.0)
+        = stack.translate(tX, tY, 0.0)
+
+
+    /**
+     * 缩放
+     */
+    fun scale(sX: Double, sY: Double, sZ: Double = 1.0)
+        = stack.scale(sX.toFloat(), sY.toFloat(), sZ.toFloat())
 
 }

@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.network.chat.Component
 import org.redsxi.transitplus.client.render.RenderContext
 
+@Deprecated("")
 @Environment(EnvType.CLIENT)
 class RailwayViewerWidget(
     override val x: Int,

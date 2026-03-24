@@ -3,26 +3,29 @@ package org.redsxi.transitplus.client.ui
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
-import org.redsxi.transitplus.client.ui.widget.RailwayViewerWidget
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.transitplus.common.logger.logger
 
-
+@Deprecated("")
 class RailwayControllerPanelUI: Screen(Text.translatable("ui", "rcp")) {
     val client: Minecraft = Minecraft.getInstance()
-    val railwayViewerWidget = RailwayViewerWidget(4, 12, client.window.guiScaledWidth - 8, client.window.guiScaledHeight - 16)
+
     override fun init() {
         super.init()
-        addRenderableWidget(railwayViewerWidget.enter)
     }
 
     override fun render(poseStack: PoseStack, mouseX: Int, mouseY: Int, delta: Float) {
-        renderBackground(poseStack)
         poseStack.pushPose()
-        val screen = client.window
-        drawString(poseStack, client.font, Text.literal("Screen:\nwidth=${screen.width}, height=${screen.height}\nguiScale=${screen.guiScale}\nguiScaledWidth=${screen.guiScaledWidth}, guiScaledHeight=${screen.guiScaledHeight}"), 4, 4, -1)
-
-        railwayViewerWidget.render(poseStack, mouseX, mouseY, delta)
-        super.render(poseStack, mouseX, mouseY, delta)
         poseStack.popPose()
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, isRightClick: Int, dragX: Double, dragY: Double): Boolean {
+        logger.info("MouseDrag($mouseX,$mouseY,$isRightClick,$dragX,$dragY)")
+        return super.mouseDragged(mouseX, mouseY, isRightClick, dragX, dragY)
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollAmount: Double): Boolean {
+        logger.info("MouseScroll($mouseX,$mouseY,$scrollAmount)")
+        return super.mouseScrolled(mouseX, mouseY, scrollAmount)
     }
 }

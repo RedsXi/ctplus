@@ -14,8 +14,6 @@ fun logger(): Logger {
 }
 
 private fun callerName(): String {
-    Exception().printStackTrace()
-
     return Thread.currentThread().stackTrace[4].className
 }
 

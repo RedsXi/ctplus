@@ -24,8 +24,8 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         context.drawString("Viewport:", 10f, 18f, debug)
         context.drawString("tX: $translateX, tY: $translateY, scale: $sReal", 10f, 26f, debug)
 
-        context.translate(translateX, translateY)
         context.scale(sReal, sReal)
+        context.translate(translateX, translateY)
 
         context.drawCircle(0f, 0f, 24f, cyan)
 
@@ -54,8 +54,8 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean {
         if (i == 0) {
-            translateX += f
-            translateY += g
+            translateX += f / sReal
+            translateY += g / sReal
         }
         return super.mouseDragged(d, e, i, f, g)
     }

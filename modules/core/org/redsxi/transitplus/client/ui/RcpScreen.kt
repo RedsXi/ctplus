@@ -17,8 +17,8 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
     val sReal: Double get() = 1.1.pow(scale)
 
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
-
-        context.drawRect(0f, 0f, window.guiScaledWidth.toFloat(), window.guiScaledHeight.toFloat(), bg)
+        renderBackground(context.stack)
+        //context.drawRect(0f, 0f, window.guiScaledWidth.toFloat(), window.guiScaledHeight.toFloat(), bg)
         context.pushPose()
         context.drawString("Hello World", 10f, 10f, -1)
         context.drawString("Viewport:", 10f, 18f, debug)
@@ -44,10 +44,10 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         scale += sV.toInt()
         val newS = 1.1.pow(scale)
 
-        val dS = newS - oldS
+        val delta = ( 1.0 / newS ) - ( 1.0 / oldS )
 
-        translateX += dS * x
-        translateY += dS * y
+        translateX += delta * x
+        translateY += delta * y
 
         return super.mouseScrolled(x, y, sV)
     }

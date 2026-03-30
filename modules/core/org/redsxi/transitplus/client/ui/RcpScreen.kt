@@ -2,9 +2,9 @@ package org.redsxi.transitplus.client.ui
 
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.render.RenderContext
-import org.redsxi.transitplus.common.logger.logger
 import kotlin.math.pow
 
+// Fuck
 class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     val windowWHalf: Double get() = window.guiScaledWidth.toDouble() / 2
@@ -18,11 +18,10 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
         renderBackground(context.stack)
-        //context.drawRect(0f, 0f, window.guiScaledWidth.toFloat(), window.guiScaledHeight.toFloat(), bg)
+
+
+        // Actual map render
         context.pushPose()
-        context.drawString("Hello World", 10f, 10f, -1)
-        context.drawString("Viewport:", 10f, 18f, debug)
-        context.drawString("tX: $translateX, tY: $translateY, scale: $sReal", 10f, 26f, debug)
 
         context.scale(sReal, sReal)
         context.translate(translateX, translateY)
@@ -32,14 +31,9 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         context.popPose()
 
 
-        //context.translate(0.0, 0.0)
-
     }
 
     override fun mouseScrolled(x: Double, y: Double, sV: Double): Boolean {
-        logger.info("Scroll: \nWindowW: ${window.guiScaledWidth}, WindowH: ${window.height}\nWindowSW: ${window.guiScaledWidth}, WindowSH: ${window.guiScaledHeight}\nGuiScale: ${window.guiScale}\nMouseX: $x, MouseY: $y\nScrollValue: $sV")
-
-
         val oldS = 1.1.pow(scale)
         scale += sV.toInt()
         val newS = 1.1.pow(scale)

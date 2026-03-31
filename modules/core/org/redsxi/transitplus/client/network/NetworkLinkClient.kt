@@ -1,38 +1,32 @@
 package org.redsxi.transitplus.client.network
 
-import io.netty.handler.codec.EncoderException
-import kotlinx.io.IOException
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtOps
-import org.redsxi.transitplus.common.network.Package
-import org.redsxi.transitplus.common.network.PackageType
+import net.minecraft.resources.ResourceLocation
+import org.redsxi.transitplus.common.network.EmptyPacket
+import org.redsxi.transitplus.common.network.Packet
+import org.redsxi.transitplus.common.network.PacketType
 
 object NetworkLinkClient {
-    fun <P : Package<P>> registerPackageProcessor(type: PackageType<P>, processor: (P) -> Unit) {
-        ClientPlayNetworking.registerGlobalReceiver(type.id) { client, listener, buf, sender ->
-            val compound = buf.readAnySizeNbt() ?: throw IOException("Malformed packet")
-            val payload = compound.get("Payload") ?: throw IOException("Malformed packet")
-            val result = type.codec.parse(NbtOps.INSTANCE, payload)
-            result.error().ifPresent {
-                val msg = it.message()
-                throw EncoderException("Failed to decode: $msg $payload")
-            }
-            processor(result.result().get())
-        }
+    fun registerPacketListener(type: PacketType, listener: (Packet) -> Unit) =
+    ClientPlayNetworking.registerGlobalReceiver(type.id) { client, l, buf, sender ->
+        val packet = type.create()
+        val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
+        packet.loadData(data)
+        listener(packet)
     }
 
-    fun <P : Package<P>> sendPackage(pack: P) {
-        val compound = CompoundTag()
-        val result = pack.type.codec.encodeStart(NbtOps.INSTANCE, pack)
-        result.error().ifPresent {
-            val msg = it.message()
-            throw EncoderException("Failed to encode: $msg $pack")
-        }
-        compound.put("Payload", result.result().get())
-        val buf = PacketByteBufs.create()
-        buf.writeNbt(compound)
-        ClientPlayNetworking.send(pack.type.id, buf)
+    fun init() {
+        // Nothing to initialize
     }
+
+    fun sendPacket(pack: Packet) {
+        val data = pack.getData()
+        val buf = PacketByteBufs.create()
+        buf.writeNbt(data)
+
+        ClientPlayNetworking.send(pack.id, buf)
+    }
+
+    fun initCurrentConnection() = sendPacket(EmptyPacket)
 }

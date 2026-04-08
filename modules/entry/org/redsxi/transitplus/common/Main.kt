@@ -2,8 +2,8 @@
 
 package org.redsxi.transitplus.common
 
-import org.redsxi.transitplus.common.logger.logger
+import org.redsxi.transitplus.server.network.NetworkLinkServer
 
 fun entry() {
-    logger
+    NetworkLinkServer.init()
 }

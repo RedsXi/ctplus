@@ -25,7 +25,7 @@ class Response(var reqPath: String = "", var responseBody: CompoundTag = Compoun
     }
 
     object Type: PacketType {
-        override fun create() = Request()
+        override fun create() = Response()
         override val id = resp
     }
 }

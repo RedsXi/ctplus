@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
-import org.apache.logging.log4j.core.jmx.Server
 import org.redsxi.transitplus.common.network.EmptyPacket
 import org.redsxi.transitplus.common.network.Packet
 import org.redsxi.transitplus.common.network.PacketType
@@ -18,7 +17,7 @@ object NetworkLinkServer {
     fun ServerPlayer.networkLinkSession() = savedPlayerNetworkSession[this]
 
     fun registerPacketListener(type: PacketType, listener: (Packet, ServerPlayer) -> Unit) =
-        ServerPlayNetworking.registerGlobalReceiver(type.id) { server, player, l, buf, sender ->
+        ServerPlayNetworking.registerGlobalReceiver(type.id) { _, player, _, buf, _ ->
             val packet = type.create()
             val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
             packet.loadData(data)
@@ -40,6 +39,7 @@ object NetworkLinkServer {
                 ), player)
             }
         }
+        registerRequestProcessor("Ping") { _, _ -> null }
     }
 
     fun sendPacket(pack: Packet, player: ServerPlayer) {

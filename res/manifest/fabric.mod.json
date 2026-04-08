@@ -10,13 +10,16 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.redsxi.mc.ctplus.ModEntry"
+      "org.redsxi.mc.ctplus.ModEntry",
+      "org.redsxi.transitplus.Entrypoint"
     ],
     "client": [
-      "org.redsxi.mc.ctplus.ModEntry"
+      "org.redsxi.mc.ctplus.ModEntry",
+      "org.redsxi.transitplus.Entrypoint"
     ],
     "server": [
-      "org.redsxi.mc.ctplus.ModEntry"
+      "org.redsxi.mc.ctplus.ModEntry",
+      "org.redsxi.transitplus.Entrypoint"
     ]
   },
   "depends": {

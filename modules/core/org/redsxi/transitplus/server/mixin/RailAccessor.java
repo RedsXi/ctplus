@@ -31,9 +31,6 @@ public interface RailAccessor {
 	// x = h*T + k*r
 	// z = k*T + h*r
 
-    /*
-    以下
-     */
 
     @Accessor(value = "h1", remap = false)
     double hStart();
@@ -57,24 +54,24 @@ public interface RailAccessor {
     boolean startReverse();
 
 
-    @Accessor(value = "h1", remap = false)
+    @Accessor(value = "h2", remap = false)
     double hEnd();
 
-    @Accessor(value = "k1", remap = false)
+    @Accessor(value = "k2", remap = false)
     double kEnd();
 
-    @Accessor(value = "r1", remap = false)
+    @Accessor(value = "r2", remap = false)
     double rEnd();
 
-    @Accessor(value = "tStart1", remap = false)
+    @Accessor(value = "tStart2", remap = false)
     double tEndStart();
 
-    @Accessor(value = "tEnd1", remap = false)
+    @Accessor(value = "tEnd2", remap = false)
     double tEndEnd();
 
-    @Accessor(value = "isStraight1", remap = false)
+    @Accessor(value = "isStraight2", remap = false)
     boolean endStraight();
 
-    @Accessor(value = "reverseT1", remap = false)
+    @Accessor(value = "reverseT2", remap = false)
     boolean endReverse();
 }

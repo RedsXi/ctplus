@@ -15,4 +15,8 @@ abstract class Packet {
     }
 
     abstract val id: ResourceLocation
+
+    override fun toString(): String {
+        return "${this::class.java.simpleName}${getData()}"
+    }
 }

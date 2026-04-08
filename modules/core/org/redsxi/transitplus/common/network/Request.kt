@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.idOf
 
-class Request(var reqPath: String = "", var requestBody: CompoundTag = CompoundTag(), var reqId: Long = invalidRequest): Packet() {
+open class Request(var reqPath: String = "", var requestBody: CompoundTag = CompoundTag(), var reqId: Long = invalidRequest): Packet() {
     companion object {
         val req = idOf("network_request")
         const val invalidRequest = -1L

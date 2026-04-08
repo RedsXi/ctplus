@@ -6,6 +6,8 @@ import kotlinx.io.IOException
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.minecraft.nbt.CompoundTag
+import org.redsxi.mc.ctplus.generated.RuntimeVariables
+import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.common.network.EmptyPacket
 import org.redsxi.transitplus.common.network.Packet
 import org.redsxi.transitplus.common.network.PacketType
@@ -23,6 +25,9 @@ object NetworkLinkClient {
         val packet = type.create()
         val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
         packet.loadData(data)
+        if(RuntimeVariables.DEBUG) {
+            logger.info("DEBUG: NL <- $packet")
+        }
         listener(packet)
     }
 
@@ -37,23 +42,46 @@ object NetworkLinkClient {
         val data = pack.getData()
         val buf = PacketByteBufs.create()
         buf.writeNbt(data)
-
+        if(RuntimeVariables.DEBUG) {
+            logger.info("DEBUG: NL -> $pack")
+        }
         ClientPlayNetworking.send(pack.id, buf)
     }
 
     fun initCurrentConnection() = sendPacket(EmptyPacket)
 
     suspend fun request(path: String, body: CompoundTag, timeout: Long = 10000L): CompoundTag = withContext(Dispatchers.IO) {
+        if(RuntimeVariables.DEBUG) {
+            logger.info("DEBUG: NL-RRM -> REQ $path $body")
+        }
         val id = requestNum++
         val reqTime = System.currentTimeMillis()
         waitingRequest[id] = reqTime
         val reqPacket = Request(path, body, id)
         sendPacket(reqPacket)
         while(!savedResponse.containsKey(id)) {
-            if( reqTime + timeout < System.currentTimeMillis()) throw IOException("Request timed out")
+            if( reqTime + timeout < System.currentTimeMillis()) {
+                if(RuntimeVariables.DEBUG) {
+                    logger.error("DEBUG: NL-RRM <- REQ ERR TIMEOUT")
+                }
+                throw IOException("Request timed out")
+            }
+        }
+        if(RuntimeVariables.DEBUG) {
+            logger.info("DEBUG: NL-RRM <- REQ OK IN ${System.currentTimeMillis() - reqTime}MS")
         }
         val response = savedResponse[id] ?: throw InternalError("Didn't find response packet but stopped hanging")
         savedResponse.remove(id)
         response.responseBody
+    }
+
+    suspend fun ping(): Long {
+        val time = System.currentTimeMillis()
+        try {
+            request("Ping", CompoundTag())
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return System.currentTimeMillis() - time
     }
 }

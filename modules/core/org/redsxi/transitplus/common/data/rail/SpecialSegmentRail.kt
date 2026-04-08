@@ -1,4 +1,4 @@
-package org.redsxi.transitplus.common.data
+package org.redsxi.transitplus.common.data.rail
 
 /**
  * 当 k,r>=0.5 的直线

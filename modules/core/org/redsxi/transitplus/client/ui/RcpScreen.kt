@@ -19,7 +19,6 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
         renderBackground(context.stack)
 
-
         // Actual map render
         context.pushPose()
 

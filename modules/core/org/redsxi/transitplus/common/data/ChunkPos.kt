@@ -7,8 +7,8 @@ data class ChunkPos(val x: Int, val y: Int) {
     companion object {
         val CODEC: Codec<ChunkPos> = RecordCodecBuilder.create { builder ->
             builder.group(
-                Codec.INT.fieldOf("x").forGetter{it.x},
-                Codec.INT.fieldOf("y").forGetter{it.y}
+                Codec.INT.fieldOf("ChunkX").forGetter{it.x},
+                Codec.INT.fieldOf("ChunkY").forGetter{it.y}
             ).apply(builder) { x, y ->
                 ChunkPos(x, y)
             }

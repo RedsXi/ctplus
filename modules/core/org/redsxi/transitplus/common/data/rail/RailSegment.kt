@@ -15,12 +15,12 @@ interface RailSegment {
     companion object {
         val CODEC: Codec<RailSegment> = RecordCodecBuilder.create { builder ->
             builder.group(
-                Codec.DOUBLE.fieldOf("h").forGetter{it.h},
-                Codec.DOUBLE.fieldOf("k").forGetter{it.k},
-                Codec.DOUBLE.fieldOf("r").forGetter{it.r},
-                Codec.DOUBLE.fieldOf("tStart").forGetter{it.tStart},
-                Codec.DOUBLE.fieldOf("tEnd").forGetter{it.tEnd},
-                Codec.BOOL.fieldOf("straight").forGetter{it.straight}
+                Codec.DOUBLE.fieldOf("H").forGetter{it.h},
+                Codec.DOUBLE.fieldOf("K").forGetter{it.k},
+                Codec.DOUBLE.fieldOf("R").forGetter{it.r},
+                Codec.DOUBLE.fieldOf("Start").forGetter{it.tStart},
+                Codec.DOUBLE.fieldOf("End").forGetter{it.tEnd},
+                Codec.BOOL.fieldOf("Straight").forGetter{it.straight}
             ).apply(builder){ h, k, r, tStart, tEnd, straight ->
                 read(h, k, r, tStart, tEnd, straight)
             }

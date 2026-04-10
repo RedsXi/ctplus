@@ -13,8 +13,8 @@ class Rail(
     companion object {
         val CODEC: Codec<Rail> = RecordCodecBuilder.create { builder ->
             builder.group(
-                RailSegment.CODEC.fieldOf("start").forGetter{it.start},
-                RailSegment.CODEC.fieldOf("end").forGetter{it.end},
+                RailSegment.CODEC.fieldOf("Start").forGetter{it.start},
+                RailSegment.CODEC.fieldOf("End").forGetter{it.end},
 
             ).apply(builder) { start, end ->
                 Rail(start, end)

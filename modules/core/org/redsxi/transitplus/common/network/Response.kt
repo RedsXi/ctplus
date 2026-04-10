@@ -1,19 +1,20 @@
 package org.redsxi.transitplus.common.network
 
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 import org.redsxi.mc.ctplus.idOf
 
-class Response(var reqPath: String = "", var responseBody: CompoundTag = CompoundTag(), var reqId: Long = Request.invalidRequest): Packet() {
+class Response(var reqPath: String = "", var responseBody: Tag = CompoundTag(), var reqId: Long = Request.INVALID_REQUEST): Packet() {
     companion object {
         val resp = idOf("network_response")
-        fun createFromRequest(req: Request, body: CompoundTag): Response
+        fun createFromRequest(req: Request, body: Tag): Response
             = Response(req.reqPath, body, req.reqId)
     }
 
     override val id = resp
 
     override fun loadData(tag: CompoundTag) {
-        responseBody = tag.getCompound("Body")
+        responseBody = tag.get("Body") ?: CompoundTag()
         reqId = tag.getLong("ReqId")
         reqPath = tag.getString("ReqPath")
     }

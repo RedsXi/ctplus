@@ -8,8 +8,8 @@ class ChunkRail(val pos: ChunkPos, val rails: List<Rail> = ArrayList()) {
     companion object {
         val CODEC: Codec<ChunkRail> = RecordCodecBuilder.create { builder ->
             builder.group(
-                ChunkPos.CODEC.fieldOf("pos").forGetter{it.pos},
-                Rail.CODEC.listOf().fieldOf("rails").forGetter{it.rails}
+                ChunkPos.CODEC.fieldOf("ChunkPos").forGetter{it.pos},
+                Rail.CODEC.listOf().fieldOf("Rails").forGetter{it.rails}
             ).apply(builder) { pos, rails ->
                 ChunkRail(pos, rails)
             }

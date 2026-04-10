@@ -6,6 +6,7 @@ import kotlinx.io.IOException
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.common.network.EmptyPacket
@@ -50,7 +51,7 @@ object NetworkLinkClient {
 
     fun initCurrentConnection() = sendPacket(EmptyPacket)
 
-    suspend fun request(path: String, body: CompoundTag, timeout: Long = 10000L): CompoundTag = withContext(Dispatchers.IO) {
+    suspend fun request(path: String, body: Tag, timeout: Long = 10000L): Tag = withContext(Dispatchers.IO) {
         if(RuntimeVariables.DEBUG) {
             logger.info("DEBUG: NL-RRM -> REQ $path $body")
         }

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import org.redsxi.transitplus.common.data.ChunkPos
 
-class ChunkRail(val pos: ChunkPos, val rails: List<Rail> = ArrayList()) {
+class ChunkRail(val pos: ChunkPos, val rails: MutableList<Rail> = ArrayList()) {
     companion object {
         val CODEC: Codec<ChunkRail> = RecordCodecBuilder.create { builder ->
             builder.group(

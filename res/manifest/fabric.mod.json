@@ -30,6 +30,7 @@
     "mtr": "*"
   },
   "mixins": [
+    "ctplus.legacy.mixin.json",
     "ctplus.mixin.json"
   ]
 }

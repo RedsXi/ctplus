@@ -15,9 +15,9 @@ class Rail(
             builder.group(
                 RailSegment.CODEC.fieldOf("Start").forGetter{it.start},
                 RailSegment.CODEC.fieldOf("End").forGetter{it.end},
-
-            ).apply(builder) { start, end ->
-                Rail(start, end)
+                Codec.INT.fieldOf("Direction").forGetter{it.direction.id()}
+            ).apply(builder) { start, end, direction ->
+                Rail(start, end, Direction.fromId(direction))
             }
         }
 
@@ -33,10 +33,12 @@ class Rail(
             r2: Double,
             tStart2: Double,
             tEnd2: Double,
-            straight2: Boolean
+            straight2: Boolean,
+            direction: Int = 0
         ) = Rail(
             RailSegment.read(h1, k1, r1, tStart1, tEnd1, straight1),
             RailSegment.read(h2, k2, r2, tStart2, tEnd2, straight2),
+            Direction.fromId(direction)
         )
 
         /**

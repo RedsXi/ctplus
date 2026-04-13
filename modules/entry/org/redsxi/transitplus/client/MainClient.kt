@@ -31,7 +31,7 @@ fun entry() {
         }))
         dispatcher.register(ClientCommandManager.literal("rail").executes {
             CoroutineScope(Dispatchers.IO).launch {
-                it.source.sendFeedback(NbtUtils.toPrettyComponent(ChunkRail.CODEC.encodeStart(NbtOps.INSTANCE, NetworkClient.getChunkRail(ChunkPos(0, 0))).result().get()))
+                it.source.sendFeedback(NbtUtils.toPrettyComponent(ChunkRail.CODEC.encodeStart(NbtOps.INSTANCE, NetworkClient.getChunkRail(ChunkPos(0, 0), it.source.player.level)).result().get()))
             }
             0
         })

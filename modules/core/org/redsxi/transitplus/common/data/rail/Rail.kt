@@ -1,6 +1,7 @@
 package org.redsxi.transitplus.common.data.rail
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.BlockPos
 import org.redsxi.transitplus.server.mixin.RailAccessor
@@ -15,11 +16,25 @@ class Rail(
             builder.group(
                 RailSegment.CODEC.fieldOf("Start").forGetter{it.start},
                 RailSegment.CODEC.fieldOf("End").forGetter{it.end},
-                Codec.INT.fieldOf("Direction").forGetter{it.direction.id()}
+                Direction.CODEC.fieldOf("Direction").forGetter{it.direction}
             ).apply(builder) { start, end, direction ->
-                Rail(start, end, Direction.fromId(direction))
+                Rail(start, end, direction)
             }
         }
+
+        val BLOCK_POS_PAIR_CODEC: Codec<Pair<BlockPos, BlockPos>> = Codec.STRING.comapFlatMap(
+            { str ->
+                val spl = str.split(",")
+                if(spl.size == 2) {
+                    DataResult.success(Pair(BlockPos.of(spl[0].toLong()), BlockPos.of(spl[1].toLong())))
+                } else {
+                    DataResult.error("Malformed input of Pair<BlockPos, BlockPos>")
+                }
+            },
+            {pair -> "${pair.first.asLong()},${pair.second.asLong()}"}
+        )
+
+        val MAP_POSITIONED_RAIL_CODEC: Codec<MutableMap<Pair<BlockPos, BlockPos>, Rail>> = Codec.unboundedMap(BLOCK_POS_PAIR_CODEC, CODEC)
 
         fun read(
             h1: Double,

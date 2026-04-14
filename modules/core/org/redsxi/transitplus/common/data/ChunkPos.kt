@@ -2,6 +2,8 @@ package org.redsxi.transitplus.common.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.BlockPos
+import net.minecraft.core.SectionPos
 
 data class ChunkPos(val x: Int, val y: Int) {
     companion object {
@@ -13,5 +15,10 @@ data class ChunkPos(val x: Int, val y: Int) {
                 ChunkPos(x, y)
             }
         }
+
+        fun fromBlock(pos: BlockPos) = ChunkPos(
+            SectionPos.blockToSectionCoord(pos.x),
+            SectionPos.blockToSectionCoord(pos.z)
+        )
     }
 }

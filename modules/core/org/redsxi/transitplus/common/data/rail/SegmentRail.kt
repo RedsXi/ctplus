@@ -14,6 +14,4 @@ class SegmentRail(kX: Double, kY: Double, kO: Double, override val tStart: Doubl
     override val r = kO
 
     override val straight = true
-
-
 }

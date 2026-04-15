@@ -16,7 +16,7 @@ import org.redsxi.transitplus.common.network.Request
 import org.redsxi.transitplus.common.network.Response
 
 object NetworkLinkClient {
-    var requestNum = 0L
+    var requestNum = System.currentTimeMillis()
 
     val waitingRequest = HashMap<Long, Long>()
     val savedResponse = HashMap<Long, Response>()

@@ -31,6 +31,6 @@
   },
   "mixins": [
     "ctplus.legacy.mixin.json",
-    "ctplus.mixin.json"
+    "ctplus.server.mixin.json"
   ]
 }

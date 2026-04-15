@@ -26,6 +26,7 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         context.translate(translateX, translateY)
 
         context.drawCircle(0f, 0f, 24f, cyan)
+        context.drawLine(-10f, 100f, 10f, 100f, 0xFFFFFFFF.toInt())
 
         context.popPose()
 

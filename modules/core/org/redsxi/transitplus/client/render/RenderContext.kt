@@ -10,6 +10,8 @@ import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.logging.LogUtils
 import com.mojang.math.Matrix4f
+import com.mojang.math.Vector3f
+import kotlinx.serialization.EncodeDefault
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiComponent
 import net.minecraft.client.renderer.GameRenderer
@@ -81,7 +83,7 @@ class RenderContext(val stack: PoseStack) {
         RenderSystem.disableScissor()
     }
 
-    private fun render(
+    fun render(
         render: BufferBuilder.(Matrix4f) -> BufferBuilder.RenderedBuffer
     ) {
         val builder = Tesselator.getInstance().builder
@@ -343,4 +345,12 @@ class RenderContext(val stack: PoseStack) {
     fun scale(sX: Double, sY: Double, sZ: Double = 1.0)
         = stack.scale(sX.toFloat(), sY.toFloat(), sZ.toFloat())
 
+    fun drawLine(sX: Float, sY: Float, eX: Float, eY: Float, color: Int) {
+        render {
+            begin(VertexFormat.Mode.DEBUG_LINES, POSITION_COLOR)
+            vertex(it, sX, sY, 0f).color(color).endVertex()
+            vertex(it, eX, eY, 0f).color(color).endVertex()
+            end()
+        }
+    }
 }

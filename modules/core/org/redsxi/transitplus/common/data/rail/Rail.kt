@@ -22,16 +22,28 @@ class Rail(
             }
         }
 
+        val LONG_HEX_FORMAT = HexFormat {
+            upperCase = true
+            number {
+                removeLeadingZeros = true
+                minLength = 16
+            }
+        }
+
         val BLOCK_POS_PAIR_CODEC: Codec<Pair<BlockPos, BlockPos>> = Codec.STRING.comapFlatMap(
             { str ->
-                val spl = str.split(",")
-                if(spl.size == 2) {
-                    DataResult.success(Pair(BlockPos.of(spl[0].toLong()), BlockPos.of(spl[1].toLong())))
-                } else {
-                    DataResult.error("Malformed input of Pair<BlockPos, BlockPos>")
+                try {
+                    DataResult.success(Pair(
+                        BlockPos.of(str.substring(0, 16).toLong(16)),
+                        BlockPos.of(str.substring(17, 32).toLong(16))
+                    ))
+                } catch (e: Exception) {
+                    DataResult.error(e.toString())
                 }
             },
-            {pair -> "${pair.first.asLong()},${pair.second.asLong()}"}
+            { pair ->
+                "%016X%016X".format(pair.first.asLong(), pair.second.asLong())
+            }
         )
 
         val MAP_POSITIONED_RAIL_CODEC: Codec<MutableMap<Pair<BlockPos, BlockPos>, Rail>> = Codec.unboundedMap(BLOCK_POS_PAIR_CODEC, CODEC)

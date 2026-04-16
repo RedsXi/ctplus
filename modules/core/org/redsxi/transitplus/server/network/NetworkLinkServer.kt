@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.LongTag
 import net.minecraft.nbt.Tag
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
 import org.redsxi.transitplus.common.logger.logger
@@ -20,8 +21,8 @@ object NetworkLinkServer {
 
     fun ServerPlayer.networkLinkSession() = savedPlayerNetworkSession[this]
 
-    fun registerPacketListener(type: PacketType, listener: (Packet, ServerPlayer) -> Unit) =
-        ServerPlayNetworking.registerGlobalReceiver(type.id) { _, player, _, buf, _ ->
+    fun registerPacketListener(type: PacketType, listener: (MinecraftServer, Packet, ServerPlayer) -> Unit) =
+        ServerPlayNetworking.registerGlobalReceiver(type.id) { server, player, _, buf, _ ->
 
             val packet = type.create()
             val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
@@ -29,25 +30,25 @@ object NetworkLinkServer {
             if(RuntimeVariables.DEBUG) {
                 logger.warn("DEBUG: NL <- $packet")
             }
-            listener(packet, player)
+            listener(server, packet, player)
         }
 
     fun init() {
-        registerPacketListener(EmptyPacket.Type) { packet, player ->
+        registerPacketListener(EmptyPacket.Type) { _, packet, player ->
             savedPlayerNetworkSession[player] = NetworkLinkServerSession(player)
         }
-        registerPacketListener(Request.Type) { packet, player ->
+        registerPacketListener(Request.Type) { server, packet, player ->
             if(packet !is Request) return@registerPacketListener
             if(requestProcessor.containsKey(packet.reqPath))
                 sendPacket(Response.createFromRequest(
                     packet,
-                    runBlocking{(requestProcessor[packet.reqPath] ?: throw InternalError("Check log or make issue at GitHub"))(packet.requestBody, player) ?: CompoundTag()}
+                    runBlocking{(requestProcessor[packet.reqPath] ?: throw InternalError("Check log or make issue at GitHub"))(server, packet.requestBody, player) ?: CompoundTag()}
                 ), player)
             else {
                 sendPacket(Response.createFromRequest(packet, CompoundTag()), player)
             }
         }
-        registerRequestProcessor("Ping") { _, _ -> LongTag.valueOf(System.currentTimeMillis()) }
+        registerRequestProcessor("Ping") { _, _, _ -> LongTag.valueOf(System.currentTimeMillis()) }
     }
 
     fun sendPacket(pack: Packet, player: ServerPlayer) {
@@ -60,15 +61,15 @@ object NetworkLinkServer {
         ServerPlayNetworking.send(player, pack.id, buf)
     }
 
-    val requestProcessor = HashMap<String, suspend (Tag, ServerPlayer) -> Tag?>()
+    val requestProcessor = HashMap<String, suspend (MinecraftServer, Tag, ServerPlayer) -> Tag?>()
 
-    fun registerRequestProcessor(path: String, processor: suspend (Tag, ServerPlayer) -> Tag?) {
-        requestProcessor[path] = { tag, player ->
+    fun registerRequestProcessor(path: String, processor: suspend (MinecraftServer, Tag, ServerPlayer) -> Tag?) {
+        requestProcessor[path] = { server, tag, player ->
             val time = System.currentTimeMillis()
             if(RuntimeVariables.DEBUG) {
                 logger.warn("DEBUG: NL-RRM <- REQ $path")
             }
-            val result = processor(tag, player)
+            val result = processor(server, tag, player)
             if(RuntimeVariables.DEBUG) {
                 logger.warn("DEBUG: NL-RRM -> RESP $path OK IN ${System.currentTimeMillis() - time}ms")
             }

@@ -12,7 +12,10 @@ object NetworkClient: Network {
     }
 
     override suspend fun getChunkRail(chunk: ChunkPos, world: Level): ChunkRail {
-        val req = ChunkPos.CODEC.encodeStart(NbtOps.INSTANCE, chunk).result().get() as CompoundTag
+        val req = CompoundTag()
+        req.put("Chunk", ChunkPos.CODEC.encodeStart(NbtOps.INSTANCE, chunk).result().get())
+        val worldName = Level.RESOURCE_KEY_CODEC.encodeStart(NbtOps.INSTANCE, world.dimension()).result().get()
+        req.put("Dimension", worldName)
         val resp = NetworkLinkClient.request("RCP.GetChunkRail", req)
         return ChunkRail.CODEC.decode(NbtOps.INSTANCE, resp).result().get().first
     }

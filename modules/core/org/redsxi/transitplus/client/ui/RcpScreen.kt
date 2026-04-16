@@ -1,19 +1,36 @@
 package org.redsxi.transitplus.client.ui
 
+import jdk.jshell.spi.ExecutionControl
+import net.minecraft.client.Minecraft
+import net.minecraft.core.SectionPos
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.render.RenderContext
+import org.redsxi.transitplus.client.render.rail.RailRenderContext
+import org.redsxi.transitplus.common.data.ChunkPos
+import org.redsxi.transitplus.common.getOrCreate
 import kotlin.math.pow
 
 // Fuck
 class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
-    val windowWHalf: Double get() = window.guiScaledWidth.toDouble() / 2
-    val windowHHalf: Double get() = window.guiScaledHeight.toDouble() / 2
+    val cachedChunkRailRenderer = HashMap<ChunkPos, RailRenderContext>()
+
+    val windowW get() = window.guiScaledWidth.toDouble()
+    val windowH get() = window.guiScaledHeight.toDouble()
+
+    val windowWHalf get() = windowW / 2
+    val windowHHalf get() = windowH / 2
 
     var translateX = windowWHalf
     var translateY = windowHHalf
 
-    var scale: Int = 0 // 1.1 ^ scale
+    var scale: Int = 0
+        get() = field
+        set(v) {
+            if(v in -20..48) {
+                field = v
+            }
+        }
     val sReal: Double get() = 1.1.pow(scale)
 
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
@@ -25,12 +42,47 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         context.scale(sReal, sReal)
         context.translate(translateX, translateY)
 
-        context.drawCircle(0f, 0f, 24f, cyan)
+        /*
+        [s^-1,   0, -wX]
+        [   0,s^-1, -wY]
+        [   0,   0,   1]
+         */
+
+        context.drawRect(0f, 0f, 16f, 16f, white)
+
+        val startX = SectionPos.blockToSectionCoord(-translateX)
+        val startY = SectionPos.blockToSectionCoord(-translateY)
+
+        val endX = SectionPos.blockToSectionCoord(( windowW / sReal ) - translateX)
+        val endY = SectionPos.blockToSectionCoord(( windowH / sReal ) - translateY)
+
+        for(x in startX..endX) {
+            for(y in startY..endY) {
+                val pos = ChunkPos(x, y)
+                val chunkRender = cachedChunkRailRenderer.getOrCreate(
+                    pos,
+                    RailRenderContext(
+                        pos,
+                        Minecraft.getInstance().level ?: throw InternalError()
+                    )
+                )
+                chunkRender.draw(context)
+            }
+        }
+
         context.drawLine(-10f, 100f, 10f, 100f, 0xFFFFFFFF.toInt())
 
         context.popPose()
 
-
+        if(0 in startX..endX) {
+            if(0 in startY..endY) {
+                context.drawString("Chunk 00 in the viewport", 10f, 10f, white)
+            } else {
+                context.drawString("Chunk 00 not in the viewport", 10f, 10f, yellow)
+            }
+        } else {
+            context.drawString("Chunk 00 not in the viewport", 10f, 10f, yellow)
+        }
     }
 
     override fun mouseScrolled(x: Double, y: Double, sV: Double): Boolean {

@@ -1,28 +1,54 @@
 package org.redsxi.transitplus.client.render.rail
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR
-import com.mojang.blaze3d.vertex.VertexFormat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.minecraft.world.level.Level
-import org.redsxi.transitplus.client.network.NetworkClient
 import org.redsxi.transitplus.client.render.RenderContext
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
+import org.redsxi.transitplus.server.network.NetworkServer
+import java.awt.Color
+import java.util.*
 
-class RailRenderContext(var rail: ChunkRail?, val position: ChunkPos, val currentWorld: Level) {
+class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
+
     fun draw(ctx: RenderContext) {
-        if(rail == null) {
-            CoroutineScope(Dispatchers.IO).launch {
-                rail = NetworkClient.getChunkRail(position, currentWorld)
-            }
+        if (cachedChunkRailData[Pair(position, currentWorld)] != null) {
+            // Retrieved
+            ctx.drawRect(position.posX.toFloat(), position.posY.toFloat(), 16f, 16f, 0xFF0000FF.toInt())
+        } else if (requestQueue.contains(Pair(position, currentWorld))) {
+            // Retrieving
+            ctx.drawRect(position.posX.toFloat(), position.posY.toFloat(), 16f, 16f, 0xFF000080.toInt())
         } else {
-            ctx.render {
-                begin(VertexFormat.Mode.DEBUG_LINE_STRIP, POSITION_COLOR)
-
-                end()
-            }
+            ctx.drawRect(position.posX.toFloat(), position.posY.toFloat(), 16f, 16f, Color(position.posX and 0xFF,0,position.posY and 0xFF,255).rgb)
         }
+
+
+
+    }
+
+    companion object {
+        var running = false
+
+        fun start() = {
+            running = true
+            thread.start()
+        }
+        fun stop() {
+            running = false
+        }
+
+        val requestQueue: Queue<Pair<ChunkPos, Level>> = LinkedList()
+        val cachedChunkRailData = HashMap<Pair<ChunkPos, Level>, ChunkRail>()
+
+        val thread = Thread({
+            while(running) {
+                val pair = requestQueue.poll()
+                if(pair != null) {
+                    runBlocking {
+                        cachedChunkRailData[pair] = NetworkServer.getChunkRail(pair.first, pair.second)
+                    }
+                }
+            }
+        }, "ChunkRailRendererThread")
     }
 }

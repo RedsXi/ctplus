@@ -21,4 +21,7 @@ data class ChunkPos(val x: Int, val y: Int) {
             SectionPos.blockToSectionCoord(pos.z)
         )
     }
+
+    val posX get() = x shl 4
+    val posY get() = y shl 4
 }

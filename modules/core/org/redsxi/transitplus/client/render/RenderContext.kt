@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.network.chat.Component
 import org.redsxi.mc.ctplus.generated.RuntimeVariables
+import org.redsxi.transitplus.common.annotation.InnerApi
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -61,6 +62,7 @@ class RenderContext(val stack: PoseStack) {
         h * guiScale
     )
 
+    @InnerApi
     fun scissorRenderArea0(
         x: Int,
         y: Int,
@@ -83,6 +85,7 @@ class RenderContext(val stack: PoseStack) {
         RenderSystem.disableScissor()
     }
 
+    @InnerApi
     fun render(
         render: BufferBuilder.(Matrix4f) -> BufferBuilder.RenderedBuffer
     ) {

@@ -2,23 +2,17 @@ package org.redsxi.transitplus.client.render
 
 import com.mojang.blaze3d.platform.Window
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.BufferBuilder
-import com.mojang.blaze3d.vertex.BufferUploader
+import com.mojang.blaze3d.vertex.*
 import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.Tesselator
-import com.mojang.blaze3d.vertex.VertexFormat
-import com.mojang.logging.LogUtils
+import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR_TEX
+import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX
 import com.mojang.math.Matrix4f
-import com.mojang.math.Vector3f
-import kotlinx.serialization.EncodeDefault
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiComponent
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
-import net.minecraft.network.chat.Component
-import org.redsxi.mc.ctplus.generated.RuntimeVariables
+import net.minecraft.resources.ResourceLocation
+import org.redsxi.transitplus.client.ui.white
 import org.redsxi.transitplus.common.annotation.InnerApi
 import kotlin.math.PI
 import kotlin.math.cos
@@ -30,16 +24,10 @@ import kotlin.math.sin
  * @see PoseStack
  * @see RenderSystem
  */
-// TODO 将RenderSystem启用禁用的东西全部移动到实际绘制函数外
 class RenderContext(val stack: PoseStack) {
-
-    private val logger = LogUtils.getLogger()
 
     fun pushPose() = stack.pushPose()
     fun popPose() = stack.popPose()
-
-    private val debug = RuntimeVariables.DEBUG
-    private val displayAsFrameworks = false
 
     val client: Minecraft get() = Minecraft.getInstance()
     val window: Window get() = client.window
@@ -109,10 +97,7 @@ class RenderContext(val stack: PoseStack) {
         cY: Float,
         cColor: Int
     ){
-        RenderSystem.enableBlend()
-        RenderSystem.disableTexture()
-        RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ getPositionColorShader() }
+        setShader(getPositionColorShader() ?: throw RuntimeException())
         render {
             begin(VertexFormat.Mode.TRIANGLES, POSITION_COLOR)
             vertex(it, aX, aY, 1f).color(aColor).endVertex()
@@ -120,8 +105,6 @@ class RenderContext(val stack: PoseStack) {
             vertex(it, cX, cY, 1f).color(cColor).endVertex()
             end()
         }
-        RenderSystem.enableTexture()
-        RenderSystem.disableBlend()
     }
 
     /**
@@ -133,10 +116,7 @@ class RenderContext(val stack: PoseStack) {
         radius: Float,
         color: Int
     ) {
-        RenderSystem.enableBlend()
-        RenderSystem.disableTexture()
-        RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ getPositionColorShader() }
+        setShader(getPositionColorShader() ?: throw RuntimeException())
         render {
             begin(VertexFormat.Mode.TRIANGLE_FAN, POSITION_COLOR)
             vertex(it, centerX, centerY, 1f).color(color).endVertex()
@@ -153,8 +133,6 @@ class RenderContext(val stack: PoseStack) {
             }
             end()
         }
-        RenderSystem.enableTexture()
-        RenderSystem.disableBlend()
     }
 
     /**
@@ -167,10 +145,7 @@ class RenderContext(val stack: PoseStack) {
         strokeWidth: Float,
         color: Int
     ) {
-        RenderSystem.enableBlend()
-        RenderSystem.disableTexture()
-        RenderSystem.defaultBlendFunc()
-        RenderSystem.setShader{ getPositionColorShader() }
+        setShader(getPositionColorShader() ?: throw RuntimeException())
         render {
             begin(VertexFormat.Mode.TRIANGLE_STRIP, POSITION_COLOR)
             //vertex(it, centerX.toFloat(), centerY.toFloat(), 1f).color(color).endVertex()
@@ -198,8 +173,6 @@ class RenderContext(val stack: PoseStack) {
             }
             end()
         }
-        RenderSystem.enableTexture()
-        RenderSystem.disableBlend()
     }
 
     /**
@@ -228,6 +201,16 @@ class RenderContext(val stack: PoseStack) {
     fun defaultBlendFunc() = RenderSystem.defaultBlendFunc()
 
     /**
+     * 启用深度测试（层级差异）
+     */
+    fun enableDepthTest() = RenderSystem.enableDepthTest()
+
+    /**
+     * 禁用深度测试（层级差异）
+     */
+    fun disableDepthTest() = RenderSystem.disableDepthTest()
+
+    /**
      * 修改着色器
      *
      * 各种着色器参见[GameRenderer]
@@ -237,6 +220,10 @@ class RenderContext(val stack: PoseStack) {
      * @see GameRenderer.getPositionTexShader
      */
     fun setShader(shader: ShaderInstance) = RenderSystem.setShader { shader }
+
+    fun setShaderTexture(resId: ResourceLocation) = RenderSystem.setShaderTexture(0, resId)
+
+    fun setShaderColor(a: Float, r: Float, g: Float, b: Float) = RenderSystem.setShaderColor(r, g, b, a)
 
     /**
      * 画矩形
@@ -248,17 +235,15 @@ class RenderContext(val stack: PoseStack) {
         h: Float,
         color: Int
     ) {
-        defaultBlendFunc()
-        disableTexture()
-        enableBlend()
-
         setShader(getPositionColorShader() ?: throw RuntimeException())
-
         render {
             begin(
                 VertexFormat.Mode.QUADS,
                 POSITION_COLOR
             )
+
+            // 左下，右下，右上，左上
+
             vertex(
                 it,
                 x,
@@ -286,14 +271,12 @@ class RenderContext(val stack: PoseStack) {
 
             end()
         }
-
-        disableBlend()
-        enableTexture()
     }
 
     /**
      * 矩形描边
      */
+    @Deprecated("What")
     fun drawRectBorder(
         x: Float,
         y: Float,
@@ -356,4 +339,25 @@ class RenderContext(val stack: PoseStack) {
             end()
         }
     }
+
+    /**
+     * 喷溅操作
+     */
+    fun blit(x: Float, y: Float, w: Float, h: Float, imageX: Float, imageY: Float, imageW: Float, imageH: Float) {
+
+    }
+
+    fun blit(x: Float, y: Float, w: Float, h: Float, imageX: Float, imageY: Float) {
+        render {
+            begin(VertexFormat.Mode.QUADS, POSITION_TEX)
+            vertex(it, x, y + h, 1f).uv(0f, 1f).endVertex()
+            vertex(it, x + w, y + h, 1f).uv(1f, 1f).endVertex()
+            vertex(it, x + w, y, 1f).uv(1f, 0f).endVertex()
+            vertex(it, x, y, 1f).uv(0f, 0f).endVertex()
+            end()
+        }
+    }
+
+    fun blit(x: Float, y: Float, w: Float, h: Float) =
+        blit(x, y, w, h, 0f, 0f)
 }

@@ -1,13 +1,28 @@
 package org.redsxi.transitplus.client.ui
 
-import jdk.jshell.spi.ExecutionControl
+import com.mojang.blaze3d.platform.NativeImage
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiComponent
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.core.SectionPos
+import net.minecraft.resources.ResourceLocation
+import org.redsxi.mc.ctplus.ctPlus
 import org.redsxi.mc.ctplus.mapping.Text
+import org.redsxi.mc.ctplus.modId
 import org.redsxi.transitplus.client.render.RenderContext
 import org.redsxi.transitplus.client.render.rail.RailRenderContext
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.getOrCreate
+import java.awt.Color
+import java.awt.Font
+import java.awt.Font.PLAIN
+import java.awt.image.BufferedImage
+import java.awt.image.BufferedImage.TYPE_INT_ARGB
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
 import kotlin.math.pow
 
 // Fuck
@@ -35,6 +50,26 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
         renderBackground(context.stack)
+
+        val id = ResourceLocation("ctplus", "dynamic_rcp_${System.currentTimeMillis()}")
+
+        val img = BufferedImage(256, 256, TYPE_INT_ARGB)
+        val renderer = img.createGraphics()
+
+        renderer.color = Color.GREEN
+        renderer.fillRect(0, 0, 256, 256)
+
+        val font = Font("Cascadia Code", 0, 24)
+        renderer.font = font
+        renderer.color = Color.WHITE
+        renderer.drawString("LSL", 5, 5)
+
+        val output = ByteArrayOutputStream()
+        ImageIO.write(img, "png", output)
+        val nImg = NativeImage.read(ByteArrayInputStream(output.toByteArray()))
+        val texture = DynamicTexture(nImg)
+        texture.setFilter(false, false)
+        client.textureManager.register(id, texture)
 
         // Actual map render
         context.pushPose()
@@ -66,11 +101,19 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
                         Minecraft.getInstance().level ?: throw InternalError()
                     )
                 )
-                chunkRender.draw(context)
+                //chunkRender.draw(context)
             }
         }
 
         context.drawLine(-10f, 100f, 10f, 100f, 0xFFFFFFFF.toInt())
+
+        context.setShader(GameRenderer.getPositionTexShader() ?: throw RuntimeException())
+        context.setShaderTexture(id)
+        context.setShaderColor(1.0F, 1.0F, 1.0F, 1f)
+        context.enableBlend()
+        context.defaultBlendFunc()
+        context.enableDepthTest()
+        context.blit(0f, 0f, 16f, 16f)
 
         context.popPose()
 
@@ -83,6 +126,8 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         } else {
             context.drawString("Chunk 00 not in the viewport", 10f, 10f, yellow)
         }
+
+        client.textureManager.release(id)
     }
 
     override fun mouseScrolled(x: Double, y: Double, sV: Double): Boolean {
@@ -105,4 +150,6 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         }
         return super.mouseDragged(d, e, i, f, g)
     }
+
+    val bufferedImage = HashMap<ChunkPos, BufferedImage>()
 }

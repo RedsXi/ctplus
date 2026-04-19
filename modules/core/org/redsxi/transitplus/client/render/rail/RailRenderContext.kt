@@ -8,8 +8,14 @@ import org.redsxi.transitplus.common.data.rail.ChunkRail
 import org.redsxi.transitplus.server.network.NetworkServer
 import java.awt.Color
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
+@Deprecated("")
 class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
+
+    init {
+        start()
+    }
 
     fun draw(ctx: RenderContext) {
         if (cachedChunkRailData[Pair(position, currentWorld)] != null) {
@@ -19,6 +25,7 @@ class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
             // Retrieving
             ctx.drawRect(position.posX.toFloat(), position.posY.toFloat(), 16f, 16f, 0xFF000080.toInt())
         } else {
+            queueRequest(currentWorld, position)
             ctx.drawRect(position.posX.toFloat(), position.posY.toFloat(), 16f, 16f, Color(position.posX and 0xFF,0,position.posY and 0xFF,255).rgb)
         }
 
@@ -29,7 +36,8 @@ class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
     companion object {
         var running = false
 
-        fun start() = {
+        fun start() {
+            if(running) return
             running = true
             thread.start()
         }
@@ -38,7 +46,7 @@ class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
         }
 
         val requestQueue: Queue<Pair<ChunkPos, Level>> = LinkedList()
-        val cachedChunkRailData = HashMap<Pair<ChunkPos, Level>, ChunkRail>()
+        val cachedChunkRailData = ConcurrentHashMap<Pair<ChunkPos, Level>, ChunkRail>()
 
         val thread = Thread({
             while(running) {
@@ -50,5 +58,9 @@ class RailRenderContext(val position: ChunkPos, val currentWorld: Level) {
                 }
             }
         }, "ChunkRailRendererThread")
+
+        fun queueRequest(world: Level, pos: ChunkPos) {
+            requestQueue += Pair(pos, world)
+        }
     }
 }

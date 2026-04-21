@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtUtils
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.network.NetworkClient
 import org.redsxi.transitplus.client.network.NetworkLinkClient
+import org.redsxi.transitplus.client.web.WebServer
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
 import org.redsxi.transitplus.common.network.Network
@@ -36,4 +37,5 @@ fun entry() {
             0
         })
     }
+    WebServer.start()
 }

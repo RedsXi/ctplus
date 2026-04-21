@@ -1,7 +1,8 @@
 package org.redsxi.transitplus
 
-import org.redsxi.transitplus.common.logger.logger
+import org.redsxi.transitplus.client.web.WebServer
 
 fun main() {
-    logger.info(logger.name)
+    WebServer.start()
+    while(true) {}
 }

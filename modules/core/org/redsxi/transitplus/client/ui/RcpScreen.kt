@@ -12,6 +12,7 @@ import org.redsxi.mc.ctplus.ctPlus
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.mc.ctplus.modId
 import org.redsxi.transitplus.client.render.RenderContext
+import org.redsxi.transitplus.client.render.Temporary
 import org.redsxi.transitplus.client.render.rail.RailRenderContext
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.getOrCreate
@@ -53,20 +54,7 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
         val id = ResourceLocation("ctplus", "dynamic_rcp_${System.currentTimeMillis()}")
 
-        val img = BufferedImage(256, 256, TYPE_INT_ARGB)
-        val renderer = img.createGraphics()
-
-        renderer.color = Color.GREEN
-        renderer.fillRect(0, 0, 256, 256)
-
-        val font = Font("Cascadia Code", 0, 24)
-        renderer.font = font
-        renderer.color = Color.WHITE
-        renderer.drawString("LSL", 5, 5)
-
-        val output = ByteArrayOutputStream()
-        ImageIO.write(img, "png", output)
-        val nImg = NativeImage.read(ByteArrayInputStream(output.toByteArray()))
+        val nImg = NativeImage.read(ByteArrayInputStream(Temporary.image))
         val texture = DynamicTexture(nImg)
         texture.setFilter(false, false)
         client.textureManager.register(id, texture)

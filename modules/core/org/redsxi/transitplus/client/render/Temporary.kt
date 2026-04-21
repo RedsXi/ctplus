@@ -92,7 +92,7 @@ object Temporary {
             (K - R) * k,
             R * k * 2,
             R * k * 2,
-            rad2deg(Start) - 90.0,
+            -rad2deg(Start),
             rad2deg(End - Start, -360.0),
             OPEN
         )

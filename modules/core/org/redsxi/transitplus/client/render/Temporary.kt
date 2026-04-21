@@ -71,11 +71,6 @@ object Temporary {
         renderer.color = Color.BLACK
         renderer.fillRect(0, 0, 256, 256)
 
-        val font = Font("Cascadia Code", 0, 24)
-        renderer.font = font
-        renderer.color = Color.WHITE
-        renderer.drawString("LSL", 5, 60)
-
         renderer.color = Color.YELLOW
         renderer.stroke = BasicStroke(3f * 16)
 

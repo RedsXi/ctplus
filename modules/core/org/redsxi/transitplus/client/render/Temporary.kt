@@ -2,9 +2,6 @@ package org.redsxi.transitplus.client.render
 
 import java.awt.BasicStroke
 import java.awt.Color
-import java.awt.Font
-import java.awt.GradientPaint
-import java.awt.Stroke
 import java.awt.geom.Arc2D
 import java.awt.geom.Arc2D.OPEN
 import java.awt.geom.Line2D
@@ -72,7 +69,7 @@ object Temporary {
         renderer.fillRect(0, 0, 256, 256)
 
         renderer.color = Color.YELLOW
-        renderer.stroke = BasicStroke(3f * 16)
+        renderer.stroke = BasicStroke(2f * 16)
 
         val k = 16.0
 
@@ -93,7 +90,7 @@ object Temporary {
             R * k * 2,
             R * k * 2,
             -rad2deg(Start),
-            rad2deg(End - Start, -360.0),
+            -rad2deg(End - Start, -360.0),
             OPEN
         )
 

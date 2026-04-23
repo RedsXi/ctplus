@@ -9,13 +9,17 @@ import org.redsxi.transitplus.client.render.Temporary
 import org.redsxi.transitplus.client.render.Temporary.End
 import org.redsxi.transitplus.client.render.Temporary.Start
 import org.redsxi.transitplus.client.render.Temporary.rad2deg
-import org.redsxi.transitplus.client.render.Temporary.radLimit
+import org.redsxi.transitplus.client.render.rail.RailRenderTask
+import org.redsxi.transitplus.common.data.ChunkPos
+import org.redsxi.transitplus.common.data.rail.ChunkRail
+import org.redsxi.transitplus.common.data.rail.Rail
 
 object WebServer {
     val server = embeddedServer(CIO, 60000) {
         routing {
             get("/chunkZero") {
-                call.respond(Temporary.image)
+                val c = ChunkRail(ChunkPos(0, 0))
+                call.respond(RailRenderTask.render(c))
             }
         }
     }

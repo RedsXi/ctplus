@@ -4,5 +4,5 @@ import org.redsxi.transitplus.client.web.WebServer
 
 fun main() {
     WebServer.start()
-    while(true) {}
+    (WebServer as Object).wait()
 }

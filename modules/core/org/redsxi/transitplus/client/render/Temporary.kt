@@ -8,6 +8,7 @@ import java.awt.geom.Line2D
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_INT_ARGB
 import java.io.ByteArrayOutputStream
+import java.lang.StrictMath.*
 import javax.imageio.ImageIO
 import kotlin.math.PI
 
@@ -36,6 +37,9 @@ object Temporary {
         }
         return result
     }
+
+    fun rad2deg0(rad: Double)
+        = atan2(cos(rad), sin(rad))
 
     fun rad2deg(r: Double, negLimit: Double = 0.0): Double {
         var result = r * R2D

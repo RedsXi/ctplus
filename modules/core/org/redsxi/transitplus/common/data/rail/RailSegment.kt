@@ -12,6 +12,8 @@ interface RailSegment {
 
     val straight: Boolean
 
+    val reverse: Boolean
+
     companion object {
         val CODEC: Codec<RailSegment> = RecordCodecBuilder.create { builder ->
             builder.group(
@@ -20,9 +22,10 @@ interface RailSegment {
                 Codec.DOUBLE.fieldOf("R").forGetter{it.r},
                 Codec.DOUBLE.fieldOf("Start").forGetter{it.tStart},
                 Codec.DOUBLE.fieldOf("End").forGetter{it.tEnd},
-                Codec.BOOL.fieldOf("Straight").forGetter{it.straight}
-            ).apply(builder){ h, k, r, tStart, tEnd, straight ->
-                read(h, k, r, tStart, tEnd, straight)
+                Codec.BOOL.fieldOf("Straight").forGetter{it.straight},
+                Codec.BOOL.fieldOf("Reverse").forGetter{it.reverse},
+            ).apply(builder){ h, k, r, tStart, tEnd, straight, reverse ->
+                read(h, k, r, tStart, tEnd, straight, reverse)
             }
         }
 
@@ -32,15 +35,16 @@ interface RailSegment {
             r: Double,
             tStart: Double,
             tEnd: Double,
-            straight: Boolean
+            straight: Boolean,
+            reverse: Boolean
         ): RailSegment = if(straight) {
             if(k >= 0.5 && r >= 0.5) {
-                SpecialSegmentRail(h, k, r, tStart, tEnd)
+                SpecialSegmentRail(h, k, r, tStart, tEnd, reverse)
             } else {
-                SegmentRail(h, k, r, tStart, tEnd)
+                SegmentRail(h, k, r, tStart, tEnd, reverse)
             }
         } else {
-            ArcRail(h, k, r, tStart, tEnd)
+            ArcRail(h, k, r, tStart, tEnd, reverse)
         }
     }
 }

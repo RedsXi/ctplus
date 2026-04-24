@@ -61,18 +61,20 @@ class Rail(
             tStart2: Double,
             tEnd2: Double,
             straight2: Boolean,
+            rev1: Boolean,
+            rev2: Boolean,
             direction: Int = 0
         ) = Rail(
-            RailSegment.read(h1, k1, r1, tStart1, tEnd1, straight1),
-            RailSegment.read(h2, k2, r2, tStart2, tEnd2, straight2),
+            RailSegment.read(h1, k1, r1, tStart1, tEnd1, straight1, rev1),
+            RailSegment.read(h2, k2, r2, tStart2, tEnd2, straight2, rev2),
             Direction.fromId(direction)
         )
 
         /**
          * @param rail 假设r0是MTR的Rail: ```r0.accessor()```
          */
-        fun read(rail: RailAccessor)
-            = read(
+        fun read(rail: RailAccessor): Rail {
+            return read(
                 rail.hStart(),
                 rail.kStart(),
                 rail.rStart(),
@@ -84,8 +86,11 @@ class Rail(
                 rail.rEnd(),
                 rail.tEndStart(),
                 rail.tEndEnd(),
-                rail.endStraight()
+                rail.endStraight(),
+                rail.startReverse(),
+                rail.endReverse()
             )
+        }
     }
 
     fun forward() {

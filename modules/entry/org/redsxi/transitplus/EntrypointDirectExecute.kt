@@ -4,5 +4,8 @@ import org.redsxi.transitplus.client.web.WebServer
 
 fun main() {
     WebServer.start()
-    (WebServer as Object).wait()
+    val lock = ""
+    synchronized(lock) {
+        (lock as Object).wait()
+    }
 }

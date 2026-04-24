@@ -8,7 +8,14 @@ package org.redsxi.transitplus.common.data.rail
  * x = kX*T
  * y = kY*T + kX*kO
  */
-class SpecialSegmentRail(kX: Double, kY: Double, kO: Double, override val tStart: Double, override val tEnd: Double): RailSegment {
+class SpecialSegmentRail(
+    val kX: Double,
+    val kY: Double,
+    val kO: Double,
+    override val tStart: Double,
+    override val tEnd: Double,
+    override val reverse: Boolean
+): RailSegment {
     override val h = kX
     override val k = kY
     override val r = kO

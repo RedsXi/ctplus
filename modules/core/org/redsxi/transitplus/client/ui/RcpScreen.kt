@@ -41,7 +41,6 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
     var translateY = windowHHalf
 
     var scale: Int = 0
-        get() = field
         set(v) {
             if(v in -20..48) {
                 field = v

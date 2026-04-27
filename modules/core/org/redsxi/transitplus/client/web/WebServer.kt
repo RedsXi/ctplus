@@ -14,8 +14,10 @@ import org.redsxi.transitplus.client.render.rail.RailRenderTask
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
 import org.redsxi.transitplus.common.data.rail.Rail
+import java.io.PrintStream
 import javax.imageio.ImageIO
 
+@Deprecated("")
 object WebServer {
     val server = embeddedServer(CIO, 60000) {
         routing {
@@ -25,8 +27,14 @@ object WebServer {
                 val rail = Rail.CODEC.decode(NbtOps.INSTANCE, nbt).result().get().first
                 c.rails[Pair(BlockPos(0,0,0), BlockPos(0,0,0))] = rail
                 val image = RailRenderTask.render(c)
-                call.respondOutputStream(ContentType.Image.PNG) {
-                    ImageIO.write(image, "png", this)
+                call.respondOutputStream {
+                    val po = PrintStream(this)
+                    for (i in image) {
+                        for (v in i) {
+                            po.println("(${v.first}, ${v.second})")
+                        }
+                        po.println()
+                    }
                 }
             }
         }

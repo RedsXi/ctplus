@@ -27,7 +27,8 @@ object NetworkLinkClient {
         val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
         packet.loadData(data)
         if(RuntimeVariables.DEBUG) {
-            logger.info("DEBUG: NL <- $packet")
+            val name = packet::class.java.simpleName
+            logger.info("DEBUG: NL <- $name")
         }
         listener(packet)
     }
@@ -44,7 +45,8 @@ object NetworkLinkClient {
         val buf = PacketByteBufs.create()
         buf.writeNbt(data)
         if(RuntimeVariables.DEBUG) {
-            logger.info("DEBUG: NL -> $pack")
+            val name = pack::class.java.simpleName
+            logger.info("DEBUG: NL -> $name")
         }
         ClientPlayNetworking.send(pack.id, buf)
     }
@@ -53,7 +55,7 @@ object NetworkLinkClient {
 
     suspend fun request(path: String, body: Tag, timeout: Long = 10000L): Tag = withContext(Dispatchers.IO) {
         if(RuntimeVariables.DEBUG) {
-            logger.info("DEBUG: NL-RRM -> REQ $path $body")
+            logger.info("DEBUG: NL-RRM -> REQ $path")
         }
         val id = requestNum++
         val reqTime = System.currentTimeMillis()

@@ -16,7 +16,6 @@ import org.redsxi.transitplus.client.network.NetworkLinkClient
 import org.redsxi.transitplus.client.web.WebServer
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
-import org.redsxi.transitplus.common.network.Network
 
 fun entry() {
     NetworkLinkClient.init()

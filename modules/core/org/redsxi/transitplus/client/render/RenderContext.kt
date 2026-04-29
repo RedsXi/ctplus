@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.resources.ResourceLocation
+import org.redsxi.transitplus.client.render.rail.Vertexes
 import org.redsxi.transitplus.client.ui.white
 import org.redsxi.transitplus.common.annotation.InnerApi
 import kotlin.math.PI
@@ -360,4 +361,28 @@ class RenderContext(val stack: PoseStack) {
 
     fun blit(x: Float, y: Float, w: Float, h: Float) =
         blit(x, y, w, h, 0f, 0f)
+
+    enum class DrawType {
+        TRIANGLE_STRIP,
+        LINES_STRIP
+    }
+
+    fun drawVertexes(vertexes: Vertexes, color: Int, drawType: DrawType = DrawType.TRIANGLE_STRIP) {
+        render {
+            val mode = when(drawType) {
+                DrawType.TRIANGLE_STRIP -> VertexFormat.Mode.TRIANGLE_STRIP
+                DrawType.LINES_STRIP -> VertexFormat.Mode.DEBUG_LINE_STRIP
+            }
+            begin(mode, POSITION_COLOR)
+            for(v in vertexes) {
+                vertex(
+                    it,
+                    v.first,
+                    v.second,
+                    1f
+                ).color(color).endVertex()
+            }
+            end()
+        }
+    }
 }

@@ -221,5 +221,7 @@ sourceSets {
         java.srcDir("modules/core_legacy")
         java.srcDir("modules/core")
         java.srcDir("modules/api")
+        java.srcDir("modules/coroutines")
+        java.srcDir("modules/network")
     }
 }

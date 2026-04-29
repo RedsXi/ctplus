@@ -28,7 +28,8 @@ object NetworkLinkServer {
             val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
             packet.loadData(data)
             if(RuntimeVariables.DEBUG) {
-                logger.warn("DEBUG: NL <- $packet")
+                val name = packet::class.java.simpleName
+                logger.info("DEBUG: NL <- $name")
             }
             listener(server, packet, player)
         }
@@ -56,7 +57,8 @@ object NetworkLinkServer {
         val buf = PacketByteBufs.create()
         buf.writeNbt(data)
         if(RuntimeVariables.DEBUG) {
-            logger.warn("DEBUG: NL -> $pack")
+            val name = pack::class.java.simpleName
+            logger.warn("DEBUG: NL -> $name")
         }
         ServerPlayNetworking.send(player, pack.id, buf)
     }

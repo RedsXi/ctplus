@@ -27,7 +27,7 @@ object WebServer {
                 val rail = Rail.CODEC.decode(NbtOps.INSTANCE, nbt).result().get().first
                 c.rails[Pair(BlockPos(0,0,0), BlockPos(0,0,0))] = rail
                 val image = RailRenderTask.render(c)
-                call.respondOutputStream {
+                call.respondOutputStream(ContentType.Text.Plain) {
                     val po = PrintStream(this)
                     for (i in image) {
                         for (v in i) {

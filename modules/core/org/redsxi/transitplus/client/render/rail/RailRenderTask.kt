@@ -1,6 +1,7 @@
 package org.redsxi.transitplus.client.render.rail
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.redsxi.transitplus.common.data.rail.ArcRail
 import org.redsxi.transitplus.common.data.rail.ChunkRail
@@ -76,16 +77,54 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
         strokeHalf: Double,
         consumer: (Double, Double) -> Unit // TRI_STRIP
     ) {
-        val x = endX - startX
-        val y = endY - startY
-        val l = hypot(x, y)
-        val k = strokeHalf / l
-        val tX = x * k
-        val tY = y * k
-        consumer(startX + tY, startY - tX)
-        consumer(startX - tY, startY + tX)
-        consumer(endX - tY, startY + tX)
-        consumer(endX + tY, startY - tX)
+        /*
+         * // 1. 计算直线方向向量
+    glm::vec2 dir = glm::vec2(endX - startX, endY - startY);
+    float length = glm::length(dir);
+    if (length < 0.0001f) return {}; // 避免零向量
+    dir = glm::normalize(dir);
+
+    // 2. 计算垂直方向（用于扩展线宽）
+    glm::vec2 normal = glm::vec2(-dir.y, dir.x);
+    glm::vec2 offset = normal * (strokeWidth / 2.0f);
+
+    // 3. 生成矩形四个顶点（两个三角形）
+    std::vector<glm::vec2> vertices = {
+        // 三角形 1
+        glm::vec2(startX) + offset,
+        glm::vec2(startY) - offset,
+        glm::vec2(endX) + offset,
+
+        // 三角形 2
+        glm::vec2(endX) + offset,
+        glm::vec2(endY) - offset,
+        glm::vec2(startY) - offset
+    };
+    return vertices;
+         */
+
+
+        val dX = endX - startX
+        val dY = endY - startY
+        val len = hypot(dX, dY)
+        if (len <= 1e-4) return
+        val x = dX / len
+        val y = dY / len
+
+        val oX = -y * strokeHalf
+        val oY = x * strokeHalf
+
+        consumer(startX + oX, startY + oY)
+        consumer(startX - oX, startY - oY)
+        consumer(endX + oX, endY + oY)
+        consumer(endX - oX, endY - oY)
+
+        // 1. startX + oX, startY + oY
+        // 2. startX - oX, startY - oY
+        // 3. endX + oX, endY + oY
+        // 4. endX - oX, endY - oY
+
+
     }
 
     fun arc(
@@ -104,13 +143,16 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
 
         // get D,S,Step
         var d = tEnd - tStart
-        if(d <= 0.0) d += PI * 2
         var s = tStart
+        if(d <= 0.0) {
+            d = -d
+        }
         if(reverse) {
             s = tEnd
             d = PI * 2 - d
+
         }
-        val count = r.toInt()
+        val count = r.toInt() * RENDER_LEVEL
         val step = d / count
 
         for(i in 0..count) {
@@ -130,71 +172,6 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
         }
     }
 
-    @Deprecated("")
-    fun toDegree(rad: Double)
-        = atan2(sin(rad), cos(rad)) * R2D
-
-    @Deprecated("")
-    fun deltaDeg(start: Double, end: Double, reverse: Boolean): Double {
-        val v = toDegree(end) - toDegree(start)
-        return if(reverse) 360.0 + v else v
-    }
-
-    @Deprecated("")
-    fun getShapes(rails: ChunkRail, s: Int, action: (Shape) -> Unit) {
-        val scale = 1 shl s
-        val mask = scale - 1
-        val invMask = mask.inv()
-        val x = rails.pos.x
-        val y = rails.pos.y
-        val posX = (x and invMask).toDouble()
-        val posY = (y and invMask).toDouble()
-
-        for(rail in rails.rails.values) {
-            action(rail.start.getShape(posX, posY, scale))
-            action(rail.end.getShape(posX, posY, scale))
-        }
-    }
-
-    @Deprecated("")
-    fun RailSegment.getShape(
-        posX: Double,
-        posY: Double,
-        scale: Int
-    ): Shape {
-        if(this is ArcRail) {
-            println(tStart)
-            println(toDegree(tStart))
-            println(deltaDeg(tStart, tEnd, reverse))
-            return Arc2D.Double(
-                (cX - r + posX) / scale * RENDER_LEVEL,
-                (cY - r + posY) / scale * RENDER_LEVEL,
-                (r * 2) / scale * RENDER_LEVEL,
-                (r * 2) / scale * RENDER_LEVEL,
-                toDegree(tStart),
-                deltaDeg(tStart, tEnd, reverse),
-                Arc2D.OPEN
-            )
-        }
-        if(this is SegmentRail) {
-            return Line2D.Double(
-                (kX * tStart + kY * kO - posX) / scale * RENDER_LEVEL,
-                (kY * tStart + kX * kO - posY) / scale * RENDER_LEVEL,
-                (kX * tEnd + kY * kO - posX) / scale * RENDER_LEVEL,
-                (kY * tEnd + kX * kO - posY) / scale * RENDER_LEVEL,
-            )
-        }
-        if(this is SpecialSegmentRail) {
-            return Line2D.Double(
-                (kX * tStart - posX) / scale * RENDER_LEVEL,
-                (kY * tStart + kX * kO - posY) / scale * RENDER_LEVEL,
-                (kX * tEnd - posX) / scale * RENDER_LEVEL,
-                (kY * tEnd + kX * kO - posY) / scale * RENDER_LEVEL,
-            )
-        }
-        error("")
-    }
-
     class Factory: ThreadFactory {
         @Volatile
         var number = 1
@@ -205,7 +182,7 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
     }
 
     companion object {
-        const val RENDER_LEVEL = 64
+        const val RENDER_LEVEL = 8
         const val CHUNK_SIZE = 16
         const val R2D = 180.0 / PI
 
@@ -216,14 +193,13 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
             TimeUnit.SECONDS,
             LinkedBlockingQueue(),
             Factory()
-        )
+        ).asCoroutineDispatcher()
 
         suspend fun render(rail: ChunkRail, scale: Int = 0): List<Vertexes> {
-            return withContext(Dispatchers.IO) {
-                threadPool.submit(RailRenderTask(rail, scale)).get()
+            return withContext(threadPool) {
+                logger.info("Maaaa")
+                RailRenderTask(rail, scale).call()
             }
         }
-
-        fun stop() = threadPool.shutdown()
     }
 }

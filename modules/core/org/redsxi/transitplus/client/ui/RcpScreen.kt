@@ -68,7 +68,7 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
                 val pos = ChunkPos(x, y)
                 val ves = getVertexes(pos)
                 ves?.forEach {
-                    context.drawVertexes(it, white)
+                    context.drawVertexes(it, white, RenderContext.DrawType.LINES_STRIP)
                 }
             }
         }

@@ -9,15 +9,16 @@ import org.redsxi.transitplus.common.network.Packet
 import org.redsxi.transitplus.common.network.PacketType
 import org.redsxi.transitplus.coroutines.Dispatchers
 
-class LinkClient: Link {
+object LinkClient: Link {
     override fun init() {
     }
 
     override fun listen(type: PacketType, listener: suspend (Packet) -> Unit) {
         ClientPlayNetworking.registerGlobalReceiver(type.id) { _, _, buf, _ ->
-            val packet = type.create()
-            val data = buf.readAnySizeNbt() ?: return@registerGlobalReceiver
-            packet.loadData(data)
+            val packet = Packet.read(
+                type,
+                buf.readAnySizeNbt() ?: return@registerGlobalReceiver
+            )
             CoroutineScope(Dispatchers.NETWORK).launch{listener(packet)}
         }
     }

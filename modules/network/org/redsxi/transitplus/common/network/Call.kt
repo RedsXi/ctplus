@@ -1,31 +1,31 @@
 package org.redsxi.transitplus.common.network
 
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.client.player.LocalPlayer
+import net.minecraft.nbt.Tag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
+import org.redsxi.transitplus.client.network.CallClient
 import org.redsxi.transitplus.client.network.LinkClient
-import org.redsxi.transitplus.common.data.ChunkPos
-import org.redsxi.transitplus.common.data.rail.ChunkRail
+import org.redsxi.transitplus.common.Instance
+import org.redsxi.transitplus.server.network.CallServer
 import org.redsxi.transitplus.server.network.LinkServer
 
-interface Network {
+interface Call {
     fun init()
-
-    suspend fun getChunkRail(chunk: ChunkPos, world: Level): ChunkRail
+    suspend fun request(path: String, payload: Tag? = null, timeoutMillis: Long = 10000L): Tag?
+    fun handle(path: String, handler: suspend Call.(Instance, Tag?) -> Tag?)
 
     companion object {
-        fun Player?.network() {
+        fun Player?.call(): Call {
             return when (this) {
                 is ServerPlayer -> {
-                    LinkServer.link(this)
+                    CallServer(this)
                 }
                 is LocalPlayer -> {
-                    LinkClient
+                    CallClient
                 }
                 else -> if (this == null) {
-                    LinkServer.global()
+                    CallServer(null)
                 } else error("Invalid player")
             }
         }

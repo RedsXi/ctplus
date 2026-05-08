@@ -1,10 +1,11 @@
 package org.redsxi.transitplus.common.network
 
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.EndTag
 import net.minecraft.nbt.Tag
 import org.redsxi.mc.ctplus.idOf
 
-open class Request(var reqPath: String = "", var requestBody: Tag = CompoundTag(), var reqId: Long = INVALID_REQUEST): Packet() {
+open class Request(var reqPath: String = "", var requestBody: Tag? = null, var reqId: Long = INVALID_REQUEST): Packet() {
     companion object {
         val req = idOf("network_request")
         const val INVALID_REQUEST = -1L
@@ -19,7 +20,9 @@ open class Request(var reqPath: String = "", var requestBody: Tag = CompoundTag(
     }
 
     override fun saveData(tag: CompoundTag) {
-        tag.put("Body", requestBody)
+        requestBody?.let {
+            tag.put("Body", it)
+        }
         tag.putLong("ReqId", reqId)
         tag.putString("ReqPath", reqPath)
     }

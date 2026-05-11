@@ -5,10 +5,8 @@ import net.minecraft.nbt.Tag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import org.redsxi.transitplus.client.network.CallClient
-import org.redsxi.transitplus.client.network.LinkClient
 import org.redsxi.transitplus.common.Instance
 import org.redsxi.transitplus.server.network.CallServer
-import org.redsxi.transitplus.server.network.LinkServer
 
 interface Call {
     fun init()

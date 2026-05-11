@@ -1,11 +1,10 @@
 package org.redsxi.transitplus.client.network
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.minecraft.nbt.Tag
 import org.redsxi.transitplus.common.Instance
+import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.common.network.Call
 import org.redsxi.transitplus.common.network.Request
 import org.redsxi.transitplus.common.network.Response
@@ -13,10 +12,15 @@ import org.redsxi.transitplus.coroutines.Dispatchers
 import java.util.concurrent.ConcurrentHashMap
 
 object CallClient: Call {
+    init {
+        init()
+    }
+
     val cachedResponse = ConcurrentHashMap<Long, Response>()
 
     override fun init() {
         LinkClient.listen(Response.Type) {
+            logger.info("$it")
             if (it !is Response)
                 return@listen
             cachedResponse[it.reqId] = it
@@ -31,7 +35,7 @@ object CallClient: Call {
             if (System.currentTimeMillis() - reqId >= timeoutMillis)
                 error("Request timeout")
             else
-                delay(10)
+                delay(100)
         val response = cachedResponse[reqId]!!
         cachedResponse.remove(reqId)
         response.responseBody

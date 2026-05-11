@@ -10,7 +10,6 @@ import org.redsxi.transitplus.client.network.LinkClient
 import org.redsxi.transitplus.common.Instance
 import org.redsxi.transitplus.common.getOrCreate
 import org.redsxi.transitplus.common.network.Call
-import org.redsxi.transitplus.common.network.Link
 import org.redsxi.transitplus.common.network.Link.Companion.link
 import org.redsxi.transitplus.common.network.Request
 import org.redsxi.transitplus.common.network.Response
@@ -18,7 +17,12 @@ import org.redsxi.transitplus.coroutines.Dispatchers
 import org.redsxi.transitplus.server.ServerInstance
 import java.util.concurrent.ConcurrentHashMap
 
-class CallServer private constructor(val player: ServerPlayer?): Call {
+class CallServer(val player: ServerPlayer?): Call {
+
+    init {
+        init()
+    }
+
     val handlers = ConcurrentHashMap<String, suspend Call.(Instance, Tag?) -> Tag?>()
     private suspend fun processRequest(path: String, body: Tag?, instance: MinecraftServer? = null): Tag? {
         if (!handlers.containsKey(path)) {
@@ -35,7 +39,7 @@ class CallServer private constructor(val player: ServerPlayer?): Call {
             if (it !is Request)
                 return@listen
             CoroutineScope(Dispatchers.NETWORK).launch {
-                LinkClient.send(
+                player.link().send(
                     Response.createFromRequest(
                         it,
                         processRequest(it.reqPath, it.requestBody)
@@ -55,6 +59,7 @@ class CallServer private constructor(val player: ServerPlayer?): Call {
     companion object {
         val savedLinks = ConcurrentHashMap<ServerPlayer?, Call>()
         fun call(player: ServerPlayer?) = savedLinks.getOrCreate(player, CallServer(player))
-        fun global() = CallServer(null)
+        val global = CallServer(null)
+        fun global() = global
     }
 }

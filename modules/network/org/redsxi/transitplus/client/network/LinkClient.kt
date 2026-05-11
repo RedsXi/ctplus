@@ -10,6 +10,11 @@ import org.redsxi.transitplus.common.network.PacketType
 import org.redsxi.transitplus.coroutines.Dispatchers
 
 object LinkClient: Link {
+
+    init {
+        init()
+    }
+
     override fun init() {
     }
 

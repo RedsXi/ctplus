@@ -2,7 +2,6 @@ package org.redsxi.transitplus.client.ui
 
 import com.mojang.blaze3d.platform.NativeImage
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.minecraft.client.renderer.GameRenderer
@@ -13,17 +12,16 @@ import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.network.NetworkClient
 import org.redsxi.transitplus.client.render.RenderContext
 import org.redsxi.transitplus.client.render.Temporary
-import org.redsxi.transitplus.client.render.rail.RailRenderContext
 import org.redsxi.transitplus.client.render.rail.RailRenderTask
 import org.redsxi.transitplus.client.render.rail.Vertexes
 import org.redsxi.transitplus.common.data.ChunkPos
+import org.redsxi.transitplus.coroutines.Dispatchers
 import java.io.ByteArrayInputStream
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.pow
 
 // Fuck
 class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
-
-    val cachedChunkRailRenderer = HashMap<ChunkPos, RailRenderContext>()
 
     val windowW get() = window.guiScaledWidth.toDouble()
     val windowH get() = window.guiScaledHeight.toDouble()
@@ -109,13 +107,13 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         return super.mouseDragged(d, e, i, f, g)
     }
 
-    val bufferedImage = HashMap<ChunkPos, List<Vertexes>>()
+    val bufferedImage = ConcurrentHashMap<ChunkPos, List<Vertexes>>()
 
     fun getVertexes(pos: ChunkPos): List<Vertexes>? {
         val result = bufferedImage[pos]
         if(result == null) {
             bufferedImage[pos] = ArrayList()
-            CoroutineScope(RailRenderTask.threadPool).launch {
+            CoroutineScope(Dispatchers.NETWORK).launch {
                 try {
                     val rails = NetworkClient.getChunkRail(pos, client.level ?: error(""))
                     bufferedImage[pos] = RailRenderTask.render(rails)

@@ -14,6 +14,7 @@ import org.redsxi.transitplus.coroutines.Dispatchers
 import java.util.concurrent.ConcurrentHashMap
 
 class LinkServer private constructor(val player: ServerPlayer?): Link {
+
     init {
         init()
     }
@@ -44,6 +45,7 @@ class LinkServer private constructor(val player: ServerPlayer?): Link {
     companion object {
         val savedLinks = ConcurrentHashMap<ServerPlayer?, Link>()
         fun link(player: ServerPlayer?) = savedLinks.getOrCreate(player, LinkServer(player))
-        fun global() = LinkServer(null)
+        val global = LinkServer(null)
+        fun global() = global
     }
 }

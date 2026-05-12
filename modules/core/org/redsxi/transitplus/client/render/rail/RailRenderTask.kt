@@ -1,6 +1,5 @@
 package org.redsxi.transitplus.client.render.rail
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.redsxi.transitplus.common.data.rail.ArcRail
@@ -9,6 +8,7 @@ import org.redsxi.transitplus.common.data.rail.RailSegment
 import org.redsxi.transitplus.common.data.rail.SegmentRail
 import org.redsxi.transitplus.common.data.rail.SpecialSegmentRail
 import org.redsxi.transitplus.common.logger.logger
+import org.redsxi.transitplus.coroutines.Dispatchers
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Shape
@@ -114,10 +114,10 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
         val oX = -y * strokeHalf
         val oY = x * strokeHalf
 
-        consumer(startX + oX, startY + oY)
         consumer(startX - oX, startY - oY)
-        consumer(endX + oX, endY + oY)
+        consumer(startX + oX, startY + oY)
         consumer(endX - oX, endY - oY)
+        consumer(endX + oX, endY + oY)
 
         // 1. startX + oX, startY + oY
         // 2. startX - oX, startY - oY
@@ -183,21 +183,9 @@ class RailRenderTask(val rail: ChunkRail, val scale: Int): Callable<List<Vertexe
 
     companion object {
         const val RENDER_LEVEL = 8
-        const val CHUNK_SIZE = 16
-        const val R2D = 180.0 / PI
-
-        val threadPool = ThreadPoolExecutor(
-            4,
-            16,
-            0,
-            TimeUnit.SECONDS,
-            LinkedBlockingQueue(),
-            Factory()
-        ).asCoroutineDispatcher()
 
         suspend fun render(rail: ChunkRail, scale: Int = 0): List<Vertexes> {
-            return withContext(threadPool) {
-                logger.info("Maaaa")
+            return withContext(Dispatchers.RCP_RAIL_RENDERER) {
                 RailRenderTask(rail, scale).call()
             }
         }

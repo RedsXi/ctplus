@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtUtils
 import org.redsxi.transitplus.client.network.NetworkClient
-import org.redsxi.transitplus.client.web.WebServer
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
 
@@ -23,5 +22,4 @@ fun entry() {
             0
         })
     }
-    WebServer.start()
 }

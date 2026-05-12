@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtOps
 import net.minecraft.world.level.Level
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
+import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.common.network.Network
 import org.redsxi.transitplus.coroutines.Dispatchers
 

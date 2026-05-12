@@ -66,24 +66,12 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
                 val pos = ChunkPos(x, y)
                 val ves = getVertexes(pos)
                 ves?.forEach {
-                    context.drawVertexes(it, white, RenderContext.DrawType.LINES_STRIP)
+                    context.drawVertexes(it, white)
                 }
             }
         }
 
-        context.drawLine(-10f, 100f, 10f, 100f, 0xFFFFFFFF.toInt())
-
         context.popPose()
-
-        if(0 in startX..endX) {
-            if(0 in startY..endY) {
-                context.drawString("Chunk 00 in the viewport", 10f, 10f, white)
-            } else {
-                context.drawString("Chunk 00 not in the viewport", 10f, 10f, yellow)
-            }
-        } else {
-            context.drawString("Chunk 00 not in the viewport", 10f, 10f, yellow)
-        }
     }
 
     override fun mouseScrolled(x: Double, y: Double, sV: Double): Boolean {

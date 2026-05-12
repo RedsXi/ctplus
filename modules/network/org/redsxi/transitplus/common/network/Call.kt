@@ -14,6 +14,8 @@ interface Call {
     fun handle(path: String, handler: suspend Call.(Instance, Tag?) -> Tag?)
 
     companion object {
+        val global = CallServer(null)
+        fun global() = global
         fun Player?.call(): Call {
             return when (this) {
                 is ServerPlayer -> {
@@ -23,7 +25,7 @@ interface Call {
                     CallClient
                 }
                 else -> if (this == null) {
-                    CallServer(null)
+                    global()
                 } else error("Invalid player")
             }
         }

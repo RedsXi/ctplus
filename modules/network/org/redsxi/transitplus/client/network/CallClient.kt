@@ -6,6 +6,7 @@ import net.minecraft.nbt.Tag
 import org.redsxi.transitplus.common.Instance
 import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.common.network.Call
+import org.redsxi.transitplus.common.network.Packet
 import org.redsxi.transitplus.common.network.Request
 import org.redsxi.transitplus.common.network.Response
 import org.redsxi.transitplus.coroutines.Dispatchers
@@ -19,11 +20,10 @@ object CallClient: Call {
     val cachedResponse = ConcurrentHashMap<Long, Response>()
 
     override fun init() {
-        LinkClient.listen(Response.Type) {
-            logger.info("$it")
-            if (it !is Response)
+        LinkClient.listen(Response.Type) { packet, _, _ ->
+            if (packet !is Response)
                 return@listen
-            cachedResponse[it.reqId] = it
+            cachedResponse[packet.reqId] = packet
         }
     }
 
@@ -41,5 +41,8 @@ object CallClient: Call {
         response.responseBody
     }
 
-    override fun handle(path: String, handler: suspend Call.(Instance, Tag?) -> Tag?) = Unit
+    override fun handle(
+        path: String,
+        handler: suspend Call.(Instance, Tag?) -> Tag?
+    ) = Unit
 }

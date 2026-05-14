@@ -14,16 +14,39 @@ class RailwaySystem(val world: ServerLevel) {
 
     fun rails(pos: ChunkPos) = rails.getOrCreate(pos, ChunkRail(pos))
 
-    fun appendRail(start: BlockPos, end: BlockPos, rail: Rail) {
-        val rails = rails(ChunkPos.fromBlock(start))
-        val railsR = rails(ChunkPos.fromBlock(start))
+    fun getRail(start: BlockPos, end: BlockPos): Rail?
+        = rails(ChunkPos.fromBlock(start)).rails[Pair(start, end)]
 
-        val rR = railsR.rails[Pair(end, start)]
-        if(rR != null) {
-            rR.backward()
-        } else {
+    private fun appendRail0(start: BlockPos, end: BlockPos, rail: Rail) {
+        rails(ChunkPos.fromBlock(start)).rails[Pair(start, end)] = rail
+    }
+
+    fun appendRail(start: BlockPos, end: BlockPos, rail: Rail) {
+        val rR = getRail(end, start)
+
+        if (rR == null) {
             rail.forward()
-            rails.rails[Pair(start, end)] = rail
+            appendRail0(start, end, rail)
+        } else {
+            rR.backward()
+        }
+    }
+
+    fun removeRail(start: BlockPos, end: BlockPos) {
+        val rR = getRail(end, start)
+        if (rR == null) {
+            getRail(start, end)?.removeForward()
+        } else {
+            rR.removeBackward()
+        }
+    }
+
+    fun removeNode(pos: BlockPos) {
+        rails.values.forEach { cr ->
+            val rails = cr.rails
+            rails.keys.forEach { key ->
+                if (key.first == pos || key.second == pos) rails.remove(key)
+            }
         }
     }
 

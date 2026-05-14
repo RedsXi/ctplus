@@ -4,8 +4,9 @@
   "package": "org.redsxi.transitplus.server.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "RailAccessor",
     "RailwayDataAccessor",
-    "RailAccessor"
+    "RailwayDataMixin"
   ],
   "injectors": {
     "defaultRequire": 1

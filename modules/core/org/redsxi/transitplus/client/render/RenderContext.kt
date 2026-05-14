@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.Window
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR
-import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR_TEX
 import com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX
 import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
@@ -12,8 +11,6 @@ import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.GameRenderer.getPositionColorShader
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.resources.ResourceLocation
-import org.redsxi.transitplus.client.render.rail.Vertexes
-import org.redsxi.transitplus.client.ui.white
 import org.redsxi.transitplus.common.annotation.InnerApi
 import kotlin.math.PI
 import kotlin.math.cos

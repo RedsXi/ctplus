@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 /**
  * MTR中轨道的存储方式是：双向即为两个单向铁轨；将铁轨分成两段，两端分别是直线或圆弧
  */
-@Mixin(Rail.class)
+@Mixin(value = Rail.class, remap = false)
 public interface RailAccessor {
     // 以下复制来源为MTR 3.x 源码
 

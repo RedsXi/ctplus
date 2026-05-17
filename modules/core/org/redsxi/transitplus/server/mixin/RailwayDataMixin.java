@@ -43,7 +43,8 @@ public class RailwayDataMixin {
 
     @Inject(
             at = @At("HEAD"),
-            method = "addRail(Lnet/minecraft/world/entity/player/Player;Lmtr/data/TransportMode;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lmtr/data/Rail;Z)J"
+            method = "addRail(Lnet/minecraft/world/entity/player/Player;Lmtr/data/TransportMode;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lmtr/data/Rail;Z)J",
+            remap = false
     )
     private void onAppendRail(
             Player player,
@@ -63,7 +64,8 @@ public class RailwayDataMixin {
 
     @Inject(
             at = @At("HEAD"),
-            method = "removeRailConnection(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)V"
+            method = "removeRailConnection(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)V",
+            remap = false
     )
     private void onRemoveRailConnection(
             Player player,
@@ -76,7 +78,8 @@ public class RailwayDataMixin {
 
     @Inject(
             at = @At("HEAD"),
-            method = "removeNode(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lmtr/data/TransportMode;)V"
+            method = "removeNode(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lmtr/data/TransportMode;)V",
+            remap = false
     )
     private void onRemoveNode(
             Player player,
@@ -90,7 +93,8 @@ public class RailwayDataMixin {
 
     @Inject(
             at = @At("RETURN"),
-            method = "load"
+            method = "load",
+            remap = false
     )
     private void onLoaded(
             CompoundTag tag,

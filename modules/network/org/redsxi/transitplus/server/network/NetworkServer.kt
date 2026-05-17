@@ -23,17 +23,17 @@ class NetworkServer(val player: ServerPlayer?): Network {
             val req = tag as CompoundTag
             val chunkData = req.get("Chunk")
             val dimensionData = req.get("Dimension")
-            val chunk = ChunkPos.Companion.CODEC.decode(NbtOps.INSTANCE, chunkData).result().get().first
+            val chunk = ChunkPos.CODEC.decode(NbtOps.INSTANCE, chunkData).result().get().first
             val dimension = instance.getLevel(
                 Level.RESOURCE_KEY_CODEC.decode(NbtOps.INSTANCE, dimensionData).result().get().first
             )
             val chunkRail = getChunkRail(chunk, dimension)
-           ChunkRail.Companion.CODEC.encodeStart(NbtOps.INSTANCE, chunkRail).result().get()
+           ChunkRail.CODEC.encodeStart(NbtOps.INSTANCE, chunkRail).result().get()
         }
     }
 
     override suspend fun getChunkRail(chunk: ChunkPos, world: Level): ChunkRail {
-        val rails = (world as ServerLevel).railwaySystem().rails(ChunkPos(0, 0))
+        val rails = (world as ServerLevel).railwaySystem().rails(chunk)
         return rails
     }
 

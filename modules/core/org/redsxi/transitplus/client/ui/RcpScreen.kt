@@ -1,22 +1,18 @@
 package org.redsxi.transitplus.client.ui
 
-import com.mojang.blaze3d.platform.NativeImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import net.minecraft.client.renderer.GameRenderer
-import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.core.SectionPos
-import net.minecraft.resources.ResourceLocation
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.network.NetworkClient
 import org.redsxi.transitplus.client.render.RenderContext
-import org.redsxi.transitplus.client.render.Temporary
-import org.redsxi.transitplus.client.render.rail.RailRenderTask
-import org.redsxi.transitplus.client.render.rail.Vertexes
+import org.redsxi.transitplus.client.render.Vertexes
+import org.redsxi.transitplus.client.render.rail.RailRenderer
+import org.redsxi.transitplus.client.render.rail.RailRenderer.Companion.SCALE_BASE
 import org.redsxi.transitplus.common.data.ChunkPos
+import org.redsxi.transitplus.common.data.rail.ChunkRail
 import org.redsxi.transitplus.coroutines.Dispatchers
-import java.io.ByteArrayInputStream
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.pow
 
@@ -34,11 +30,11 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     var scale: Int = 0
         set(v) {
-            if(v in -20..48) {
+            if(v in -20..20) {
                 field = v
             }
         }
-    val sReal: Double get() = 1.1.pow(scale)
+    val sReal: Double get() = SCALE_BASE.pow(scale)
 
     override fun render(context: RenderContext, mouseX: Int, mouseY: Int) {
         renderBackground(context.stack)
@@ -64,9 +60,9 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         for(x in startX..endX) {
             for(y in startY..endY) {
                 val pos = ChunkPos(x, y)
-                val ves = getVertexes(pos)
+                val ves = getVertexes(pos, scale)
                 ves?.forEach {
-                    context.drawVertexes(it, white)
+                    context.drawVertexes(it, white, RenderContext.DrawType.LINES_STRIP)
                 }
             }
         }
@@ -95,18 +91,30 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
         return super.mouseDragged(d, e, i, f, g)
     }
 
-    val bufferedImage = ConcurrentHashMap<ChunkPos, List<Vertexes>>()
+    val bufferedImage = ConcurrentHashMap<Pair<ChunkPos, Int>, List<Vertexes>>()
 
-    fun getVertexes(pos: ChunkPos): List<Vertexes>? {
-        val result = bufferedImage[pos]
+    val cachedChunk = ConcurrentHashMap<ChunkPos, ChunkRail>()
+
+    suspend fun getChunkRail(pos: ChunkPos): ChunkRail {
+        val result = cachedChunk[pos] ?: withContext(Dispatchers.NETWORK) {
+            val cr = NetworkClient.getChunkRail(pos, client.level ?: error(""))
+            cachedChunk[pos] = cr
+            cr
+        }
+        return result
+    }
+
+    fun getVertexes(pos: ChunkPos, scale: Int): List<Vertexes>? {
+        val result = bufferedImage[Pair(pos, scale)]
+        val key = Pair(pos, scale)
         if(result == null) {
-            bufferedImage[pos] = ArrayList()
-            CoroutineScope(Dispatchers.NETWORK).launch {
+            bufferedImage[key] = ArrayList()
+            CoroutineScope(Dispatchers.RCP_RAIL_RENDERER).launch {
                 try {
-                    val rails = NetworkClient.getChunkRail(pos, client.level ?: error(""))
-                    bufferedImage[pos] = RailRenderTask.render(rails)
+                    val rails = getChunkRail(pos)
+                    bufferedImage[key] = RailRenderer.render(rails, scale)
                 } catch (_: Exception) {
-                    bufferedImage.remove(pos)
+                    bufferedImage.remove(key)
                 }
             }
         }

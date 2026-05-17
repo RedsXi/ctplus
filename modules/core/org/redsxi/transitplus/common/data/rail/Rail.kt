@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.BlockPos
 import org.redsxi.transitplus.server.mixin.RailAccessor
 
-class Rail(
+open class Rail(
     val start: RailSegment,
     val end: RailSegment,
     var direction: Direction = Direction.FORWARD,
@@ -93,6 +93,14 @@ class Rail(
         }
     }
 
+    fun removeForward() {
+        direction = Direction.of(false, direction.backward())
+    }
+
+    fun removeBackward() {
+        direction = Direction.of(direction.forward(), false)
+    }
+
     fun forward() {
         direction = direction.and(Direction.FORWARD)
     }
@@ -106,6 +114,20 @@ class Rail(
         BACKWARD,
         BOTH,
         NONE;
+
+        fun forward() = when(this) {
+            FORWARD -> true
+            BACKWARD -> false
+            BOTH -> true
+            NONE -> false
+        }
+
+        fun backward() = when(this) {
+            FORWARD -> true
+            BACKWARD -> false
+            BOTH -> true
+            NONE -> false
+        }
 
         fun id() = when(this) {
             FORWARD -> 1
@@ -145,6 +167,13 @@ class Rail(
                 2 -> BACKWARD
                 3 -> BOTH
                 else -> throw IllegalArgumentException()
+            }
+
+            fun of(forward: Boolean, backward: Boolean): Direction {
+                var id = 0
+                if (forward) id++
+                if (backward) id += 2
+                return fromId(id)
             }
 
             val CODEC: Codec<Direction> = Codec.INT.xmap({fromId(it)}, {it.id()})

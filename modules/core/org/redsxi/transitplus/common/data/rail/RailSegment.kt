@@ -2,6 +2,7 @@ package org.redsxi.transitplus.common.data.rail
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import kotlin.math.abs
 
 interface RailSegment {
     val h: Double
@@ -38,7 +39,7 @@ interface RailSegment {
             straight: Boolean,
             reverse: Boolean
         ): RailSegment = if(straight) {
-            if(k >= 0.5 && r >= 0.5) {
+            if(abs(h) >= 0.5 && abs(k) >= 0.5) {
                 SpecialSegmentRail(h, k, r, tStart, tEnd, reverse)
             } else {
                 SegmentRail(h, k, r, tStart, tEnd, reverse)

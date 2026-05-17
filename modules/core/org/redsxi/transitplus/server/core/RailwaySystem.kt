@@ -1,5 +1,6 @@
 package org.redsxi.transitplus.server.core
 
+import mtr.data.TransportMode
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import org.redsxi.transitplus.common.data.ChunkPos
@@ -8,9 +9,10 @@ import org.redsxi.transitplus.common.data.rail.Rail
 import org.redsxi.transitplus.common.getOrCreate
 import org.redsxi.transitplus.common.logger.logger
 import org.redsxi.transitplus.server.accessor
+import java.util.concurrent.ConcurrentHashMap
 
 class RailwaySystem(val world: ServerLevel) {
-    private val rails = HashMap<ChunkPos, ChunkRail>()
+    private val rails = ConcurrentHashMap<ChunkPos, ChunkRail>()
 
     fun rails(pos: ChunkPos) = rails.getOrCreate(pos, ChunkRail(pos))
 
@@ -60,11 +62,13 @@ class RailwaySystem(val world: ServerLevel) {
                 val pos1 = k.key
                 k.value.forEach { l ->
                     val pos2 = l.key
-                    val rail = Rail.read(l.value.accessor())
-                    system.appendRail(pos1, pos2, rail)
+                    if (l.value.transportMode == TransportMode.TRAIN) {
+                        val rail = Rail.read(l.value.accessor())
+                        system.appendRail(pos1, pos2, rail)
+                    }
                 }
             }
-            logger.info("Initialization of Railway System on world ${world.dimensionTypeId()} completed")
+            logger.info("Initialization of Railway System on world ${world.dimension().location()} completed")
             return system
         }
 

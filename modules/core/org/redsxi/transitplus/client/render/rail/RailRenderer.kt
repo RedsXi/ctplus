@@ -63,8 +63,8 @@ class RailRenderer(val rail: ChunkRail, val scale: Int): Callable<List<Vertexes>
         }
         if (r is ArcRail) {
             arc(
-                r.cX + 0.5f,
-                r.cY + 0.5f,
+                r.cX,
+                r.cY,
                 r.r,
                 r.tStart,
                 r.tEnd,
@@ -125,38 +125,41 @@ class RailRenderer(val rail: ChunkRail, val scale: Int): Callable<List<Vertexes>
         consumer: (Double, Double) -> Unit // TRI_STRIP
     ) {
 
-        // Limit t in [-pi, pi]
-        val tStart = atan2(sin(tS), cos(tS))
-        val tEnd = atan2(sin(tE), cos(tE))
+        val tStart = tS / r
+        val tEnd = tE / r
 
-        // get D,S,Step
-        var d = tEnd - tStart
-        var s = tStart
-        if(d <= 0.0) {
-            d = -d
-        }
-        if(reverse) {
-            s = tEnd
-            d = PI * 2 - d
-
-        }
+        val d = abs(tEnd - tStart)
         val count = r.toInt() * RENDER_LEVEL
         val step = d / count
 
+        val k = if (reverse) -1 else 1
+
         for(i in 0..count) {
-            val theta = s + step * i
+            val theta = tStart + (step * i) * k
             val kX = cos(theta)
             val kY = sin(theta)
             val out = r + strokeHalf
             val inn = r - strokeHalf
-            consumer(
-                centerX + out * kX,
-                centerY + out * kY
-            )
-            consumer(
-                centerX + inn * kX,
-                centerY + inn * kY
-            )
+            if (tEnd > tStart) {
+                consumer(
+                    centerX + out * kX + 0.5,
+                    centerY + out * kY + 0.5
+                )
+                consumer(
+                    centerX + inn * kX + 0.5,
+                    centerY + inn * kY + 0.5
+                )
+            } else {
+                consumer(
+                    centerX + inn * kX + 0.5,
+                    centerY + inn * kY + 0.5
+                )
+                consumer(
+                    centerX + out * kX + 0.5,
+                    centerY + out * kY + 0.5
+                )
+            }
+
         }
     }
 

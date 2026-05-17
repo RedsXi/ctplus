@@ -2,21 +2,18 @@ package org.redsxi.transitplus.client.ui
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import net.minecraft.core.BlockPos
 import net.minecraft.core.SectionPos
 import org.redsxi.mc.ctplus.mapping.Text
 import org.redsxi.transitplus.client.network.NetworkClient
 import org.redsxi.transitplus.client.render.RenderContext
+import org.redsxi.transitplus.client.render.Vertexes
 import org.redsxi.transitplus.client.render.rail.RailRenderer
 import org.redsxi.transitplus.client.render.rail.RailRenderer.Companion.SCALE_BASE
-import org.redsxi.transitplus.client.render.Vertexes
 import org.redsxi.transitplus.common.data.ChunkPos
 import org.redsxi.transitplus.common.data.rail.ChunkRail
 import org.redsxi.transitplus.coroutines.Dispatchers
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.coroutines.CoroutineContext
 import kotlin.math.pow
 
 // Fuck
@@ -33,7 +30,7 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
 
     var scale: Int = 0
         set(v) {
-            if(v in -20..48) {
+            if(v in -20..20) {
                 field = v
             }
         }
@@ -65,7 +62,7 @@ class RcpScreen: IScreen(Text.translatable("ui", "rcp")) {
                 val pos = ChunkPos(x, y)
                 val ves = getVertexes(pos, scale)
                 ves?.forEach {
-                    context.drawVertexes(it, white)
+                    context.drawVertexes(it, white, RenderContext.DrawType.LINES_STRIP)
                 }
             }
         }
